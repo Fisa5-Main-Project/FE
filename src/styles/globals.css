@@ -1,6 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
 
 /* --- Pretendard 폰트페이스 정의 (굵기별) --- */
 @font-face {

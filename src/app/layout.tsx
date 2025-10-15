@@ -10,15 +10,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
         <html lang="ko" className="font-sans">
-            <head>
-                <meta
-                    name="viewport"
-                    content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
-                />
-            </head>
-            <body>
-                <div className="mx-auto max-w-mobile">{children}</div>
-            </body>
+            <body>{children}</body>
         </html>
     );
 }
