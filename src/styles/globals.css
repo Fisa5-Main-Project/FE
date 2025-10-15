@@ -2,23 +2,60 @@
 @tailwind components;
 @tailwind utilities;
 
-/* 폰트페이스 정의 */
+/* --- Pretendard 폰트페이스 정의 (굵기별) --- */
 @font-face {
     font-family: 'Pretendard';
-    src: url('/fonts/PretendardVariable.woff2') format('woff2-variations');
-    font-weight: 100 900;
+    src: url('/fonts/pretendard/Pretendard-Regular.woff2') format('woff2');
+    font-weight: 400; /* Regular */
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Pretendard';
+    src: url('/fonts/pretendard/Pretendard-Medium.woff2') format('woff2');
+    font-weight: 500; /* Medium */
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Pretendard';
+    src: url('/fonts/pretendard/Pretendard-SemiBold.woff2') format('woff2');
+    font-weight: 600; /* SemiBold */
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Pretendard';
+    src: url('/fonts/pretendard/Pretendard-Bold.woff2') format('woff2');
+    font-weight: 700; /* Bold */
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Pretendard';
+    src: url('/fonts/pretendard/Pretendard-ExtraBold.woff2') format('woff2');
+    font-weight: 800; /* ExtraBold */
     font-style: normal;
     font-display: swap;
 }
 
+/* --- Wooridaum 폰트페이스 정의 (굵기별) --- */
 @font-face {
     font-family: 'Wooridaum';
-    src: url('/fonts/Wooridaum.woff2') format('woff2');
-    font-weight: normal;
+    src: url('/fonts/wooridaum/WooridaumR.ttf') format('truetype');
+    font-weight: 400; /* Regular */
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Wooridaum';
+    src: url('/fonts/wooridaum/WooridaumB.ttf') format('truetype');
+    font-weight: 700; /* Bold */
     font-style: normal;
     font-display: swap;
 }
 
+/* --- CSS 변수 및 기본 스타일 --- */
 :root {
     --font-pretendard: 'Pretendard';
     --font-wooridaum: 'Wooridaum';
