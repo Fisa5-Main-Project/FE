@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 폰트페이스 정의 */
+@font-face {
+    font-family: 'Pretendard';
+    src: url('/fonts/PretendardVariable.woff2') format('woff2-variations');
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Wooridaum';
+    src: url('/fonts/Wooridaum.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+:root {
+    --font-pretendard: 'Pretendard';
+    --font-wooridaum: 'Wooridaum';
+}
+
+body {
+    background-color: #ffffff; /* 흰색 배경 */
+    color: #212529; /* neutral-900 */
+}
