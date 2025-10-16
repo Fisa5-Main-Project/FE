@@ -36,7 +36,7 @@ const config: Config = {
                 // 본문용 Pretendard
                 sans: ['var(--font-pretendard)', 'sans-serif'],
                 // 제목용 우리다움체
-                heading: ['var(--font-wooridaum)', 'sans-serif'],
+                heading: ['Wooridaum', 'sans-serif'],
             },
             // 3. 모바일 화면 크기 제어
             screens: {
