@@ -12,7 +12,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <html lang="ko" className="font-sans">
             <body className="bg-white sm:bg-neutral-200">
                 <div className="sm:flex sm:items-center sm:justify-center sm:min-h-screen">
-                    <main className="relative w-full bg-white sm:max-w-[375px] sm:aspect-[9/19.6] sm:h-auto h-screen sm:shadow-lg sm:rounded-2xl overflow-y-auto">
+                    <main className="relative w-full bg-white sm:max-w-[402px] sm:h-screen h-screen sm:shadow-lg sm:rounded-2xl overflow-y-auto">
                         {children}
                     </main>
                 </div>
