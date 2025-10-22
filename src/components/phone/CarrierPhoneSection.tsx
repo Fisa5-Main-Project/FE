@@ -2,6 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { CARRIERS } from '@/constants';
 import type { CarrierKey } from '@/types/type';
+import Input from '@/components/common/Input';
 
 type Props = {
   visible: boolean;
@@ -40,7 +41,7 @@ export default function CarrierPhoneSection({
         <div className="relative" ref={boxRef}>
           <button
             type="button"
-            className="input-base flex items-center justify-between w-full"
+            className="w-full px-4 py-3 text-[15px] outline-none border bg-white border-gray-300 rounded-[4px] focus:border-gray-400 disabled:text-gray-400 disabled:bg-gray-100 flex items-center justify-between"
             onClick={() => !disabled && setOpen((s) => !s)}
             disabled={disabled}
             style={{ background: 'var(--color-surface)' }} // 흐릿한 테두리 + 흰 배경 유지
@@ -72,8 +73,8 @@ export default function CarrierPhoneSection({
       </div>
 
       <div className="flex gap-3">
-        <input
-          className="input-base flex-1"
+        <Input
+          className="flex-1"
           placeholder="010-1234-5678"
           value={phone}
           onChange={(e) => onPhoneChange(e.currentTarget.value)}

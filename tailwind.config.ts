@@ -40,7 +40,10 @@ const config: Config = {
             },
             // 3. 모바일 화면 크기 제어
             screens: {
-                mobile: '360px', // 최소 지원 모바일 너비 (일반적인 값)
+                sm: '403px', // iPhone 16 Pro 너비 기준
+            },
+            aspectRatio: {
+                '874/402': '874 / 402',
             },
         },
     },

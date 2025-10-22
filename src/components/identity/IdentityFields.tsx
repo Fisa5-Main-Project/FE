@@ -1,23 +1,13 @@
 'use client';
 import React from 'react';
 import type { Identity } from '@/types/type';
+import Input from '@/components/common/Input';
 
 type Props = {
   value: Identity;
   onChange: (next: Identity) => void;
   onReadyChange?: (ready: boolean) => void;
 };
-
-function Input({
-  label, placeholder, className = '', ...rest
-}: React.InputHTMLAttributes<HTMLInputElement> & { label: string }) {
-  return (
-    <label className="flex flex-col gap-2 w-full">
-      <span className="text-sm" style={{ color: 'var(--color-text-muted)' }}>{label}</span>
-      <input className={`input-base ${className}`} placeholder={placeholder} {...rest} />
-    </label>
-  );
-}
 
 export default function IdentityFields({ value, onChange, onReadyChange }: Props) {
   const { name, rrn6, rrn1 } = value;
@@ -33,15 +23,14 @@ export default function IdentityFields({ value, onChange, onReadyChange }: Props
 
   return (
     <div className="flex flex-col gap-4">
-      <input
-        className="input-base"
+      <Input
         placeholder="이름 (성 + 이름)"
         value={name}
         onChange={(e) => handleChange({ name: e.currentTarget.value })}
       />
       <div className="flex items-end gap-3">
-        <input
-          className="input-base flex-1"
+        <Input
+          className="flex-1"
           placeholder="123456"
           inputMode="numeric"
           maxLength={6}
@@ -53,8 +42,8 @@ export default function IdentityFields({ value, onChange, onReadyChange }: Props
           }
         />
         <span className="pb-3" style={{ color: 'var(--color-text-muted)' }}>-</span>
-        <input
-          className="input-base flex-1"
+        <Input
+          className="flex-1"
           placeholder="1"
           inputMode="numeric"
           maxLength={1}
