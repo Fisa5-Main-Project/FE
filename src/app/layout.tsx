@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import '../styles/globals.css';
+import '@/styles/globals.css';
 
 export const metadata: Metadata = {
     title: 'Woori',
@@ -10,14 +10,12 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
         <html lang="ko" className="font-sans">
-            <head>
-                <meta
-                    name="viewport"
-                    content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
-                />
-            </head>
-            <body>
-                <div className="mx-auto max-w-mobile">{children}</div>
+            <body className="bg-white sm:bg-neutral-200">
+                <div className="sm:flex sm:items-center sm:justify-center sm:min-h-screen">
+                    <main className="relative w-full bg-white sm:max-w-[402px] sm:h-screen h-screen sm:shadow-lg sm:rounded-2xl overflow-y-auto">
+                        {children}
+                    </main>
+                </div>
             </body>
         </html>
     );

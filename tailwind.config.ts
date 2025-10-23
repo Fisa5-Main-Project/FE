@@ -36,11 +36,14 @@ const config: Config = {
                 // 본문용 Pretendard
                 sans: ['var(--font-pretendard)', 'sans-serif'],
                 // 제목용 우리다움체
-                heading: ['var(--font-wooridaum)', 'sans-serif'],
+                heading: ['Wooridaum', 'sans-serif'],
             },
             // 3. 모바일 화면 크기 제어
             screens: {
-                mobile: '360px', // 최소 지원 모바일 너비 (일반적인 값)
+                sm: '403px', // iPhone 16 Pro 너비 기준
+            },
+            aspectRatio: {
+                '874/402': '874 / 402',
             },
         },
     },
