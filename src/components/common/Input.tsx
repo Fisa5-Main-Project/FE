@@ -1,8 +1,6 @@
 import React from 'react';
 
-interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  // Add any specific props for your Input component here if needed
-}
+type InputProps = React.InputHTMLAttributes<HTMLInputElement>;
 
 const Input: React.FC<InputProps> = ({ className, ...props }) => {
   return (
