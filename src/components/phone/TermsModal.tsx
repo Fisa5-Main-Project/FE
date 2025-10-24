@@ -1,6 +1,6 @@
 'use client';
 import React, { useMemo, useState } from 'react';
-import { Check } from 'lucide-react'; // ✔ 아이콘 사용 (lucide-react 기본 제공)
+import { Check } from 'lucide-react';
 
 type Props = {
     open: boolean;
@@ -9,8 +9,6 @@ type Props = {
 };
 
 export default function TermsModal({ open, onClose, onConfirm }: Props) {
-    if (!open) return null;
-
     const [items, setItems] = useState({
         required: false,
         telTerms: false,
@@ -21,6 +19,7 @@ export default function TermsModal({ open, onClose, onConfirm }: Props) {
     });
 
     const allChecked = useMemo(() => Object.values(items).every(Boolean), [items]);
+    if (!open) return null;
     const toggleAll = (v: boolean) =>
         setItems({
             required: v,
