@@ -40,7 +40,16 @@ const config: Config = {
             },
             // 3. 모바일 화면 크기 제어
             screens: {
-                sm: '403px', // iPhone 16 Pro 너비 기준
+                // => @media (min-width: 640px) { ... }
+                'sm': '640px',
+                // => @media (min-width: 768px) { ... }
+                'md': '768px',
+                // => @media (min-width: 1024px) { ... }
+                'lg': '1024px',
+                // => @media (min-width: 1280px) { ... }
+                'xl': '1280px',
+                // => @media (min-width: 1536px) { ... }
+                '2xl': '1536px',
             },
             aspectRatio: {
                 '874/402': '874 / 402',
