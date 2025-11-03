@@ -65,7 +65,6 @@ export default function Page() {
           style={{ borderColor: "var(--color-border)" }}
         >
           <Button
-            isActive={identityReady && phoneReady}
             disabled={!identityReady || !phoneReady}
             onClick={() => setSuccessOpen(true)}
           >
