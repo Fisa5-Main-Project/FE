@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { CARRIERS } from "@/constants";
 import type { CarrierKey } from "@/types/type";
 import Input from "@/components/common/Input";
+import clsx from "clsx";
 
 type Props = {
   visible: boolean;
@@ -99,14 +100,12 @@ export default function CarrierPhoneSection({
           disabled={disabled}
         />
         <button
-          className={`px-4 py-3 rounded-[4px] font-semibold transition-colors
-            ${
-              disabled
-                ? "bg-gray-1 text-gray-2 cursor-not-allowed"
-                : "bg-primary text-white"
-            }`}
-          onClick={onRequestCode}
-          disabled={disabled}
+          className={clsx(
+            "px-4 py-3 rounded-[4px] font-semibold transition-colors",
+            disabled
+              ? "bg-gray-1 text-gray-2 cursor-not-allowed"
+              : "bg-primary text-white"
+          )}
         >
           인증번호 받기
         </button>
