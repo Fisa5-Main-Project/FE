@@ -99,7 +99,12 @@ export default function CarrierPhoneSection({
           disabled={disabled}
         />
         <button
-          className="px-4 py-3 rounded-[4px] text-white font-semibold disabled:opacity-40 bg-primary"
+          className={`px-4 py-3 rounded-[4px] font-semibold transition-colors
+            ${
+              disabled
+                ? "bg-gray-1 text-gray-2 cursor-not-allowed"
+                : "bg-primary text-white"
+            }`}
           onClick={onRequestCode}
           disabled={disabled}
         >
