@@ -25,12 +25,11 @@ const CheckStep = () => {
           편리하게 관리하는 서비스입니다.
         </p>
       </div>
-      <div className="w-full">
+      <div className="w-full flex flex-col gap-2">
         {/* '이용안내' 버튼 클릭 시, 관련 정보 페이지로 이동 (예시) */}
         <Button onClick={() => router.push('/mydata')} >
           이용 안할래요
         </Button>
-        <div className="mt-2" />
         {/* '가입하기' 버튼 클릭 시, 다음 단계인 'terms' 페이지로 이동 */}
         <Button 
           onClick={() => router.push('/mydata/terms')} 

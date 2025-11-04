@@ -83,7 +83,7 @@ const TermsStep = () => {
                   {agreement.text}
                 </label>
               </div>
-              <button className="text-gray-500 text-xl p-2">{' > '}</button>
+              <button className="text-gray-500 text-xl p-2" aria-label={`${agreement.text} 상세보기`} onClick={() => { /* TODO: 상세 페이지로 이동 */ }}>{' > '}</button>
             </div>
           ))}
         </div>

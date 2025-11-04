@@ -12,8 +12,8 @@ interface MyDataState {
   userName: string | null;
   agreements: Agreement[];
   assets: {
-    realEstate: string;
-    car: string;
+    realEstate: number;
+    car: number;
   };
   setUserName: (name: string) => void;
   toggleAgreement: (id: string, isChecked: boolean) => void;
@@ -30,8 +30,8 @@ const initialState = {
     { id: 'terms3', isChecked: false },
   ],
   assets: {
-    realEstate: '',
-    car: '',
+    realEstate: 0,
+    car: 0,
   },
 };
 
@@ -42,7 +42,7 @@ const initialState = {
  */
 export const useMyDataStore = create<MyDataState>()(
   persist(
-    (set, get) => ({
+    (set, _) => ({
       ...initialState,
       setUserName: (name) => set({ userName: name }),
       toggleAgreement: (id, isChecked) => set(state => ({

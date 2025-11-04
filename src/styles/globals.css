@@ -106,7 +106,7 @@ body {
   background-color: #ffffff; /* 흰색 배경 */
   color: #212529; /* neutral-900 */
   /* ✅ 전역 자간 -1 설정 추가 */
-  letter-spacing: -1px; /* -1px에 근접한 값 (디자인 관행상 em 사용) */
+  letter-spacing: -0.05em; /* -1px에 근접한 값 (디자인 관행상 em 사용) */
 }
 
 /* 기본 폰트 (Pretendard 우선) */

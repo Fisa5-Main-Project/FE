@@ -46,7 +46,7 @@ const AssetsStep = ({ onNext }: AssetsStepProps) => {
             id="real-estate"
             type="number"
             value={assets.realEstate}
-            onChange={(e) => setAssets('realEstate', e.target.value)}
+            onChange={(e) => setAssets('realEstate', Number(e.target.value))}
             placeholder="0원"
             aria-label="부동산 금액 입력"
           />
@@ -59,7 +59,7 @@ const AssetsStep = ({ onNext }: AssetsStepProps) => {
             id="car"
             type="number"
             value={assets.car}
-            onChange={(e) => setAssets('car', e.target.value)}
+            onChange={(e) => setAssets('car', Number(e.target.value))}
             placeholder="0원"
             aria-label="자동차 금액 입력"
           />

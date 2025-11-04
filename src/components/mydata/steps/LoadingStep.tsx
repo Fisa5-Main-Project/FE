@@ -12,6 +12,7 @@ const LoadingStep = () => {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
+    const PROGRESS_INTERVAL = 50; // 애니메이션 프레임 간격 (ms)
     const interval = setInterval(() => {
       setProgress(prev => {
         if (prev >= 100) {
@@ -22,8 +23,7 @@ const LoadingStep = () => {
         }
         return prev + 1;
       });
-    }, 50);
-
+    }, PROGRESS_INTERVAL);
     return () => clearInterval(interval);
   }, [router]);
 
