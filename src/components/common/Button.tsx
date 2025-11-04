@@ -1,13 +1,26 @@
-import React from 'react';
+import React from "react";
+import clsx from "clsx";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
 }
 
-const Button: React.FC<ButtonProps> = ({ children, className, ...props }) => {
+// 'isActive'로는 prop 시각적 상태 제어, 'disabled'는 실제 비활성화 상태 제어
+const Button: React.FC<ButtonProps> = ({
+  children,
+  className,
+  disabled,
+  ...props
+}) => {
   return (
     <button
-      className={`w-full py-3 text-white font-semibold disabled:opacity-40 rounded-[4px] transition-colors ${className || ''}`}
+      className={clsx(
+        "w-full py-3 font-semibold text-[20px] rounded-[12px] transition-colors",
+        disabled
+          ? "bg-gray-1 text-gray-2 cursor-not-allowed"
+          : "bg-primary text-white"
+      )}
+      disabled={disabled}
       {...props}
     >
       {children}
