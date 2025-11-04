@@ -10,7 +10,8 @@ import Input from "@/components/common/Input";
 
 export default function Page() {
   const router = useRouter();
-  const CORRECT_AUTH_CODE = "123456"; // 임시 인증번호
+
+  const CORRECT_AUTH_CODE = process.env.NEXT_PUBLIC_CORRECT_AUTH_CODE;
   // 나중에 전화번호 인증으로 6자리 보내도록
 
   const [identity, setIdentity] = useState<Identity>({
