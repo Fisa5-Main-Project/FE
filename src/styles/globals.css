@@ -95,7 +95,6 @@
 
   /* === 디자인 토큰 (최소) === */
   --border-color: #e5e7eb; /* 흐릿한 테두리 */
-  --brand: #0099ff; /* 액션 버튼 색 */
   --radius-ctrl: 4px; /* ✅ 버튼/인풋 라운드 통일 */
 
   /* 페이지 컨테이너 */
@@ -106,6 +105,8 @@
 body {
   background-color: #ffffff; /* 흰색 배경 */
   color: #212529; /* neutral-900 */
+  /* ✅ 전역 자간 -1 설정 추가 */
+  letter-spacing: -1px; /* -1px에 근접한 값 (디자인 관행상 em 사용) */
 }
 
 /* 기본 폰트 (Pretendard 우선) */

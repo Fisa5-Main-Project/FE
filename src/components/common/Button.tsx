@@ -15,10 +15,11 @@ const Button: React.FC<ButtonProps> = ({
   return (
     <button
       className={clsx(
-        "w-full py-3 font-semibold text-[20px] rounded-[12px] transition-colors",
+        "w-full py-3 font-semibold rounded-[4px] transition-colors",
         disabled
           ? "bg-gray-1 text-gray-2 cursor-not-allowed"
-          : "bg-primary text-white"
+          : "bg-primary text-white",
+        className
       )}
       disabled={disabled}
       {...props}
