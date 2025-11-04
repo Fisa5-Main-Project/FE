@@ -1,9 +1,9 @@
 'use client';
 
-import { useState } from 'react';
 import Image from 'next/image';
 import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
+import { useMyDataStore } from '@/hooks/mydata/useMyDataStore';
 
 interface AssetsStepProps {
   onNext: () => void;
@@ -15,8 +15,9 @@ interface AssetsStepProps {
  * - 접근성(A11y): label과 input을 명확히 연결하고, 시각적 계층을 개선합니다.
  */
 const AssetsStep = ({ onNext }: AssetsStepProps) => {
-  const [realEstate, setRealEstate] = useState('');
-  const [car, setCar] = useState('');
+  const { assets, setAssets } = useMyDataStore();
+
+  const isNextButtonEnabled = !!assets.realEstate && !!assets.car;
 
   return (
     <div className="flex flex-col h-full">
@@ -44,8 +45,8 @@ const AssetsStep = ({ onNext }: AssetsStepProps) => {
           <Input
             id="real-estate"
             type="number"
-            value={realEstate}
-            onChange={(e) => setRealEstate(e.target.value)}
+            value={assets.realEstate}
+            onChange={(e) => setAssets('realEstate', e.target.value)}
             placeholder="0원"
             aria-label="부동산 금액 입력"
           />
@@ -57,15 +58,15 @@ const AssetsStep = ({ onNext }: AssetsStepProps) => {
           <Input
             id="car"
             type="number"
-            value={car}
-            onChange={(e) => setCar(e.target.value)}
+            value={assets.car}
+            onChange={(e) => setAssets('car', e.target.value)}
             placeholder="0원"
             aria-label="자동차 금액 입력"
           />
         </div>
       </div>
       <div className="mt-auto w-full">
-        <Button onClick={onNext} >
+        <Button onClick={onNext} disabled={!isNextButtonEnabled}>
           다음
         </Button>
       </div>
