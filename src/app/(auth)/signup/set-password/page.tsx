@@ -1,7 +1,5 @@
 import React from "react";
 
-const setPasswordPage = () => {
+export default function setPasswordPage() {
   return <div>setPasswordPage</div>;
-};
-
-export default setPasswordPage;
+}

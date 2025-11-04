@@ -1,7 +1,5 @@
 import React from "react";
 
-const verifyPage = () => {
+export default function verifyPage() {
   return <div>verifyPage</div>;
-};
-
-export default verifyPage;
+}

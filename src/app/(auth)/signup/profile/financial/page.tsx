@@ -1,7 +1,5 @@
 import React from "react";
 
-const financialPage = () => {
+export default function financialPage() {
   return <div>financialPage</div>;
-};
-
-export default financialPage;
+}

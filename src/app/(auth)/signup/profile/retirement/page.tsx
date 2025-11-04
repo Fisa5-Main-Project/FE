@@ -1,7 +1,5 @@
 import React from "react";
 
-const retirementPage = () => {
+export default function retirementPage() {
   return <div>retirementPage</div>;
-};
-
-export default retirementPage;
+}

@@ -1,5 +1,5 @@
 import React from "react";
 
-export const termsPage = () => {
+export default function termsPage() {
   return <div>termsPage</div>;
-};
+}

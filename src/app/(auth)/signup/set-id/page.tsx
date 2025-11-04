@@ -1,5 +1,5 @@
 import React from "react";
 
-export const setIdPage = () => {
+export default function setIdPage() {
   return <div>setIdPage</div>;
-};
+}
