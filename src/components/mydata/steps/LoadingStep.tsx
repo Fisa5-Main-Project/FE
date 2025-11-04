@@ -11,21 +11,27 @@ const LoadingStep = () => {
   const router = useRouter();
   const [progress, setProgress] = useState(0);
 
+  // Effect 1: progress 상태를 100까지 증가시키는 타이머를 관리합니다.
   useEffect(() => {
     const PROGRESS_INTERVAL = 50; // 애니메이션 프레임 간격 (ms)
     const interval = setInterval(() => {
-      setProgress(prev => {
-        if (prev >= 100) {
-          clearInterval(interval);
-          // 로딩 완료 후 다음 단계인 'complete' 페이지로 이동
-          router.push('/mydata/complete');
-          return 100;
-        }
-        return prev + 1;
-      });
+      setProgress(prev => (prev >= 100 ? 100 : prev + 1));
     }, PROGRESS_INTERVAL);
+
     return () => clearInterval(interval);
-  }, [router]);
+  }, []);
+
+  // Effect 2: progress 상태가 100에 도달하면 페이지 이동이라는 부수 효과를 처리합니다.
+  useEffect(() => {
+    if (progress >= 100) {
+      // 로딩 완료 후 다음 단계인 'complete' 페이지로 이동
+      const timer = setTimeout(() => {
+        router.push('/mydata/complete');
+      }, 500); // 100%를 잠시 보여준 후 이동
+
+      return () => clearTimeout(timer);
+    }
+  }, [progress, router]);
 
   return (
     <div className="flex flex-col items-center justify-center h-full bg-primary-50 text-center">

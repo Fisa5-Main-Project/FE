@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
-import { useMyDataStore } from '@/hooks/mydata/useMyDataStore';
+import { useMyDataContext } from '@/context/MyDataContext';
 
 interface AssetsStepProps {
   onNext: () => void;
@@ -11,13 +11,18 @@ interface AssetsStepProps {
 
 /**
  * 부동산 및 자동차 자산 정보 입력 단계 컴포넌트입니다.
- * - 'use client': 사용자 입력을 위한 useState를 사용하므로 클라이언트 컴포넌트입니다.
+ * - 'use client': 사용자 입력을 위한 Context 훅을 사용하므로 클라이언트 컴포넌트입니다.
  * - 접근성(A11y): label과 input을 명확히 연결하고, 시각적 계층을 개선합니다.
  */
 const AssetsStep = ({ onNext }: AssetsStepProps) => {
-  const { assets, setAssets } = useMyDataStore();
+  const { state, dispatch } = useMyDataContext();
+  const { assets } = state;
 
   const isNextButtonEnabled = !!assets.realEstate && !!assets.car;
+
+  const handleAssetChange = (assetType: 'realEstate' | 'car', value: string) => {
+    dispatch({ type: 'SET_ASSET', payload: { assetType, value } });
+  };
 
   return (
     <div className="flex flex-col h-full">
@@ -45,8 +50,8 @@ const AssetsStep = ({ onNext }: AssetsStepProps) => {
           <Input
             id="real-estate"
             type="number"
-            value={assets.realEstate.toString()} // ✅ number를 string으로 변환
-            onChange={(e) => setAssets('realEstate', Number(e.target.value))}
+            value={assets.realEstate}
+            onChange={(e) => handleAssetChange('realEstate', e.target.value)}
             placeholder="0원"
             aria-label="부동산 금액 입력"
           />
@@ -58,8 +63,8 @@ const AssetsStep = ({ onNext }: AssetsStepProps) => {
           <Input
             id="car"
             type="number"
-            value={assets.car.toString()} // ✅ number를 string으로 변환
-            onChange={(e) => setAssets('car', Number(e.target.value))}
+            value={assets.car}
+            onChange={(e) => handleAssetChange('car', e.target.value)}
             placeholder="0원"
             aria-label="자동차 금액 입력"
           />

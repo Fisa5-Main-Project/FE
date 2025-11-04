@@ -2,7 +2,7 @@
 
 import { useMemo } from 'react';
 import { useRouter } from 'next/navigation';
-import { useMyDataStore } from '@/hooks/mydata/useMyDataStore';
+import { useMyDataContext } from '@/context/MyDataContext';
 import Button from '@/components/common/Button';
 
 // UI에만 필요한 정적 데이터
@@ -14,15 +14,16 @@ const AGREEMENT_DEFINITIONS = [
 
 /**
  * 약관 동의 단계 컴포넌트 (수정됨)
- * - 상태관리: '동의 여부'는 Zustand 스토어에서, '약관 내용'은 컴포넌트 내부에서 관리하여 분리.
+ * - 상태관리: '동의 여부'는 Context에서, '약관 내용'은 컴포넌트 내부에서 관리하여 분리.
  */
 const TermsStep = () => {
   const router = useRouter();
   
-  // Zustand 스토어에서 상태와 액션을 가져옵니다.
-  const { agreements: agreementState, toggleAgreement, setAllAgreements } = useMyDataStore();
+  // Context에서 상태와 dispatch 함수를 가져옵니다.
+  const { state, dispatch } = useMyDataContext();
+  const { agreements: agreementState } = state;
 
-  // UI 렌더링을 위해 정적 데이터와 스토어의 상태를 결합합니다.
+  // UI 렌더링을 위해 정적 데이터와 컨텍스트의 상태를 결합합니다.
   const agreements = useMemo(() => 
     AGREEMENT_DEFINITIONS.map(def => ({
       ...def,
@@ -35,11 +36,11 @@ const TermsStep = () => {
 
   const handleAllAgreedChange = () => {
     const newValue = !allAgreed;
-    setAllAgreements(newValue);
+    dispatch({ type: 'SET_ALL_AGREEMENTS', payload: newValue });
   };
 
   const handleAgreementChange = (id: string, isChecked: boolean) => {
-    toggleAgreement(id, isChecked);
+    dispatch({ type: 'TOGGLE_AGREEMENT', payload: { id, isChecked } });
   };
 
   const isNextDisabled = useMemo(() =>
