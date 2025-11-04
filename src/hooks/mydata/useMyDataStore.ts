@@ -18,7 +18,7 @@ interface MyDataState {
   setUserName: (name: string) => void;
   toggleAgreement: (id: string, isChecked: boolean) => void;
   setAllAgreements: (isChecked: boolean) => void;
-  setAssets: (assetType: 'realEstate' | 'car', value: string) => void;
+  setAssets: (assetType: 'realEstate' | 'car', value: number) => void; // ✅ string -> number로 수정
   reset: () => void;
 }
 

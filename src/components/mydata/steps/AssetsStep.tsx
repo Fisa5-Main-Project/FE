@@ -45,7 +45,7 @@ const AssetsStep = ({ onNext }: AssetsStepProps) => {
           <Input
             id="real-estate"
             type="number"
-            value={assets.realEstate}
+            value={assets.realEstate.toString()} // ✅ number를 string으로 변환
             onChange={(e) => setAssets('realEstate', Number(e.target.value))}
             placeholder="0원"
             aria-label="부동산 금액 입력"
@@ -58,7 +58,7 @@ const AssetsStep = ({ onNext }: AssetsStepProps) => {
           <Input
             id="car"
             type="number"
-            value={assets.car}
+            value={assets.car.toString()} // ✅ number를 string으로 변환
             onChange={(e) => setAssets('car', Number(e.target.value))}
             placeholder="0원"
             aria-label="자동차 금액 입력"
