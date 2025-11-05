@@ -34,6 +34,11 @@
 
   /* Aspect Ratio */
   --aspect-ratio-874-402: 874 / 402;
+
+  /* spacing */
+  --spacing-9: 2.25rem; /* 36px */
+  --spacing-19\.5: 4.875rem; /* 78px */
+  --spacing-20: 5rem; /* 80px */
 }
 
 @font-face {
