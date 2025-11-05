@@ -42,7 +42,7 @@ export default function VerifyPage() {
               onChange={(e) => setters.setRrnFront(e.target.value)}
               maxLength={6}
               inputMode="numeric"
-              autoComplete="bday-day"
+              autoComplete="off"
             />
             <Input
               type="password"
