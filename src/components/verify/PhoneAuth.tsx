@@ -5,6 +5,15 @@ import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
 import clsx from "clsx";
 
+const TELECOM_OPTIONS = [
+  { value: "SKT", label: "SKT" },
+  { value: "KT", label: "KT" },
+  { value: "LGU+", label: "LG U+" },
+  { value: "SKT_MVNO", label: "SKT 알뜰폰" },
+  { value: "KT_MVNO", label: "KT 알뜰폰" },
+  { value: "LGU+_MVNO", label: "LGU+ 알뜰폰" },
+];
+
 interface PhoneAuthProps {
   telecom: string;
   phone: string;
@@ -43,24 +52,15 @@ export default function PhoneAuth({
         <option value="" disabled>
           통신사 선택
         </option>
-        <option className="text-secondary" value="SKT">
-          SKT
-        </option>
-        <option className="text-secondary" value="KT">
-          KT
-        </option>
-        <option className="text-secondary" value="LGU+">
-          LG U+
-        </option>
-        <option className="text-secondary" value="SKT_MVNO">
-          SKT 알뜰폰
-        </option>
-        <option className="text-secondary" value="KT_MVNO">
-          KT 알뜰폰
-        </option>
-        <option className="text-secondary" value="LGU+_MVNO">
-          LGU+ 알뜰폰
-        </option>
+        {TELECOM_OPTIONS.map((option) => (
+          <option
+            key={option.value}
+            className="text-secondary"
+            value={option.value}
+          >
+            {option.label}
+          </option>
+        ))}
       </select>
 
       {/* 전화번호 + 인증 버튼 */}

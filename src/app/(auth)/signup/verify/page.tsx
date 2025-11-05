@@ -17,10 +17,7 @@ export default function VerifyPage() {
     >
       {/* 상단 컨텐츠 영역 */}
       <div className="flex-grow">
-        <h1
-          className="text-[2rem] font-normal whitespace-pre-line"
-          style={{ color: "var(--color-secondary)" }}
-        >
+        <h1 className="text-[2rem] font-normal whitespace-pre-line text-secondary">
           {"노후하우 이용을 위해\n"}
           <span className="font-bold">본인 확인</span>
           {"을 해주세요"}
@@ -42,7 +39,7 @@ export default function VerifyPage() {
               onChange={(e) => setters.setRrnFront(e.target.value)}
               maxLength={6}
               inputMode="numeric"
-              autoComplete="bday-day"
+              autoComplete="off"
             />
             <Input
               type="password"
