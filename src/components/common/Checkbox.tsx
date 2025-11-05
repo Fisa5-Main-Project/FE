@@ -23,6 +23,9 @@ const Checkbox = React.forwardRef<
         "ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
         // 체크된 상태
         "data-[state=checked]:bg-primary data-[state=checked]:text-white data-[state=checked]:border-primary",
+        // 중간 상태
+        "data-[state=indeterminate]:bg-primary data-[state=indeterminate]:text-white data-[state=indeterminate]:border-primary",
+
         className
       )
     )}
