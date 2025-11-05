@@ -1,11 +1,12 @@
 import React from "react";
 import clsx from "clsx";
+import { twMerge } from "tailwind-merge";
 
 // 인터페이스 수정 : variant, text prop 추가
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
   text?: string;
-  variant?: 'primary' | 'secondary';
+  variant?: "primary" | "secondary";
 }
 
 // 'isActive'로는 prop 시각적 상태 제어, 'disabled'는 실제 비활성화 상태 제어
@@ -14,27 +15,29 @@ const Button: React.FC<ButtonProps> = ({
   className,
   disabled,
   text,
-  variant = 'primary',
+  variant = "primary",
   ...props
 }) => {
   // Secondary 버튼은 disabled와 동일한 색상 스타일을 사용합니다.
-  const secondaryStyle = 'bg-gray-1 text-gray-2'; 
-    
+  const secondaryStyle = "bg-gray-1 text-gray-2";
+
   const variantStyles = {
-      primary: 'bg-primary text-white',
-      secondary: secondaryStyle,
+    primary: "bg-primary text-white",
+    secondary: secondaryStyle,
   };
 
-  const finalStyle = disabled 
-      ? "bg-gray-1 text-gray-2 cursor-not-allowed" // Disabled 상태 (색상 + 커서 변경)
-      : variantStyles[variant]; // Secondary 또는 Primary (색상만 적용, 커서 변경 없음)
+  const finalStyle = disabled
+    ? "bg-gray-1 text-gray-2 cursor-not-allowed" // Disabled 상태 (색상 + 커서 변경)
+    : variantStyles[variant]; // Secondary 또는 Primary (색상만 적용, 커서 변경 없음)
 
   return (
     <button
-      className={clsx(
-        "w-full h-[52px] flex items-center justify-center font-semibold text-[20px] rounded-[12px] transition-colors",
-        finalStyle,
-        className
+      className={twMerge(
+        clsx(
+          "w-full h-[52px] flex items-center justify-center font-semibold text-[20px] rounded-[12px] transition-colors",
+          finalStyle,
+          className
+        )
       )}
       disabled={disabled}
       {...props}
