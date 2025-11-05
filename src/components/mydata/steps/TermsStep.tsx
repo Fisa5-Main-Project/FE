@@ -7,9 +7,9 @@ import Button from '@/components/common/Button';
 
 // UI에만 필요한 정적 데이터
 const AGREEMENT_DEFINITIONS = [
-  { id: 'terms1', text: '[필수] 개인정보 수집 및 이용 안내', required: true },
-  { id: 'terms2', text: '[필수] 개인정보 수집 및 이용 안내', required: true },
-  { id: 'terms3', text: '[선택] 개인정보 수집 및 이용 안내', required: false },
+  { id: 'terms1', text: '(필수) 개인정보 수집 및 이용 안내', required: true },
+  { id: 'terms2', text: '(필수) 개인정보 수집 및 이용 안내', required: true },
+  { id: 'terms3', text: '(선택) 개인정보 수집 및 이용 안내', required: false },
 ];
 
 /**
@@ -50,45 +50,66 @@ const TermsStep = () => {
 
   return (
     <div className="flex flex-col h-full">
-      <h1 className="text-2xl font-bold leading-relaxed md:text-3xl">
+      <h1 className="mt-[78px] text-[32px] font-bold leading-normal text-secondary mb-[175px]">
         서비스 이용을 위한
         <br />
         필수 동의 목록이에요.
       </h1>
-      <div className="mt-8 flex-grow">
-        <div className="flex items-center mb-4 p-2">
+
+      <div className="flex-grow">
+        <div className="flex items-center">
           <input
             type="checkbox"
             id="all-agree"
             checked={allAgreed}
             onChange={handleAllAgreedChange}
-            className="h-6 w-6 cursor-pointer"
+            className="h-6 w-6 cursor-pointer appearance-none rounded-full border border-[#D9D9D9] bg-gray-1 checked:bg-primary checked:border-primary transition duration-150 ease-in-out"
           />
-          <label htmlFor="all-agree" className="ml-3 text-lg font-semibold cursor-pointer">
-            전체 동의
-          </label>
+          <div className="ml-3">
+            <label htmlFor="all-agree" className="block text-[20px] font-semibold cursor-pointer text-secondary">
+              전체 동의
+            </label>
+
+            <p className="text-base text-gray-2 mt-0.5">선택 항목을 포함하여 모두 동의합니다.</p>
+          </div>
         </div>
-        <hr />
-        <div className="mt-4 space-y-2">
-          {agreements.map(agreement => (
-            <div key={agreement.id} className="flex items-center justify-between p-2 rounded-md hover:bg-gray-50">
+
+        <hr className="my-4 border-t-2 border-gray-200" /> {/* 굵은 구분선 추가 및 간격 확보 */}
+        
+        <div className="mt-[36px] space-y-4">
+          {agreements.map(agreement => {
+            // (필수) 또는 (선택) 부분을 분리
+            const match = agreement.text.match(/^(\(.*?\))\s*(.*)$/);
+            const prefix = match ? match[1] : ''; // e.g., "(필수)"
+            const mainText = match ? match[2] : agreement.text; // e.g., "개인정보 수집 및 이용 안내"
+            
+            // ✅ 색상 분기 처리: (필수)일 때만 #0064FF 적용
+            const prefixColor = prefix === '(필수)' ? 'text-[#0064FF]' : 'text-secondary';
+            
+            return (
+            <div key={agreement.id} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-b-0">
               <div className="flex items-center">
                 <input
                   type="checkbox"
                   id={agreement.id}
                   checked={agreement.isChecked}
                   onChange={(e) => handleAgreementChange(agreement.id, e.target.checked)}
-                  className="h-5 w-5 cursor-pointer"
+                  className="h-6 w-6 cursor-pointer appearance-none rounded-full border border-[#D9D9D9] bg-gray-1 checked:bg-primary checked:border-primary"
                 />
-                <label htmlFor={agreement.id} className="ml-3 text-base cursor-pointer">
-                  {agreement.text}
+                {/* 개별 항목 텍스트: 20px 및 Secondary 색상 유지 */}
+                <label htmlFor={agreement.id} className="ml-3 text-[20px] cursor-pointer text-secondary">
+                    {/* ✅ [필수]일 경우에만 #0064FF 적용 */}
+                    <span className={prefixColor}>{prefix}</span>{' '}
+                    {/* 본문 텍스트는 Secondary 색상 유지 */}
+                    <span>{mainText}</span>
                 </label>
               </div>
-              <button className="text-gray-500 text-xl p-2" aria-label={`${agreement.text} 상세보기`} onClick={() => { /* TODO: 상세 페이지로 이동 */ }}>{' > '}</button>
+              <button className="text-gray-500 text-lg font-bold p-1" aria-label={`${agreement.text} 상세보기`} onClick={() => { /* TODO: 상세 페이지로 이동 */ }}>{' > '}</button>
             </div>
-          ))}
+          )})}
         </div>
       </div>
+
       <div className="mt-auto w-full">
         <Button onClick={() => router.push('/mydata/loading')} disabled={isNextDisabled} >
           다음

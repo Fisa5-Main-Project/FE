@@ -11,14 +11,17 @@ const AdditionalInfoStep = () => {
   const router = useRouter();
 
   return (
-    <div className="flex flex-col h-full text-center justify-between">
-      <div className="mt-20">
-        <h1 className="text-2xl font-bold leading-relaxed md:text-3xl">
+    <div className="flex flex-col h-full justify-between">
+      <div className="mt-[81px]">
+        <h1 className="text-[28px] leading-relaxed text-secondary">
           정확한 서비스 제공을 위해
           <br />
           마이데이터로 연동되지 않는
           <br />
-          추가 정보를 입력해주세요.
+          <strong className="font-bold">
+            추가 정보
+          </strong>
+          를 입력해주세요.
         </h1>
       </div>
       <div className="w-full">
