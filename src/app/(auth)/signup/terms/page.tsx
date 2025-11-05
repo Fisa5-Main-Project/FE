@@ -3,39 +3,10 @@
 import * as React from "react";
 import Link from "next/link";
 import { ChevronRight, Check } from "lucide-react";
-import * as CheckboxPrimitive from "@radix-ui/react-checkbox";
-import { twMerge } from "tailwind-merge";
-import clsx from "clsx";
 
 import Button from "@/components/common/Button";
+import Checkbox from "@/components/common/Checkbox";
 import { useTermsForm } from "@/hooks/auth/useTermsForm";
-
-// --- checkbox ---
-const Checkbox = React.forwardRef<
-  React.ElementRef<typeof CheckboxPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root>
->(({ className, ...props }, ref) => (
-  <CheckboxPrimitive.Root
-    ref={ref}
-    className={twMerge(
-      clsx(
-        "h-6 w-6 shrink-0 rounded-full border",
-        "border-gray-1 bg-white", // 비활성 상태
-        "ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2", // 포커스
-        "data-[state=checked]:bg-primary data-[state=checked]:text-white data-[state=checked]:border-primary", // 체크 상태
-        "data-[state=indeterminate]:bg-primary data-[state=indeterminate]:text-white data-[state=indeterminate]:border-primary", // 중간 상태
-        className
-      )
-    )}
-    {...props}
-  >
-    <CheckboxPrimitive.Indicator className="flex items-center justify-center text-current">
-      <Check className="h-4 w-4" />
-    </CheckboxPrimitive.Indicator>
-  </CheckboxPrimitive.Root>
-));
-Checkbox.displayName = CheckboxPrimitive.Root.displayName;
-// --- Checkbox ---
 
 export default function TermsPage() {
   const { terms, checkedTerms, isNextDisabled, isAllChecked, handlers } =
