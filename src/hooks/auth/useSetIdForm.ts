@@ -37,15 +37,33 @@ export function useSetIdForm() {
     color: "text-gray-2",
   });
 
+  // 아이디 형식이 유효한지 실시간으로 계산
+  const isFormatValid = id.length > 0 && ID_REGEX.test(id);
+
   // ID 입력 핸들러
   const handleIdChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newId = e.target.value;
     setId(newId);
 
     // 아이디를 수정하면 <<중복 확인 통과>> 상태가 무효화되고,
-    // 이전에 표시됐던 모든 메시지(형식 오류, API 결과)가 초기화
     setIsIdCheckedAndAvailable(false);
-    setMessage({ text: "", color: "text-gray-2" });
+    // --- 실시간 형식 검사 로직 ---
+    if (newId.length === 0) {
+      // 1. 비어있을 때
+      setMessage({ text: "", color: "text-gray-2" });
+    } else if (ID_REGEX.test(newId)) {
+      // 2. 형식이 맞을 때
+      setMessage({
+        text: "사용 가능한 형식입니다. 중복 확인을 해주세요.",
+        color: "text-primary",
+      });
+    } else {
+      // 3. 형식이 틀렸을 때
+      setMessage({
+        text: "영어와 숫자만 조합할 수 있습니다.",
+        color: "text-red-500",
+      });
+    }
   };
 
   // (API) 중복 확인 버튼 핸들러
@@ -53,19 +71,8 @@ export function useSetIdForm() {
     e: React.MouseEvent<HTMLButtonElement>
   ) => {
     e.preventDefault();
-    // 로딩 중이거나 빈칸이면 중지
-    if (!id || isLoading) return;
-
-    // 클라이언트측 형식 검사
-    // ID_REGEX.test(id)가 false라면 (영어/숫자 외의 문자가 있다면)
-    if (!ID_REGEX.test(id)) {
-      setMessage({
-        text: "영어와 숫자만 조합할 수 있습니다.",
-        color: "text-red-500",
-      });
-      setIsIdCheckedAndAvailable(false); // <다음> 버튼 비활성화
-      return; // API 요청 보내지 않고 종료
-    }
+    // 로딩 중이거나, 형식이 틀렸거나, 이미 확인 완료되었으면 중지
+    if (isLoading || !isFormatValid || isIdCheckedAndAvailable) return;
 
     // 백엔드 API 중복 검사
     setIsLoading(true);
