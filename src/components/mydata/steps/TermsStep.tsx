@@ -1,9 +1,7 @@
 'use client';
 
 import { useMemo } from 'react';
-import { useRouter } from 'next/navigation';
 import { useMyDataContext } from '@/context/MyDataContext';
-import Button from '@/components/common/Button';
 import Checkbox from '@/components/common/Checkbox';
 
 // UI에만 필요한 정적 데이터
@@ -18,7 +16,6 @@ const AGREEMENT_DEFINITIONS = [
  * - 상태관리: '동의 여부'는 Context에서, '약관 내용'은 컴포넌트 내부에서 관리하여 분리.
  */
 const TermsStep = () => {
-  const router = useRouter();
 
   // Context에서 상태와 dispatch 함수를 가져옵니다.
   const { state, dispatch } = useMyDataContext();
@@ -65,7 +62,7 @@ const isNextDisabled = useMemo(() =>
 
 return (
   <div className="flex flex-col h-full">
-    <h1 className="mt-[78px] text-[32px] font-bold leading-normal text-secondary mb-[100px]">
+    <h1 className="mt-[4.875rem] text-[2rem] font-bold leading-normal text-secondary mb-[100px]">
       서비스 이용을 위한
       <br />
       필수 동의 목록이에요.
@@ -117,11 +114,6 @@ return (
       </div>
     </div>
 
-    <div className="mt-auto w-full">
-      <Button onClick={() => router.push('/mydata/loading')} disabled={isNextDisabled} >
-        다음
-      </Button>
-    </div>
   </div>
 );
 };
