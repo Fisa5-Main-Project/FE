@@ -1,6 +1,7 @@
 import React from "react";
 
-export default function LoginLayout({
+// verify, login과 동일한 하단 고정 레이아웃
+export default function TermsLayout({
   children,
 }: {
   children: React.ReactNode;
