@@ -65,7 +65,7 @@ const isNextDisabled = useMemo(() =>
 
 return (
   <div className="flex flex-col h-full">
-    <h1 className="mt-[78px] text-[32px] font-bold leading-normal text-secondary mb-[175px]">
+    <h1 className="mt-[78px] text-[32px] font-bold leading-normal text-secondary mb-[100px]">
       서비스 이용을 위한
       <br />
       필수 동의 목록이에요.
