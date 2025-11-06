@@ -1,39 +1,24 @@
 "use client";
 
-import React, { useState } from "react";
-import { useRouter } from "next/navigation";
+import React from "react";
 import Button from "@/components/common/Button";
 import GradientBar from "@/components/common/GradientBar";
-import {
-  CHIP_OPTIONS,
-  TYPE_DESCRIPTIONS,
-  FinancialType,
-} from "./financial.constants";
+import { CHIP_OPTIONS } from "./financial.constants";
+import { useFinancialForm } from "@/hooks/auth/useFinancialForm";
 import clsx from "clsx";
 import { twMerge } from "tailwind-merge";
 
 export default function FinancialPage() {
-  const router = useRouter();
-  const [selectedType, setSelectedType] = useState<FinancialType | null>(null);
-
-  const handleNext = () => {
-    // TODO: (API) 선택된 성향 API로 보내기
-    console.log("선택된 성향:", selectedType);
-    router.push("/signup/profile/retirement");
-  };
-
-  const descriptionData = selectedType ? TYPE_DESCRIPTIONS[selectedType] : null;
+  const {
+    selectedType,
+    descriptionData,
+    isDisabled,
+    handleSelectType,
+    handleSubmit,
+  } = useFinancialForm();
 
   return (
-    <form
-      className="flex flex-col flex-grow h-full"
-      onSubmit={(e) => {
-        e.preventDefault();
-        if (selectedType) {
-          handleNext();
-        }
-      }}
-    >
+    <form className="flex flex-col flex-grow h-full" onSubmit={handleSubmit}>
       {/* 메인 컨텐츠 영역 */}
       <div className="flex-grow">
         <h1 className="text-secondary text-[2rem] font-bold">자금 운용 성향</h1>
@@ -49,7 +34,7 @@ export default function FinancialPage() {
               <button
                 key={type}
                 type="button"
-                onClick={() => setSelectedType(type)}
+                onClick={() => handleSelectType(type)}
                 className={twMerge(
                   clsx(
                     "p-2.5 justify-center items-center rounded-3xl transition-colors whitespace-nowrap cursor-pointer",
@@ -83,7 +68,7 @@ export default function FinancialPage() {
 
       {/* 하단 고정 버튼 영역 */}
       <div className="flex-shrink-0">
-        <Button type="submit" variant="primary" disabled={!selectedType}>
+        <Button type="submit" variant="primary" disabled={isDisabled}>
           다음
         </Button>
       </div>
