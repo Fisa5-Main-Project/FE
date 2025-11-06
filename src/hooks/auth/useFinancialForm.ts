@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import {
   TYPE_DESCRIPTIONS,
@@ -20,24 +20,27 @@ export const useFinancialForm = () => {
   const isDisabled = !selectedType;
 
   // 칩 선택 핸들러
-  const handleSelectType = (type: FinancialType) => {
+  const handleSelectType = React.useCallback((type: FinancialType) => {
     setSelectedType(type);
-  };
+  }, []);
 
   // <다음> 버튼 핸들러
-  const handleNext = () => {
+  const handleNext = React.useCallback(() => {
     // TODO: (API) 선택된 성향 API로 보내기
     console.log("선택된 성향:", selectedType);
     router.push("/signup/profile/retirement");
-  };
+  }, [router, selectedType]);
 
   // onSubmit 핸들러 -> 활성화되었을 때만 handleNext() 실행되도록
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!isDisabled) {
-      handleNext();
-    }
-  };
+  const handleSubmit = React.useCallback(
+    (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      if (!isDisabled) {
+        handleNext();
+      }
+    },
+    [isDisabled, handleNext]
+  );
 
   return {
     selectedType,

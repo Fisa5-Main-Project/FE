@@ -69,10 +69,10 @@ export default function RetirementPage() {
         {/* 카테고리 묶음*/}
         <div className="mt-4 mb-16">
           {RETIREMENT_CATEGORIES.map((category, index) => (
-            <div key={category.title} className={index > 0 ? "mt-8" : ""}>
-              <h3 className="text-secondary text-[1.5rem] font-semibold">
+            <fieldset key={category.title} className={index > 0 ? "mt-8" : ""}>
+              <legend className="text-secondary text-[1.5rem] font-semibold">
                 {category.title}
-              </h3>
+              </legend>
 
               {/* 칩 버튼 묶음*/}
               <div className="flex flex-wrap gap-2.5 mt-3">
@@ -100,7 +100,7 @@ export default function RetirementPage() {
               {index < RETIREMENT_CATEGORIES.length - 1 && (
                 <hr className="mt-5 border-t border-gray-1" />
               )}
-            </div>
+            </fieldset>
           ))}
         </div>
       </div>
