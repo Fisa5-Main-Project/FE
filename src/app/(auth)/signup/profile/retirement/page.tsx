@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import Button from "@/components/common/Button";
 import { RETIREMENT_CATEGORIES } from "./retirement.constants";
@@ -14,10 +14,13 @@ export default function RetirementPage() {
   const [selectedKeywords, setSelectedKeywords] = useState<string[]>([]);
 
   // 키워드가 선택되었는지 확인
-  const isSelected = (keyword: string) => selectedKeywords.includes(keyword);
+  const isSelected = React.useCallback(
+    (keyword: string) => selectedKeywords.includes(keyword),
+    [selectedKeywords]
+  );
 
   // 키워드 선택/해제 핸들러
-  const handleSelectKeyword = (keyword: string) => {
+  const handleSelectKeyword = React.useCallback((keyword: string) => {
     setSelectedKeywords((prev) => {
       if (prev.includes(keyword)) {
         // 이미 선택됨 -> 선택 해제
@@ -31,7 +34,7 @@ export default function RetirementPage() {
         return prev;
       }
     });
-  };
+  }, []);
 
   const handleNext = () => {
     // TODO: (API) selectedKeywords 배열 서버로 전송
