@@ -27,7 +27,7 @@ export default function FinancialPage() {
         </p>
 
         {/* 칩 버튼 묶음*/}
-        <div className="flex flex-wrap gap-2.5 mt-6">
+        <div role="radiogroup" className="flex flex-wrap gap-2.5 mt-6">
           {CHIP_OPTIONS.map((type) => {
             const isSelected = selectedType === type;
             return (
