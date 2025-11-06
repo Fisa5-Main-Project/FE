@@ -15,6 +15,8 @@ interface MyDataState {
     realEstate: string; // 입력 필드는 string 값을 사용하므로 string으로 유지
     car: string;
   };
+  workingMonths: number | null; // 근속 기간(월)
+  annualIncome: number | null; // 연 소득(원)
 }
 
 // 액션 타입 정의
@@ -23,6 +25,8 @@ type Action =
   | { type: 'TOGGLE_AGREEMENT'; payload: { id: string; isChecked: boolean } }
   | { type: 'SET_ALL_AGREEMENTS'; payload: boolean }
   | { type: 'SET_ASSET'; payload: { assetType: 'realEstate' | 'car'; value: string } }
+  | { type: 'SET_WORKING_MONTHS'; payload: number }
+  | { type: 'SET_ANNUAL_INCOME'; payload: number }
   | { type: 'RESET' };
 
 // Context에서 제공할 값의 타입
@@ -43,6 +47,8 @@ const initialState: MyDataState = {
     realEstate: '',
     car: '',
   },
+  workingMonths: null,
+  annualIncome: null,
 };
 
 // --- 3. 리듀서 함수 ---
@@ -67,6 +73,10 @@ const myDataReducer = (state: MyDataState, action: Action): MyDataState => {
         ...state,
         assets: { ...state.assets, [action.payload.assetType]: action.payload.value },
       };
+    case 'SET_WORKING_MONTHS':
+      return { ...state, workingMonths: action.payload };
+    case 'SET_ANNUAL_INCOME':
+      return { ...state, annualIncome: action.payload };
     case 'RESET':
       return initialState;
     default:
