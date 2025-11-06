@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function SetPasswordLayout({
+export default function ProfileLayout({
   children,
 }: {
   children: React.ReactNode;
