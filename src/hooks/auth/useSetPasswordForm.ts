@@ -90,7 +90,7 @@ export function useSetPasswordForm() {
     // TODO: 서버에 비밀번호 저장 API 호출
     console.log("비밀번호 설정 완료.");
 
-    router.push("/signup/profile/financial");
+    router.push("/signup/profile");
   };
 
   return {
