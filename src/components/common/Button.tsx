@@ -28,7 +28,7 @@ const Button: React.FC<ButtonProps> = ({
 
   const finalStyle = disabled
     ? "bg-gray-1 text-gray-2 cursor-not-allowed" // Disabled 상태 (색상 + 커서 변경)
-    : variantStyles[variant]; // Secondary 또는 Primary (색상만 적용, 커서 변경 없음)
+    : clsx(variantStyles[variant], "cursor-pointer"); // Secondary 또는 Primary (색상만 적용, 커서 변경 없음)
 
   return (
     <button
