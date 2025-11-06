@@ -22,7 +22,7 @@ const AgreementStep = () => {
   return (
     <div className="flex flex-col h-full justify-between">
       <div className="mt-20">
-        <h1 className="text-3xl leading-relaxed md:text-4xl">
+        <h1 className="text-3xl font-medium leading-relaxed md:text-4xl">
           서비스 이용을 위해
           <br />
           {/* 컨텍스트에서 가져온 userName을 사용, 로딩 중일 경우 대비 */}

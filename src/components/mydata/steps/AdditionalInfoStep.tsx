@@ -13,7 +13,7 @@ const AdditionalInfoStep = () => {
   return (
     <div className="flex flex-col h-full justify-between">
       <div className="mt-[81px]">
-        <h1 className="text-[28px] leading-relaxed text-secondary">
+        <h1 className="text-[28px] font-medium leading-relaxed text-secondary">
           정확한 서비스 제공을 위해
           <br />
           마이데이터로 연동되지 않는

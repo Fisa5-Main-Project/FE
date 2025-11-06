@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Button from '@/components/common/Button';
-import Input from '@/components/common/Input';
+import AmountInput from '@/components/common/AmountInput';
 import { useMyDataContext } from '@/context/MyDataContext';
 
 interface AssetsStepProps {
@@ -18,7 +18,7 @@ const AssetsStep = ({ onNext }: AssetsStepProps) => {
   const { state, dispatch } = useMyDataContext();
   const { assets } = state;
 
-  const isNextButtonEnabled = !!assets.realEstate && !!assets.car;
+  const isNextButtonEnabled = assets.realEstate !== '' && assets.car !== '';
 
   const handleAssetChange = (assetType: 'realEstate' | 'car', value: string) => {
     dispatch({ type: 'SET_ASSET', payload: { assetType, value } });
@@ -26,51 +26,44 @@ const AssetsStep = ({ onNext }: AssetsStepProps) => {
 
   return (
     <div className="flex flex-col h-full">
-      <div>
-        <h1 className="text-2xl font-bold leading-relaxed md:text-3xl">
-          부동산 및 자동차
+      <div  className='mt-[81px]'>
+        <h1 className="text-[32px] font-medium leading-relaxed text-secondary">
+          <strong className="font-bold">부동산 및 자동차</strong>
           <br />
           자산 정보를 입력해주세요.
         </h1>
-        <div className="my-8 flex justify-center">
-          {/* 이미지 실제 경로는 /public/images/mydata/assets.png 와 같아야 합니다. */}
-          <Image 
-            src="/mydata/assets.png" 
-            alt="부동산 및 자동차 자산" 
-            width={192} 
-            height={192} 
-          />
-        </div>
       </div>
-      <div className="mt-8 space-y-6 flex-grow">
+
+      <div className="mt-[22px] space-y-4 flex-grow">
         <div>
-          <label htmlFor="real-estate" className="block text-lg font-medium text-gray-800 mb-2">
+          <label htmlFor="real-estate" className="block text-[20px] font-semibold text-secondary mb-2">
             부동산
           </label>
-          <Input
+          <AmountInput
             id="real-estate"
-            type="number"
-            value={assets.realEstate}
+            value={assets.realEstate ? assets.realEstate.toString() : ''}
             onChange={(e) => handleAssetChange('realEstate', e.target.value)}
             placeholder="0원"
             aria-label="부동산 금액 입력"
           />
         </div>
         <div>
-          <label htmlFor="car" className="block text-lg font-medium text-gray-800 mb-2">
+          <label htmlFor="car" className="block text-[20px] font-medium text-gray-800 mb-2">
             자동차
           </label>
-          <Input
+          <AmountInput
             id="car"
-            type="number"
-            value={assets.car}
+            value={assets.car ? assets.car.toString() : ''}
             onChange={(e) => handleAssetChange('car', e.target.value)}
             placeholder="0원"
             aria-label="자동차 금액 입력"
           />
         </div>
       </div>
-      <div className="mt-auto w-full">
+      <div className="mt-auto w-full flex flex-col gap-2">
+        <Button onClick={onNext} variant="primary">
+          건너뛰기
+        </Button>
         <Button onClick={onNext} disabled={!isNextButtonEnabled}>
           다음
         </Button>
