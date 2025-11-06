@@ -21,8 +21,7 @@ const AdditionalInfoStep = () => {
           <strong className="font-bold">
             추가 정보
           </strong>
-          를 입력해주세요.
-        </h1>
+          를 입력해주세요.</h1>
       </div>
       <div className="w-full">
         <Button onClick={() => router.push('/mydata/assets')} >

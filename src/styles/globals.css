@@ -20,6 +20,9 @@
   --color-neutral-200: #e9ecef;
   --color-neutral-100: #f1f3f5;
   --color-neutral-50: #f8f9fa;
+  --color-info-bg: #C7E8FF;
+  --color-info-text: #43B4FF;
+  --color-primary-dark: #0064FF;
 
   /* Fonts */
   --font-sans: "var(--font-pretendard)", "sans-serif";
@@ -34,6 +37,11 @@
 
   /* Aspect Ratio */
   --aspect-ratio-874-402: 874 / 402;
+
+  /* spacing */
+  --spacing-9: 2.25rem; /* 36px */
+  --spacing-19\.5: 4.875rem; /* 78px */
+  --spacing-20: 5rem; /* 80px */
 }
 
 @font-face {

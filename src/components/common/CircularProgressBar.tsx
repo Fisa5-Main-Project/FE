@@ -14,7 +14,6 @@ const CircularProgressBar: React.FC<CircularProgressBarProps> = ({ progress }) =
     const offset = circumference * (1 - progress / 100);
 
     return (
-        // 크기: 60x60px
         <div className="relative w-60 h-60">
             <div className="absolute inset-0 flex items-center justify-center">
                 {/* progress 텍스트 표시 */}

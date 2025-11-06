@@ -19,15 +19,13 @@ const CompleteStep = () => {
         {/*제목 레이블 박스*/}
         <div className="mt-[93px] flex justify-center">
           <div className="flex items-center justify-center w-[172px] h-[41px] bg-[#C6DCFF] rounded-full">
-            <p className="text-base font-semibold text-[#0064FF]">
+            <p className="text-base font-semibold text-primary-dark">
               내 정보를 불러왔어요!
             </p>
           </div>
         </div>
 
-        <div className="mb-[28px]"></div>
-
-        <div className="flex justify-center mt-0">
+        <div className="flex justify-center mt-[28px]">
           <Image
             src="/mydata/complete.png"
             alt="마이데이터 연동 완료"

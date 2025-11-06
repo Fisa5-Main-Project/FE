@@ -52,11 +52,11 @@ const LoadingStep = () => {
         
       </div>
 
-      <div className="w-full flex items-center p-4 rounded-2xl bg-[#C7E8FF] mb-[98px]">
-        <svg className="w-5 h-5 text-[#43B4FF] mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <div className="w-full flex items-center p-4 rounded-2xl bg-info-bg mb-[98px]">
+        <svg className="w-5 h-5 text-info-text mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
-        <p className="text-[#43B4FF] text-[20px] font-medium">나의 정보 불러오는 중...</p>
+        <p className="text-info-text text-[20px] font-medium">나의 정보 불러오는 중...</p>
       </div>
     </div>
   );
