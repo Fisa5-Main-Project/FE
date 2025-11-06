@@ -13,18 +13,29 @@ const CompleteStep = () => {
 
   return (
     <div className="flex flex-col h-full text-center justify-between">
-      <div className="mt-20">
-        <h1 className="text-2xl font-bold md:text-3xl">내 정보를 불러왔어요!</h1>
+
+      <div className="w-full">
+
+        {/*제목 레이블 박스*/}
+        <div className="mt-[93px] flex justify-center">
+          <div className="flex items-center justify-center w-[172px] h-[41px] bg-[#C6DCFF] rounded-full">
+            <p className="text-base font-semibold text-primary-dark">
+              내 정보를 불러왔어요!
+            </p>
+          </div>
+        </div>
+
+        <div className="flex justify-center mt-[28px]">
+          <Image
+            src="/mydata/complete.png"
+            alt="마이데이터 연동 완료"
+            width={248}
+            height={248}
+            priority
+          />
+        </div>
       </div>
-      <div className="my-8 flex justify-center">
-        <Image 
-          src="/mydata/complete.png" 
-          alt="마이데이터 연동 완료" 
-          width={192} 
-          height={192}
-          priority 
-        />
-      </div>
+      
       <div className="w-full">
         <Button onClick={() => router.push('/mydata/additional')} >
           다음
