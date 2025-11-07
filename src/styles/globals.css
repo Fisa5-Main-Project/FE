@@ -148,3 +148,28 @@ body {
 .carrier-trigger {
   @apply flex items-center justify-between;
 }
+
+/* === Embla Carousel (캐러셀) 기본 스타일 === */
+.embla {
+  overflow: hidden;
+}
+.embla__container {
+  display: flex;
+}
+.embla__slide {
+  flex: 0 0 80%; /* 한 번에 보이는 슬라이드 크기 (80%) */
+  min-width: 0;
+  padding-left: 1rem; /* 슬라이드 간 간격 */
+  position: relative;
+
+  /* 비활성 슬라이드 효과 */
+  opacity: 0.4;
+  transform: scale(0.9);
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+/* 활성 슬라이드 (가운데) 효과 */
+.embla__slide.is-active {
+  opacity: 1;
+  transform: scale(1);
+}
