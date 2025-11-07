@@ -3,16 +3,15 @@
 import { useRouter } from 'next/navigation';
 import AssetsStep from '@/components/mydata/steps/AssetsStep';
 import Button from '@/components/common/Button';
-import { MyDataProvider, useMyDataContext } from '@/context/MyDataContext';
+import { useMyDataStore } from '@/stores/mydata/useMyDataStore';
 
 /**
  * 마이데이터 연동 - 자산 연결 페이지
  */
 
-const AssetsPageContent = () => {
+export default function AssetsPage() {
   const router = useRouter();
-  const { state } = useMyDataContext();
-  const { assets } = state;
+  const assets = useMyDataStore(state => state.assets);
 
   const isNextButtonEnabled = assets.realEstate !== '' && assets.car !== '';
 
@@ -44,13 +43,4 @@ const AssetsPageContent = () => {
       </div>
     </div>
   );
-}
-
-
-export default function AssetsPage() {
-  return (
-    <MyDataProvider>
-      <AssetsPageContent />
-    </MyDataProvider>
-  )
 }

@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { MyDataProvider, useMyDataContext } from '@/context/MyDataContext'; // Provider 임포트
+import { useMyDataStore } from '@/stores/mydata/useMyDataStore';
 import TermsStep from '@/components/mydata/steps/TermsStep';
 import Button from '@/components/common/Button';
 import React from 'react';
@@ -12,8 +12,7 @@ import React from 'react';
 const TermsPageContent = () => {
   const router = useRouter();
 
-  const { state } = useMyDataContext();
-  const agreements = state.agreements;
+  const agreements = useMyDataStore(state => state.agreements);
 
   const isNextDisabled = agreements.some(a => a.required && !a.isChecked);
 
@@ -42,9 +41,5 @@ const TermsPageContent = () => {
 }
 
 export default function TermsPage() {
-  return (
-    <MyDataProvider>
-      <TermsPageContent />
-    </MyDataProvider>
-  );
+  return <TermsPageContent />;
 }
