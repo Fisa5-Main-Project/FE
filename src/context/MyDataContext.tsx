@@ -6,6 +6,7 @@ import React, { createContext, useContext, useReducer, ReactNode } from 'react';
 interface Agreement {
   id: string;
   isChecked: boolean;
+  required: boolean;
 }
 
 interface MyDataState {
@@ -35,9 +36,9 @@ interface MyDataContextType {
 const initialState: MyDataState = {
   userName: null,
   agreements: [
-    { id: 'terms1', isChecked: false },
-    { id: 'terms2', isChecked: false },
-    { id: 'terms3', isChecked: false },
+    { id: 'terms1', isChecked: false, required: true },
+    { id: 'terms2', isChecked: false, required: true },
+    { id: 'terms3', isChecked: false, required: false },
   ],
   assets: {
     realEstate: '',

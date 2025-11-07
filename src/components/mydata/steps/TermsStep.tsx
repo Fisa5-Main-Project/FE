@@ -1,9 +1,8 @@
 'use client';
 
 import { useMemo } from 'react';
-import { useRouter } from 'next/navigation';
 import { useMyDataContext } from '@/context/MyDataContext';
-import Button from '@/components/common/Button';
+import Checkbox from '@/components/common/Checkbox';
 
 // UI에만 필요한 정적 데이터
 const AGREEMENT_DEFINITIONS = [
@@ -17,7 +16,6 @@ const AGREEMENT_DEFINITIONS = [
  * - 상태관리: '동의 여부'는 Context에서, '약관 내용'은 컴포넌트 내부에서 관리하여 분리.
  */
 const TermsStep = () => {
-  const router = useRouter();
 
   // Context에서 상태와 dispatch 함수를 가져옵니다.
   const { state, dispatch } = useMyDataContext();
@@ -64,7 +62,7 @@ const isNextDisabled = useMemo(() =>
 
 return (
   <div className="flex flex-col h-full">
-    <h1 className="mt-[78px] text-[32px] font-bold leading-normal text-secondary mb-[175px]">
+    <h1 className="mt-[4.875rem] text-[2rem] font-bold leading-normal text-secondary mb-[100px]">
       서비스 이용을 위한
       <br />
       필수 동의 목록이에요.
@@ -72,12 +70,11 @@ return (
 
     <div className="flex-grow">
       <div className="flex items-center">
-        <input
-          type="checkbox"
+        <Checkbox
           id="all-agree"
           checked={allAgreed}
-          onChange={handleAllAgreedChange}
-          className="h-6 w-6 cursor-pointer appearance-none rounded-full border border-[#D9D9D9] bg-gray-1 checked:bg-primary checked:border-primary transition duration-150 ease-in-out"
+          onCheckedChange={handleAllAgreedChange}
+          className="cursor-pointer"
         />
         <div className="ml-3">
           <label htmlFor="all-agree" className="block text-[20px] font-semibold cursor-pointer text-secondary">
@@ -85,6 +82,7 @@ return (
           </label>
 
           <p className="text-base text-gray-2 mt-0.5">선택 항목을 포함하여 모두 동의합니다.</p>
+        
         </div>
       </div>
 
@@ -95,12 +93,11 @@ return (
           return (
             <div key={agreement.id} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-b-0">
               <div className="flex items-center">
-                <input
-                  type="checkbox"
+                <Checkbox
                   id={agreement.id}
                   checked={agreement.isChecked}
-                  onChange={(e) => handleAgreementChange(agreement.id, e.target.checked)}
-                  className="h-6 w-6 cursor-pointer appearance-none rounded-full border border-[#D9D9D9] bg-gray-1 checked:bg-primary checked:border-primary"
+                  onCheckedChange={(isChecked: boolean) => handleAgreementChange(agreement.id, isChecked)}
+                  className="cursor-pointer"
                 />
                 {/* 개별 항목 텍스트: 20px 및 Secondary 색상 유지 */}
                 <label htmlFor={agreement.id} className="ml-3 text-[20px] cursor-pointer text-secondary">
@@ -117,11 +114,6 @@ return (
       </div>
     </div>
 
-    <div className="mt-auto w-full">
-      <Button onClick={() => router.push('/mydata/loading')} disabled={isNextDisabled} >
-        다음
-      </Button>
-    </div>
   </div>
 );
 };

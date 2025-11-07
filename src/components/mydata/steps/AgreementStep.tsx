@@ -1,8 +1,6 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { useMyDataContext } from '@/context/MyDataContext';
-import Button from '@/components/common/Button';
 
 /**
  * 마이데이터 연동 동의 단계 컴포넌트 (수정됨)
@@ -11,18 +9,13 @@ import Button from '@/components/common/Button';
  * - 라우팅: 버튼 클릭 시 useRouter를 통해 다음 페이지로 이동합니다.
  */
 const AgreementStep = () => {
-  const router = useRouter();
   const { state } = useMyDataContext();
   const { userName } = state;
 
-  const handleNext = () => {
-    router.push('/mydata/check');
-  };
-
   return (
-    <div className="flex flex-col h-full justify-between">
-      <div className="mt-20">
-        <h1 className="text-3xl leading-relaxed md:text-4xl">
+    <div className="w-full">
+      <div className="mt-[4.875rem] w-full">
+        <h1 className="text-[2rem] font-medium leading-relaxed">
           서비스 이용을 위해
           <br />
           {/* 컨텍스트에서 가져온 userName을 사용, 로딩 중일 경우 대비 */}
@@ -33,11 +26,6 @@ const AgreementStep = () => {
           <br />
           정보를 불러올게요
         </h1>
-      </div>
-      <div className="w-full">
-        <Button onClick={handleNext} >
-          확인
-        </Button>
       </div>
     </div>
   );
