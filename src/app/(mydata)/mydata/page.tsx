@@ -2,8 +2,6 @@
 
 import React from 'react';
 import { useRouter } from 'next/navigation';
-// Context/Hook 관련 파일 경로 확인
-import { MyDataProvider } from '@/context/MyDataContext';
 import { useInitialUserData } from '@/hooks/mydata/useInitialUserData';
 import AgreementStep from '@/components/mydata/steps/AgreementStep';
 import Button from '@/components/common/Button';
@@ -44,10 +42,7 @@ const MyDataFlowContent = () => {
 
 export default function MyDataStartPage() {
   return (
-    // Context Provider로 MyDataFlowContent를 감싸 Hooks 규칙을 준수
-    <MyDataProvider>
-      <MyDataFlowContent />
-    </MyDataProvider>
+  <MyDataFlowContent />
   );
 }
 

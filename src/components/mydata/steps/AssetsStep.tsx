@@ -1,9 +1,7 @@
 'use client';
 
-import Button from '@/components/common/Button';
 import AmountInput from '@/components/common/AmountInput';
-import { useMyDataContext } from '@/context/MyDataContext';
-
+import { useMyDataStore } from '@/stores/mydata/useMyDataStore';
 
 /**
  * 부동산 및 자동차 자산 정보 입력 단계 컴포넌트입니다.
@@ -11,11 +9,11 @@ import { useMyDataContext } from '@/context/MyDataContext';
  * - 접근성(A11y): label과 input을 명확히 연결하고, 시각적 계층을 개선합니다.
  */
 const AssetsStep = () => {
-  const { state, dispatch } = useMyDataContext();
-  const { assets } = state;
+  const assets = useMyDataStore(state => state.assets);
+  const setAssets = useMyDataStore(state => state.setAssets);
 
   const handleAssetChange = (assetType: 'realEstate' | 'car', value: string) => {
-    dispatch({ type: 'SET_ASSET', payload: { assetType, value } });
+    setAssets(assetType, value);
   };
 
   return (

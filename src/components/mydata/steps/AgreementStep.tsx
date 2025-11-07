@@ -1,6 +1,6 @@
 'use client';
 
-import { useMyDataContext } from '@/context/MyDataContext';
+import { useMyDataStore } from "@/stores/mydata/useMyDataStore";
 
 /**
  * 마이데이터 연동 동의 단계 컴포넌트 (수정됨)
@@ -9,8 +9,7 @@ import { useMyDataContext } from '@/context/MyDataContext';
  * - 라우팅: 버튼 클릭 시 useRouter를 통해 다음 페이지로 이동합니다.
  */
 const AgreementStep = () => {
-  const { state } = useMyDataContext();
-  const { userName } = state;
+  const userName = useMyDataStore(state => state.userName);
 
   return (
     <div className="w-full">
