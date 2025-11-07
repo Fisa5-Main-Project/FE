@@ -15,7 +15,7 @@ export default function LoadingPage() {
   };
 
   return (
-    <div className="h-full px-[2.8125rem] pb-[3.65rem]">
+    <div className="h-full">
       <LoadingStep onComplete={handleLoadingComplete}/>
     </div>
 );
