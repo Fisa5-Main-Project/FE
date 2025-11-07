@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function InheritenceLayout({
+export default function InheritancePlanLayout({
   children,
 }: {
   children: React.ReactNode;
