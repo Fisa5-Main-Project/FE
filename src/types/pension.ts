@@ -1,31 +1,35 @@
 /**
- * 연급 타입
- * DB/DC/IRP 계좌 정보를 구조화하고, 존재 여부를 Optional로 표현
- * 추후 백엔드 연동 예정
+ * 연금 계좌 타입
+ * - 빈 객체 {} 는 해당 계좌가 없음을 의미
  */
 
+// DB형: 존재 여부 + 계좌명
 export interface DbAccount {
-  assetId?: number; // 존재 여부 판단에 사용
-  accountNumber: string;
-  currentAmount: number; // 현재 금액(원)
-  recent3mAvgSalary: number; // 최근 3개월 평균 급여(원)
-  tenureYears: number; // 근속 기간(년)
+  assetId: number;
+  accountName?: string;
+  pensionType?: 'DB';
 }
 
+// DC형: 공통 메타 + 납입/잔액 정보
 export interface DcAccount {
-  assetId?: number;
-  accountNumber: string;
-  currentAmount: number; // 현재 금액(원)
-  principal: number; // 원금(원)
-  yieldPercent: number; // 수익률 (예: 0.058 = 5.8%)
+  assetId: number;
+  accountName?: string;
+  pensionType?: 'DC';
+  companyContrib: number;
+  personalContrib: number;
+  contribYear: number;
+  balance: number;
 }
 
+// IRP형: 공통 메타 + 납입/잔액 정보
 export interface IrpAccount {
-  assetId?: number;
-  accountNumber: string;
-  currentAmount: number; // 현재 금액(원)
-  principal: number; // 납입 원금(원)
-  yieldPercent: number; // 수익률 (예: -0.37 = -37.0%)
+  assetId: number;
+  accountName?: string;
+  pensionType?: 'IRP';
+  personalContrib: number; // 연간 개인 납입액
+  contribYear: number; // 납입 연도
+  totalPersonalContrib: number; // 누적 개인 납입액
+  balance: number; // 현재 잔액
 }
 
 export interface PensionAccounts {
@@ -37,4 +41,3 @@ export interface PensionAccounts {
 export function hasAccount<T extends object>(obj: T | undefined | null): obj is T {
   return !!obj && Object.keys(obj).length > 0;
 }
-
