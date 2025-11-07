@@ -1,10 +1,8 @@
 "use client";
 
 /**
- * 실질적 연금 메인페이지
- * 상단 요약(총 퇴직연금, 세부내역 토글), 월 수령액 계산, 절세 혜택, 추천 상품 섹션으로 구성
- * 상태/데이터는 usePensionOverview 훅에서 관리
- * 추후 백엔드 연동 예정: 사용자명/총액/절세/추천 상품은 API 응답으로 대체
+ * 퇴직연금 메인 화면
+ * - 요약 카드, 세부 내역, 계산기, 세제 혜택, 추천 상품
  */
 
 import React from "react";
@@ -15,7 +13,6 @@ import { usePensionOverview } from "@/hooks/pension/usePensionOverview";
 import PensionDetailCard from "@/components/pension/PensionDetailCard";
 import { formatCurrencyKRW } from "@/utils/pension";
 
-/** Pension Overview 화면 컴포넌트 */
 export default function PensionOverview() {
   const {
     userName,
@@ -35,11 +32,13 @@ export default function PensionOverview() {
     setAnnualRate,
     monthlyPayout,
     handleCalculate,
+    workingMonths,
+    estimatedAmount,
   } = usePensionOverview();
 
   return (
     <div className="flex flex-col gap-12">
-      {/* 상단: 요약 카드 */}
+      {/* 요약 카드 */}
       <section className="flex flex-col gap-5">
         <div className="text-3xl font-bold text-[var(--color-secondary)]">
           <span className="font-extrabold">{userName}</span>
@@ -55,21 +54,23 @@ export default function PensionOverview() {
           <button type="button" className="text-base font-semibold text-[var(--color-secondary)]/80" onClick={toggleDetail}>
             세부내역 보기
           </button>
-          {showDetail && <PensionDetailCard accounts={accounts} />}
+          {showDetail && (
+            <PensionDetailCard accounts={accounts} workingMonths={workingMonths} estimatedAmount={estimatedAmount} />
+          )}
         </div>
       </section>
 
-      {/* 월 수령액 계산하기 */}
+      {/* 연금수령 계산기 */}
       <section className="flex flex-col gap-5">
         <div className="inline-flex items-center gap-2">
-          <div className="w-7 h-7 flex items-center justify-center">📐</div>
-          <h2 className="text-2xl font-semibold text-[var(--color-secondary)]">예상 월 수령액 계산하기</h2>
+          <div className="w-7 h-7 flex items-center justify-center">ⓘ</div>
+          <h2 className="text-2xl font-semibold text-[var(--color-secondary)]">예상 연금수령 계산기</h2>
         </div>
 
         <div className="w-full bg-white rounded-xl p-6 flex flex-col items-center gap-6">
           <div className="w-full grid grid-cols-2 gap-4">
             <div className="flex flex-col gap-2">
-              <label className="text-sm font-semibold text-[var(--color-secondary)]">희망 수령 시작 나이</label>
+              <label className="text-sm font-semibold text-[var(--color-secondary)]">희망 수령 시작 연령</label>
               <Input
                 inputMode="numeric"
                 value={startAge.toString()}
@@ -92,7 +93,7 @@ export default function PensionOverview() {
 
           <div className="w-full grid grid-cols-1 gap-4">
             <div className="flex flex-col gap-2">
-              <label className="text-sm font-semibold text-[var(--color-secondary)]">예상 IRP 추가 납입액(월)</label>
+              <label className="text-sm font-semibold text-[var(--color-secondary)]">예상 IRP 추가 납입(월)</label>
               <Input
                 inputMode="numeric"
                 value={monthlyIrp.toString()}
@@ -123,36 +124,36 @@ export default function PensionOverview() {
 
           {monthlyPayout != null && (
             <div className="w-full text-center text-xl font-bold text-[var(--color-secondary)]">
-              예상 월 수령액: {formatCurrencyKRW(Math.round(monthlyPayout))}원
+              예상 연금수령액 {formatCurrencyKRW(Math.round(monthlyPayout))}원
             </div>
           )}
         </div>
       </section>
 
-      {/* 절세 혜택 카드 */}
+      {/* 세제 혜택 */}
       <section className="flex flex-col gap-5">
         <div className="inline-flex items-center gap-2">
           <div className="w-7 h-7 flex items-center justify-center">💡</div>
-          <h2 className="text-2xl font-semibold text-[var(--color-secondary)]">절세 혜택</h2>
+          <h2 className="text-2xl font-semibold text-[var(--color-secondary)]">세제 혜택</h2>
         </div>
 
         <div className="w-full bg-white rounded-xl p-6">
-          <div className="text-xl font-semibold text-[var(--color-secondary)]">2025년 누적 절세 금액</div>
+          <div className="text-xl font-semibold text-[var(--color-secondary)]">2025년 예상 절세 금액</div>
           <div className="mt-2 text-4xl font-bold text-[var(--color-secondary)]">{formatCurrencyKRW(taxSavingAmount)}원</div>
           <div className="mt-4 text-right">
             <Link href="/pension/taxsaving" className="text-base font-semibold text-[var(--color-gray-2)]">
-              자세히 보기
+              자세히보기
             </Link>
           </div>
         </div>
       </section>
 
-      {/* 투자 성향 맞춤 상품 */}
+      {/* 추천 상품 */}
       <section className="flex flex-col gap-4">
         <div className="inline-flex items-center gap-2">
-          <div className="w-7 h-7 flex items-center justify-center">🧠</div>
+          <div className="w-7 h-7 flex items-center justify-center">⭐</div>
           <h2 className="text-2xl font-bold text-slate-700">
-            투자 성향에 <span className="text-[var(--color-primary)]">맞춤 상품</span>
+            투자 성향 <span className="text-[var(--color-primary)]">맞춤 상품</span>
           </h2>
         </div>
 
@@ -162,7 +163,7 @@ export default function PensionOverview() {
               <div className="flex items-center justify-between h-12">
                 <div className="flex-1 flex items-center gap-3.5">
                   <div className="w-11 h-11 bg-gradient-to-b from-sky-100 to-blue-50 rounded-xl flex items-center justify-center">
-                    <div className="text-2xl">{rec.icon || "🏦"}</div>
+                    <div className="text-2xl">{rec.icon || "💼"}</div>
                   </div>
                   <div className="flex-1 flex flex-col gap-1">
                     <div className="flex items-center gap-2">
@@ -183,3 +184,4 @@ export default function PensionOverview() {
     </div>
   );
 }
+
