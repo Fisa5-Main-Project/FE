@@ -122,7 +122,6 @@
 }
 
 body {
-  margin: 0;
   background-color: #ffffff; /* 흰색 배경 */
   color: #212529; /* neutral-900 */
   /* ✅ 전역 자간 -1 설정 추가 */
