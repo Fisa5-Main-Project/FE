@@ -11,7 +11,7 @@ export default function LoadingPage() {
 
   // 로딩 완료 후 다음 페이지로 이동
   const handleLoadingComplete = () => {
-    //router.push('/mydata/complete');
+    router.push('/mydata/complete');
   };
 
   return (
