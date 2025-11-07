@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { persist, createJSONStorage } from 'zustand/middleware';
 
 // Agreement 타입 정의 (Context와 동일하게 유지)
 interface Agreement {
@@ -8,15 +8,18 @@ interface Agreement {
     required: boolean; // required 속성 추가
 }
 
-// 스토어의 전체 상태 및 액션 타입 정의
-interface MyDataState {
+// 스토어의 상태 타입 정의
+interface MyDataStateProperties {
     userName: string | null;
     agreements: Agreement[];
     assets: {
-        realEstate: string; // string 타입으로 최종 결정
+        realEstate: string;
         car: string;
     };
-    // Actions
+}
+
+// 스토어의 액션 타입 정의
+interface MyDataActions {
     setUserName: (name: string) => void;
     toggleAgreement: (id: string, isChecked: boolean) => void;
     setAllAgreements: (isChecked: boolean) => void;
@@ -24,7 +27,10 @@ interface MyDataState {
     reset: () => void;
 }
 
-const initialState: Partial<MyDataState> = {
+// 스토어의 전체 상태 (상태 + 액션)
+type MyDataState = MyDataStateProperties & MyDataActions;
+
+const initialState: MyDataStateProperties = {
     userName: null,
     agreements: [
         { id: 'terms1', isChecked: false, required: true },
@@ -42,11 +48,13 @@ const initialState: Partial<MyDataState> = {
  */
 export const useMyDataStore = create<MyDataState>()(
     persist(
-        (set, _get) => ({ // _get으로 변경하여 ESLint 경고 방지
-            ...initialState as MyDataState, 
+        (set) => ({
+            // 1. Properties 초기 상태 스프레드
+            ...initialState,
 
+            // 2. Actions 정의 (전체 상태를 완성함)
             setUserName: (name) => set({ userName: name }),
-            
+
             toggleAgreement: (id, isChecked) => set(state => ({
                 agreements: state.agreements.map(a => a.id === id ? { ...a, isChecked } : a),
             })),
@@ -54,26 +62,17 @@ export const useMyDataStore = create<MyDataState>()(
             setAllAgreements: (isChecked) => set(state => ({
                 agreements: state.agreements.map(a => ({ ...a, isChecked })),
             })),
-            
+
             setAssets: (assetType, value) => set(state => ({
                 assets: { ...state.assets, [assetType]: value },
             })),
-            
-            reset: () => set(initialState as MyDataState),
+
+            reset: () => set(initialState),
         }),
         {
-            name: 'mydata-storage', 
+            name: 'mydata-storage',
             // Zustand persist 미들웨어의 storage 설정
-            storage: {
-                getItem: (name) => {
-                    const str = sessionStorage.getItem(name);
-                    return str ? JSON.parse(str) : null;
-                },
-                setItem: (name, value) => {
-                    sessionStorage.setItem(name, JSON.stringify(value));
-                },
-                removeItem: (name) => sessionStorage.removeItem(name),
-            },
+            storage: createJSONStorage(() => sessionStorage),
         }
     )
 );

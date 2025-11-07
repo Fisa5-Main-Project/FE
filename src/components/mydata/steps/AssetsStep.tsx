@@ -10,7 +10,7 @@ import { useMyDataStore } from '@/stores/mydata/useMyDataStore';
  */
 const AssetsStep = () => {
   const assets = useMyDataStore(state => state.assets);
-  const setAssets = useMyDataStore(state => state.setAssets);
+  const setAssets = useMyDataStore(state => state.setAssets);
 
   const handleAssetChange = (assetType: 'realEstate' | 'car', value: string) => {
     setAssets(assetType, value);
@@ -18,7 +18,7 @@ const AssetsStep = () => {
 
   return (
     <div className="flex flex-col h-full">
-      <div  className='mt-[4.875rem]'>
+      <div className='mt-[4.875rem]'>
         <h1 className="text-[2rem] font-medium leading-relaxed text-secondary">
           <strong className="font-bold">부동산 및 자동차</strong>
           <br />
