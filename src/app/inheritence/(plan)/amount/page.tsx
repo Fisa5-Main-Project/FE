@@ -11,7 +11,7 @@ export default function AmountPage() {
 
   return (
     <form
-      className="flex flex-col flex-grow h-full"
+      className="page-container flex flex-col flex-grow"
       onSubmit={(e) => {
         e.preventDefault();
         handleSubmit();
