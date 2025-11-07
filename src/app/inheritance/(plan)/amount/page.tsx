@@ -45,7 +45,7 @@ export default function AmountPage() {
         </div>
       </div>
 
-      {/* 2. 하단 버튼 영역 */}
+      {/* 하단 버튼 영역 */}
       <div className="flex-shrink-0 pb-4">
         <Button type="submit" variant="primary" disabled={!isValid}>
           다음

@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { EmblaOptionsType, EmblaCarouselType } from "embla-carousel";
-import { CASE_STUDIES_DATA } from "@/app/inheritence/inheritance.constants";
+import { CASE_STUDIES_DATA } from "@/app/inheritance/inheritance.constants";
 import clsx from "clsx";
 
 const OPTIONS: EmblaOptionsType = {
