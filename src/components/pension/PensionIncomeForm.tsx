@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import Input from "@/components/common/Input";
 import Button from "@/components/common/Button";
 import { usePensionIncome } from "@/hooks/pension/usePensionIncome";
-import { useMyDataContext } from "@/context/MyDataContext";
+import { useMyDataStore } from "@/stores/mydata/useMyDataStore";
 
 interface PensionIncomeFormProps {
   onSubmit?: (value: number) => void;
@@ -19,15 +19,13 @@ interface PensionIncomeFormProps {
 export function PensionIncomeForm({ onSubmit }: PensionIncomeFormProps) {
   const router = useRouter();
   const { value, isValid, handleChange } = usePensionIncome();
-  const { dispatch } = useMyDataContext();
+  const setAnnualIncome = useMyDataStore(state => state.setAnnualIncome);
 
   /** 다음 버튼 클릭 시 유효성 확인 후 라우팅/제출 */
   const handleClickNext = () => {
     if (!isValid) return;
     const n = Number(value.replace(/,/g, ""));
-    if (n > 0) {
-      dispatch({ type: 'SET_ANNUAL_INCOME', payload: n });
-    }
+    if (n > 0) setAnnualIncome(n);
     if (onSubmit) {
       onSubmit(n);
       return;

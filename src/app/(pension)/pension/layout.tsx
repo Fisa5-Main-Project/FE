@@ -1,5 +1,4 @@
 import React from "react";
-import { MyDataProvider } from "@/context/MyDataContext";
 
 /**
  * Pension 라우트 그룹의 레이아웃
@@ -11,10 +10,8 @@ export default function PensionLayout({
   children: React.ReactNode;
 }) {
   return (
-    <MyDataProvider>
-      <main className="page-container flex flex-col min-h-screen bg-gradient-to-b from-white via-[#CCE1FF] to-[#E0EDFF]">
-        {children}
-      </main>
-    </MyDataProvider>
+    <main className="page-container flex flex-col min-h-screen bg-gradient-to-b from-white via-[#CCE1FF] to-[#E0EDFF]">
+      {children}
+    </main>
   );
 }

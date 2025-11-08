@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import Input from "@/components/common/Input";
 import Button from "@/components/common/Button";
 import { usePensionPeriod } from "@/hooks/pension/usePensionPeriod";
-import { useMyDataContext } from "@/context/MyDataContext";
+import { useMyDataStore } from "@/stores/mydata/useMyDataStore";
 
 interface PensionPeriodFormProps {
   onSubmit?: (value: string) => void;
@@ -21,15 +21,13 @@ interface PensionPeriodFormProps {
 export function PensionPeriodForm({ onSubmit }: PensionPeriodFormProps) {
   const router = useRouter();
   const { periodText, isValid, handleChange, computeWorkingMonths } = usePensionPeriod();
-  const { dispatch } = useMyDataContext();
+  const setWorkingMonths = useMyDataStore(state => state.setWorkingMonths);
 
   /** 다음 버튼 클릭 시 유효성 확인 후 라우팅/제출 */
   const handleClickNext = () => {
     if (!isValid) return;
     const months = computeWorkingMonths();
-    if (months > 0) {
-      dispatch({ type: 'SET_WORKING_MONTHS', payload: months });
-    }
+    if (months > 0) setWorkingMonths(months);
     if (onSubmit) {
       onSubmit(periodText);
       return;
@@ -69,4 +67,3 @@ export function PensionPeriodForm({ onSubmit }: PensionPeriodFormProps) {
     </div>
   );
 }
-

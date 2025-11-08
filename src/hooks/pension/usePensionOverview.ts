@@ -7,7 +7,7 @@ import { useCallback, useMemo, useState } from "react";
 import { calcMonthlyPayout } from "@/utils/pension";
 import type { PensionAccounts } from "@/types/pension";
 import { hasAccount } from "@/types/pension";
-import { useMyDataContext } from "@/context/MyDataContext";
+import { useMyDataStore } from "@/stores/mydata/useMyDataStore";
 
 export interface RecommendationItem {
   id: string;
@@ -19,8 +19,8 @@ export interface RecommendationItem {
 }
 
 export function usePensionOverview() {
-  const { state } = useMyDataContext();
-  const { workingMonths, annualIncome } = state;
+  const workingMonths = useMyDataStore(s => s.workingMonths);
+  const annualIncome = useMyDataStore(s => s.annualIncome);
 
   const [userName] = useState("사용자");
   const [totalPension, setTotalPension] = useState<number>(1000000000);
