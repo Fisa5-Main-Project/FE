@@ -1,6 +1,11 @@
 'use client';
 
-import { Page, PageHeader, PageContent, PageActions } from '@/components/common/Page';
+import {
+    Page,
+    PageHeader,
+    PageContent,
+    PageActions,
+} from '@/components/common/Page';
 import Button from '@/components/common/Button';
 import { useAssetRouter } from '@/hooks/asset/useAssetRouter';
 
@@ -12,12 +17,14 @@ export default function AssetManagementStartPage() {
         <Page>
             <PageContent>
                 <h1 className="text-tossgray text-3xl font-['Pretendard'] whitespace-pre-line">
-                    <span className="font-bold">{userName}</span>
-                    <span className="font-medium">{'님의 든든한 노후,\n저희가 책임지고\n설계합니다.'}</span>
+                    <span className='font-bold'>{userName}</span>
+                    <span className='font-medium'>
+                        {'님의 든든한 노후,\n저희가 책임지고\n설계합니다.'}
+                    </span>
                 </h1>
             </PageContent>
             <PageActions>
-                <Button variant="primary" onClick={() => goTo('info')}>
+                <Button variant='primary' onClick={() => goTo('info')}>
                     확인
                 </Button>
             </PageActions>
