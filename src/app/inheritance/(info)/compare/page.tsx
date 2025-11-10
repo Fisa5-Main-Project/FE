@@ -51,7 +51,7 @@ export default function ComparePage() {
         <CompareInfoBox type="alert" />
       </div>
 
-      <div className="flex-shrink-0 pt-4">
+      <div className="flex-shrink-0">
         <Button type="button" onClick={handleNext} disabled={false}>
           이해했어요
         </Button>
