@@ -61,17 +61,20 @@ export const useMyDataStore = create<MyDataState>()(
             // 2. Actions 정의 (전체 상태를 완성함)
             setUserName: (name) => set({ userName: name }),
 
-            toggleAgreement: (id, isChecked) => set(state => ({
-                agreements: state.agreements.map(a => a.id === id ? { ...a, isChecked } : a),
-            })),
+            toggleAgreement: (id, isChecked) =>
+                set((state) => ({
+                    agreements: state.agreements.map((a) => (a.id === id ? { ...a, isChecked } : a)),
+                })),
 
-            setAllAgreements: (isChecked) => set(state => ({
-                agreements: state.agreements.map(a => ({ ...a, isChecked })),
-            })),
+            setAllAgreements: (isChecked) =>
+                set((state) => ({
+                    agreements: state.agreements.map((a) => ({ ...a, isChecked })),
+                })),
 
-            setAssets: (assetType, value) => set(state => ({
-                assets: { ...state.assets, [assetType]: value },
-            })),
+            setAssets: (assetType, value) =>
+                set((state) => ({
+                    assets: { ...state.assets, [assetType]: value },
+                })),
 
             setWorkingMonths: (months) => set({ workingMonths: months }),
 
