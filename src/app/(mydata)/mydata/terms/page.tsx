@@ -1,45 +1,74 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import { useMyDataStore } from '@/stores/mydata/useMyDataStore';
-import TermsStep from '@/components/mydata/steps/TermsStep';
-import Button from '@/components/common/Button';
-import React from 'react';
+import * as React from "react";
+import { useRouter } from "next/navigation";
+import TermsAgreementForm from '@/components/common/TermsAgreementForm';
+import Button from "@/components/common/Button";
+import { useMyDataTermsForm } from "@/hooks/mydata/useMydataTermsForm";
 
 /**
- * 마이데이터 연동 - 약관 상세 페이지
+ * 마이데이터 연동 - 약관 상세 페이지 (Hooks 로직 관리)
  */
-const TermsPageContent = () => {
+export default function TermsPage() {
   const router = useRouter();
 
-  const agreements = useMyDataStore(state => state.agreements);
+  // ✅ useMyDataTermsForm 훅을 호출하여 모든 데이터와 핸들러를 가져옵니다.
+  const {
+    terms,
+    checkedTerms,
+    isNextDisabled,
+    isAllChecked,
+    handlers: {
+      handleCheckAll,
+      handleCheckTerm,
+      handleSubmit: hookHandleSubmit // 훅이 가진 제출 로직 (예: 상태 저장/유효성 검사)
+    }
+  } = useMyDataTermsForm();
 
-  const isNextDisabled = agreements.some(a => a.required && !a.isChecked);
+  // 폼 제출 로직 (DB 저장/라우팅 책임)
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
-  const handleNext = () => {
-    router.push('/mydata/loading');
+    // 💡 여기에 실제 DB 저장 로직 (API 호출 등)이 들어갈 예정입니다.
+    // 현재는 훅이 가진 로직(유효성 검사, 라우팅)을 실행합니다.
+    hookHandleSubmit(e);
+
+    // 라우팅은 훅 내부에서 처리하거나 여기서 직접 처리
+    // router.push('/mydata/loading'); 
   };
 
-  return (
-    // ✅ 페이지 레이아웃: 패딩 및 하단 고정 적용
-    <div className="flex flex-col flex-grow h-full">
+  // 제목 JSX 정의 (디자인 사양에 맞춘 폰트 크기 및 마진)
+  const title = (
+    <h1 className="mt-[4.875rem] text-[2rem] font-bold text-secondary whitespace-pre-line">
+      서비스 이용을 위한<br />
+      필수 동의 목록이에요.
+    </h1>
+  );
 
-      {/* 1. 콘텐츠 영역 (TermsStep) */}
+  return (
+    <form
+      className="flex flex-col flex-grow h-full"
+      onSubmit={handleSubmit} // 폼 제출 이벤트와 연결
+    >
+
+      {/* 1. 콘텐츠 영역 (TermsAgreementForm) */}
       <div className="flex-grow">
-        <TermsStep />
+        <TermsAgreementForm
+          terms={terms}
+          checkedTerms={checkedTerms}
+          isAllChecked={isAllChecked}
+          handlers={{ handleCheckAll, handleCheckTerm }}
+          titleComponent={title}
+          baseLinkPath="/mydata/terms"
+        />
       </div>
 
       {/* 2. 하단 고정 버튼 영역 */}
-      <div className="flex-shrink-0">
-        {/* ⚠️ Context가 page.tsx에서 제공되지 않으면 useMyDataContext는 오류를 일으킵니다. */}
-        <Button onClick={handleNext} disabled={isNextDisabled}>
+      <div className="flex-shrink-0 mt-20">
+        <Button type="submit" disabled={isNextDisabled}>
           다음
         </Button>
       </div>
-    </div>
+    </form>
   );
-}
-
-export default function TermsPage() {
-  return <TermsPageContent />;
 }
