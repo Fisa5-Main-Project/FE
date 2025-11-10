@@ -7,9 +7,12 @@ import { useInheritanceStore } from "@/stores/inheritance/inheritanceStore";
 export const useInheritanceAmountForm = () => {
   const router = useRouter();
 
+  const totalAsset = useInheritanceStore((state) => state.totalAsset);
   const setTotalAsset = useInheritanceStore((state) => state.setTotalAsset);
 
-  const [amount, setAmount] = useState("");
+  const [amount, setAmount] = useState(
+    totalAsset > 0 ? String(totalAsset) : "",
+  );
 
   // <다음> 버튼 활성화 여부: amount가 비어있지 않고, "0"이 아닌지 확인 (1원 이상)
   const isValid = useMemo(() => {

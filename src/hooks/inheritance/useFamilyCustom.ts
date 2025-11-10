@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import {
   useInheritanceStore,
@@ -31,29 +31,45 @@ const heirOptions: Heir[] = [
 export const useFamilyCustom = () => {
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedHeirs, setSelectedHeirs] = useState<SelectedHeir[]>([]);
 
-  const storeSetSelectedHeirs = useInheritanceStore(
-    (state) => state.setSelectedHeirs
-  );
+  // Zustand store와 연동
+  const storeHeirs = useInheritanceStore((state) => state.selectedHeirs);
+  const setStoreHeirs = useInheritanceStore((state) => state.setSelectedHeirs);
+
+  // store의 값으로 로컬 상태 초기화
+  const [selectedHeirs, setSelectedHeirs] = useState<SelectedHeir[]>(storeHeirs);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
-  // 상속인 추가
-  const addHeir = (heir: Heir) => {
-    const newHeirInstance: SelectedHeir = {
-      ...heir,
-      uniqueId: crypto.randomUUID(),
-    };
-    setSelectedHeirs((prev) => [...prev, newHeirInstance]);
-    closeModal(); // 추가 후 모달 닫기
-  };
+  // 상속인 추가 (store와 동기화)
+  const addHeir = useCallback(
+    (heir: Heir) => {
+      const newHeirInstance: SelectedHeir = {
+        ...heir,
+        uniqueId: crypto.randomUUID(),
+      };
+      const updatedHeirs = [...selectedHeirs, newHeirInstance];
+      setSelectedHeirs(updatedHeirs); // 로컬 상태 업데이트
+      setStoreHeirs(updatedHeirs); // store 업데이트
+      closeModal();
+    },
+    [selectedHeirs, setStoreHeirs],
+  );
+
+  // 상속인 제거 (store와 동기화)
+  const removeHeir = useCallback(
+    (uniqueId: string) => {
+      const updatedHeirs = selectedHeirs.filter((h) => h.uniqueId !== uniqueId);
+      setSelectedHeirs(updatedHeirs); // 로컬 상태 업데이트
+      setStoreHeirs(updatedHeirs); // store 업데이트
+    },
+    [selectedHeirs, setStoreHeirs],
+  );
 
   // <다음> 버튼 클릭
   const handleNext = () => {
-    storeSetSelectedHeirs(selectedHeirs);
-    // TODO: (API) 선택된 상속인 정보 저장
+    // store는 이미 최신 상태이므로 페이지 이동만 처리
     router.push("/inheritance/ratio");
   };
 
@@ -65,6 +81,7 @@ export const useFamilyCustom = () => {
     setIsModalOpen,
     openModal,
     addHeir,
+    removeHeir, // UI에서 사용할 수 있도록 반환
     selectedHeirs,
     heirOptions,
     handleNext,
