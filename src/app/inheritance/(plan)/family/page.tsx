@@ -69,7 +69,7 @@ export default function FamilyPage() {
       </div>
 
       <div className="flex-shrink-0">
-        <Button onClick={handleNext} disabled={isButtonDisabled}>
+        <Button type="button" onClick={handleNext} disabled={isButtonDisabled}>
           다음
         </Button>
       </div>
