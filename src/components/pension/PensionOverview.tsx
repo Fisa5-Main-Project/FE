@@ -124,7 +124,7 @@ export default function PensionOverview() {
 
           {monthlyPayout != null && (
             <div className="w-full text-center text-xl font-bold text-[var(--color-secondary)]">
-              예상 연금수령액 {formatCurrencyKRW(Math.round(monthlyPayout))}원
+              예상 월 연금수령액 {formatCurrencyKRW(Math.round(monthlyPayout))}원
             </div>
           )}
         </div>
