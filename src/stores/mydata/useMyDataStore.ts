@@ -3,7 +3,7 @@ import { persist, createJSONStorage } from 'zustand/middleware';
 
 // Agreement 타입 정의 (Context와 동일하게 유지)
 interface Agreement {
-    id: string;
+    id: number;
     isChecked: boolean;
     required: boolean; // required 속성 추가
 }
@@ -23,7 +23,7 @@ interface MyDataStateProperties {
 // 스토어의 액션 타입 정의
 interface MyDataActions {
     setUserName: (name: string) => void;
-    toggleAgreement: (id: string, isChecked: boolean) => void;
+    toggleAgreement: (id: number, isChecked: boolean) => void;
     setAllAgreements: (isChecked: boolean) => void;
     setAssets: (assetType: 'realEstate' | 'car', value: string) => void;
     setWorkingMonths: (months: number) => void;
@@ -37,9 +37,9 @@ type MyDataState = MyDataStateProperties & MyDataActions;
 const initialState: MyDataStateProperties = {
     userName: null,
     agreements: [
-        { id: 'terms1', isChecked: false, required: true },
-        { id: 'terms2', isChecked: false, required: true },
-        { id: 'terms3', isChecked: false, required: false },
+        { id: 1, isChecked: false, required: true },
+        { id: 2, isChecked: false, required: true },
+        { id: 3, isChecked: false, required: false },
     ],
     assets: {
         realEstate: '',
