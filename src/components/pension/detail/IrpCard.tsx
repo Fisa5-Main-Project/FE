@@ -1,6 +1,6 @@
 import React from "react";
 import { IrpAccount } from "@/types/pension";
-import { formatCurrencyKRW } from "@/utils/pension";
+import { formatCurrencyKRW } from "@/utils/formatting";
 
 /**
  * IRP형 계좌 카드

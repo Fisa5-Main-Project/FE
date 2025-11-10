@@ -1,14 +1,7 @@
 "use client";
 
-/**
- * 이 컴포넌트는 입사 연월 입력 페이지
- * 추후 백엔드 연동 예정: working_date(근속 개월), 평균 급여 등은 서버 DB에 저장
- * date type으로 입사 시기 파악 후 local date로 재직 기간 계산
- */
-
 import React from "react";
-import { useRouter } from "next/navigation";
-import Input from "@/components/common/Input";
+import { usePensionRouter } from "@/hooks/pension/usePensionRouter";
 import Button from "@/components/common/Button";
 import { usePensionPeriod } from "@/hooks/pension/usePensionPeriod";
 import { useMyDataStore } from "@/stores/mydata/useMyDataStore";
@@ -17,22 +10,28 @@ interface PensionPeriodFormProps {
   onSubmit?: (value: string) => void;
 }
 
-/** 근무 기간(입사 연월) 입력 폼 컴포넌트 */
 export function PensionPeriodForm({ onSubmit }: PensionPeriodFormProps) {
-  const router = useRouter();
-  const { periodText, isValid, handleChange, computeWorkingMonths } = usePensionPeriod();
-  const setWorkingMonths = useMyDataStore(state => state.setWorkingMonths);
+  const { goToIncome } = usePensionRouter();
+  const { periodText, isValid, setYearMonth, computeWorkingMonths } = usePensionPeriod();
 
-  /** 다음 버튼 클릭 시 유효성 확인 후 라우팅/제출 */
+  const currentYear = new Date().getFullYear();
+  const years = Array.from({ length: 30 }, (_, i) => currentYear - i);
+  const months = Array.from({ length: 12 }, (_, i) => i + 1);
+
+  const [year, setYear] = React.useState<string>("");
+  const [month, setMonth] = React.useState<string>("");
+
+  const setWorkingMonths = useMyDataStore((state) => state.setWorkingMonths);
+
   const handleClickNext = () => {
     if (!isValid) return;
-    const months = computeWorkingMonths();
-    if (months > 0) setWorkingMonths(months);
+    const workedMonths = computeWorkingMonths(); // 이름 충돌 방지
+    if (workedMonths > 0) setWorkingMonths(workedMonths);
     if (onSubmit) {
       onSubmit(periodText);
       return;
     }
-    router.push("/pension/income");
+    goToIncome();
   };
 
   return (
@@ -41,26 +40,57 @@ export function PensionPeriodForm({ onSubmit }: PensionPeriodFormProps) {
         <div className="flex flex-col gap-7">
           <div className="flex flex-col gap-8">
             <h1 className="text-3xl md:text-4xl font-bold text-[var(--color-secondary)]">
-              입사 연월을 입력해주세요
+              입사 연월을 선택해주세요
             </h1>
           </div>
         </div>
 
-        <div className="flex flex-col gap-2.5">
-          <div className="bg-white rounded-xl">
-            <Input
-              type="month"
-              placeholder="입사 연월"
-              className="h-12 rounded-xl border-transparent px-5 text-lg font-medium placeholder:text-neutral-400"
-              value={periodText}
-              onChange={handleChange}
-            />
-          </div>
+        {/* 부모 컨테이너 배경 제거, 그리드로 분리 */}
+        <div className="grid grid-cols-2 gap-3 w-full max-w-md">
+          <select
+            className="h-12 w-full rounded-xl bg-white border border-[var(--color-gray-1)] px-3 text-lg font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent"
+            value={year}
+            onChange={(e) => {
+              const y = e.target.value;
+              setYear(y);
+              setYearMonth(y, month); // 하나라도 비면 훅에서 초기화되도록 구현되어 있어야 함
+            }}
+            aria-label="연도"
+          >
+            <option value="">연도</option>
+            {years.map((y) => (
+              <option key={y} value={y}>
+                {y}년
+              </option>
+            ))}
+          </select>
+
+          <select
+            className="h-12 w-full rounded-xl bg-white border border-[var(--color-gray-1)] px-3 text-lg font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent"
+            value={month}
+            onChange={(e) => {
+              const m = e.target.value;
+              setMonth(m);
+              setYearMonth(year, m);
+            }}
+            aria-label="월"
+          >
+            <option value="">월</option>
+            {months.map((m) => (
+              <option key={m} value={m.toString()}>
+                {m}월
+              </option>
+            ))}
+          </select>
         </div>
       </section>
 
       <div className="flex-shrink-0 pt-6">
-        <Button disabled={!isValid} onClick={handleClickNext}>
+        <Button
+          disabled={!isValid}
+          onClick={handleClickNext}
+          className="h-14 text-lg font-bold"
+        >
           다음
         </Button>
       </div>

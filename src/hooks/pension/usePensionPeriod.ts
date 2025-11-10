@@ -1,7 +1,7 @@
 /**
  * 근무 기간 입력
- * - 입력 형식: YYYY-MM (HTML input type="month")
- * - 근속기간(월) 계산: 로컬 시각(now)과의 차이를 개월 수로 계산
+ * 입력 형식: YYYY-MM (HTML input type="month")
+ * 근속기간(월) 계산: 로컬 시각(now)과의 차이를 개월 수로 계산
  */
 import { useMemo, useState, useCallback } from "react";
 
@@ -29,12 +29,27 @@ export function usePensionPeriod() {
     []
   );
 
+  // 연/월 선택 UI를 위한 헬퍼: 하나라도 비었으면 무효 처리
+  const setYearMonth = useCallback(
+    (year?: string | number, month?: string | number) => {
+      const y = String(year ?? "").trim();
+      const m = String(month ?? "").trim();
+      if (!y || !m) {
+        setPeriodText("");
+        return;
+      }
+      const mm = m.padStart(2, "0");
+      setPeriodText(`${y}-${mm}`);
+    },
+    []
+  );
+
   return {
     periodText,
     isValid,
     handleChange,
     setPeriodText,
+    setYearMonth,
     computeWorkingMonths,
   };
 }
-

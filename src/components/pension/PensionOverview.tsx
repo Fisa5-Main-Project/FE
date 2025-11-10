@@ -1,17 +1,13 @@
 "use client";
 
-/**
- * 퇴직연금 메인 화면
- * - 요약 카드, 세부 내역, 계산기, 세제 혜택, 추천 상품
- */
-
 import React from "react";
-import Link from "next/link";
+import Image from "next/image";
+import { usePensionRouter } from "@/hooks/pension/usePensionRouter";
 import Input from "@/components/common/Input";
 import Button from "@/components/common/Button";
 import { usePensionOverview } from "@/hooks/pension/usePensionOverview";
 import PensionDetailCard from "@/components/pension/PensionDetailCard";
-import { formatCurrencyKRW } from "@/utils/pension";
+import { formatCurrencyKRW } from "@/utils/formatting";
 
 export default function PensionOverview() {
   const {
@@ -36,6 +32,8 @@ export default function PensionOverview() {
     estimatedAmount,
   } = usePensionOverview();
 
+  const { goToTaxSaving } = usePensionRouter();
+
   return (
     <div className="flex flex-col gap-12">
       {/* 요약 카드 */}
@@ -48,14 +46,25 @@ export default function PensionOverview() {
         <div className="w-full bg-white rounded-xl p-6 flex flex-col items-center gap-6">
           <div className="w-full flex flex-col gap-3">
             <div className="text-xl font-semibold text-[var(--color-secondary)]">총 퇴직연금</div>
-            <div className="text-4xl font-bold text-[var(--color-secondary)]">{formatCurrencyKRW(totalPension)}원</div>
+            <div className="text-4xl font-bold text-[var(--color-secondary)]">
+              {formatCurrencyKRW(totalPension)}원
+            </div>
           </div>
 
-          <button type="button" className="text-base font-semibold text-[var(--color-secondary)]/80" onClick={toggleDetail}>
+          <button
+            type="button"
+            className="text-base font-semibold text-[var(--color-secondary)]/80"
+            onClick={toggleDetail}
+          >
             세부내역 보기
           </button>
+
           {showDetail && (
-            <PensionDetailCard accounts={accounts} workingMonths={workingMonths} estimatedAmount={estimatedAmount} />
+            <PensionDetailCard
+              accounts={accounts}
+              workingMonths={workingMonths}
+              estimatedAmount={estimatedAmount}
+            />
           )}
         </div>
       </section>
@@ -63,7 +72,15 @@ export default function PensionOverview() {
       {/* 연금수령 계산기 */}
       <section className="flex flex-col gap-5">
         <div className="inline-flex items-center gap-2">
-          <div className="w-7 h-7 flex items-center justify-center">ⓘ</div>
+          <div className="w-7 h-7 flex items-center justify-center">
+            <Image
+              src="/pension/icons/calculator_icon.svg"
+              alt="계산기 아이콘"
+              width={28}
+              height={28}
+              className="w-7 h-7 object-contain"
+            />
+          </div>
           <h2 className="text-2xl font-semibold text-[var(--color-secondary)]">예상 연금수령 계산기</h2>
         </div>
 
@@ -133,55 +150,92 @@ export default function PensionOverview() {
       {/* 세제 혜택 */}
       <section className="flex flex-col gap-5">
         <div className="inline-flex items-center gap-2">
-          <div className="w-7 h-7 flex items-center justify-center">💡</div>
+          <div className="w-7 h-7 flex items-center justify-center">
+            <Image
+              src="/pension/icons/piggy-bank.svg"
+              alt="저금통 아이콘"
+              width={28}
+              height={28}
+              className="w-7 h-7 object-contain"
+            />
+          </div>
           <h2 className="text-2xl font-semibold text-[var(--color-secondary)]">세제 혜택</h2>
         </div>
 
         <div className="w-full bg-white rounded-xl p-6">
           <div className="text-xl font-semibold text-[var(--color-secondary)]">2025년 예상 절세 금액</div>
-          <div className="mt-2 text-4xl font-bold text-[var(--color-secondary)]">{formatCurrencyKRW(taxSavingAmount)}원</div>
+          <div className="mt-2 text-4xl font-bold text-[var(--color-secondary)]">
+            {formatCurrencyKRW(taxSavingAmount)}원
+          </div>
           <div className="mt-4 text-right">
-            <Link href="/pension/taxsaving" className="text-base font-semibold text-[var(--color-gray-2)]">
+            <button
+              type="button"
+              onClick={goToTaxSaving}
+              className="text-base font-semibold text-[var(--color-gray-2)]"
+            >
               자세히보기
-            </Link>
+            </button>
           </div>
         </div>
       </section>
 
       {/* 추천 상품 */}
-      <section className="flex flex-col gap-4">
-        <div className="inline-flex items-center gap-2">
-          <div className="w-7 h-7 flex items-center justify-center">⭐</div>
-          <h2 className="text-2xl font-bold text-slate-700">
-            투자 성향 <span className="text-[var(--color-primary)]">맞춤 상품</span>
+      <section className="flex flex-col gap-5">
+        {/* 헤더 */}
+        <div className="flex items-center gap-3">
+          {/* AI 분석 배지 */}
+          <div className="w-24 h-10 rounded-xl bg-gradient-to-b from-[#0099FF] to-[#00D4FF] flex items-center justify-center shadow-sm">
+            <span className="text-white text-base font-extrabold tracking-tight">AI 분석</span>
+          </div>
+
+          {/* 타이틀: '맞춤 상품'만 포인트 컬러 */}
+          <h2 className="text-[22px] md:text-2xl font-extrabold text-[var(--color-secondary)] leading-none">
+            투자 성향에 <span className="text-[var(--color-primary)]">맞춤 상품</span>
           </h2>
         </div>
 
+        {/* 리스트 */}
         <div className="flex flex-col gap-3">
           {recommendations.map((rec) => (
-            <div key={rec.id} className="w-full bg-white rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] px-4 pt-4">
-              <div className="flex items-center justify-between h-12">
-                <div className="flex-1 flex items-center gap-3.5">
-                  <div className="w-11 h-11 bg-gradient-to-b from-sky-100 to-blue-50 rounded-xl flex items-center justify-center">
-                    <div className="text-2xl">{rec.icon || "💼"}</div>
-                  </div>
-                  <div className="flex-1 flex flex-col gap-1">
-                    <div className="flex items-center gap-2">
-                      <div className="px-2 h-6 bg-zinc-100 rounded-md flex items-center">
-                        <span className="text-gray-500 text-xs font-semibold">{rec.category}</span>
-                      </div>
-                      <div className="text-base font-semibold text-gray-800">{rec.name}</div>
-                    </div>
-                    <div className="text-sm text-gray-500">{rec.provider}</div>
-                  </div>
+            <div
+              key={rec.id}
+              className="w-full rounded-[18px] bg-white px-5 py-4 shadow-[0_4px_18px_rgba(0,0,0,0.06)] ring-1 ring-black/5"
+            >
+              <div className="flex items-center">
+                {/* 아이콘 박스 */}
+                <div className="mr-3.5 shrink-0 w-12 h-12 rounded-2xl bg-gradient-to-b from-sky-50 to-blue-50 ring-1 ring-black/5 flex items-center justify-center">
+                  <div className="text-[22px] leading-none">{rec.icon || "💼"}</div>
                 </div>
-                {rec.highlight && <div className="text-sky-500 text-base font-bold">{rec.highlight}</div>}
+
+                {/* 본문 */}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2">
+                    {/* 카테고리 칩 */}
+                    <span className="px-2 h-6 rounded-md bg-zinc-100 text-gray-500 text-[11px] font-semibold flex items-center">
+                      {rec.category}
+                    </span>
+
+                    {/* 상품명 */}
+                    <div className="text-[15px] md:text-base font-semibold text-gray-800 truncate">
+                      {rec.name}
+                    </div>
+                  </div>
+                  {/* 제공사 */}
+                  <div className="text-sm text-gray-500 mt-0.5">{rec.provider}</div>
+                </div>
+
+                {/* 우측 하이라이트 */}
+                {rec.highlight && (
+                  <div className="ml-3 shrink-0 text-[var(--color-primary)] font-bold text-[15px] md:text-base">
+                    {rec.highlight}
+                  </div>
+                )}
               </div>
             </div>
           ))}
         </div>
       </section>
+
     </div>
   );
 }
-
