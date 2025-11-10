@@ -33,7 +33,7 @@ interface TermsAgreementFormProps {
     titleComponent: React.ReactNode;
 
     // 상세 약관 경로
-    baseLinkPath: String;
+    baseLinkPath: string;
 }
 
 /**
