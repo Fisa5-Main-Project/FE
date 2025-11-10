@@ -2,11 +2,11 @@ import * as React from 'react';
 import { useMyDataStore } from '@/stores/mydata/useMyDataStore';
 import { useRouter } from 'next/navigation';
 
-// UI에만 필요한 정적 약관 정의 (MyDataStore에서 사용되는 것과 동일)
+// UI에 필요한 정적 약관 정의
 const MYDATA_AGREEMENT_DEFINITIONS = [
     { id: 1, text: '개인정보 수집 및 이용 안내', required: true },
-    { id: 2, text: '개인정보 수집 및 이용 안내', required: true },
-    { id: 3, text: '개인정보 수집 및 이용 안내', required: false },
+    { id: 2, text: '마이데이터 서비스 이용 약관', required: true },
+    { id: 3, text: '마케팅 정보 수신 동의', required: false },
 ];
 
 /**
@@ -20,23 +20,20 @@ export const useMyDataTermsForm = () => {
     const agreementsState = useMyDataStore(state => state.agreements);
     const setAllAgreements = useMyDataStore(state => state.setAllAgreements);
     const toggleAgreement = useMyDataStore(state => state.toggleAgreement);
+    const reset = useMyDataStore(state => state.reset);
 
-    // 2. UI 렌더링을 위한 데이터 가공 (useMemo)
+    // 페이지 진입 시 스토어를 초기 상태로 리셋
+    React.useEffect(() => {
+        reset();
+    }, [reset]);
+
+    // 2. 정적 정의와 동적 상태를 조합하여 최종 terms 배열 생성
     const terms = React.useMemo(() =>
         MYDATA_AGREEMENT_DEFINITIONS.map(def => {
-            const match = def.text.match(/^(\(.*?\))\s*(.*)$/);
-            const prefix = match ? match[1] : '';
-            const mainText = match ? match[2] : def.text;
-            const prefixColor = prefix === '(필수)' ? 'text-[#0064FF]' : 'text-secondary';
-
+            const storeAgreement = agreementsState.find(s => s.id === def.id); // ✅ Corrected: number comparison
             return {
                 ...def,
-                // 스토어의 체크 상태를 찾아서 연결
-                isChecked: agreementsState.find(s => s.id === def.id)?.isChecked || false,
-                // UI 렌더링에 필요한 파싱된 데이터 추가
-                prefix,
-                mainText,
-                prefixColor,
+                isChecked: storeAgreement?.isChecked || false,
             };
         }),
         [agreementsState]
@@ -59,7 +56,10 @@ export const useMyDataTermsForm = () => {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        // 다음 Step인 Loading 페이지로 라우팅
+        if (isNextDisabled) return;
+
+        // TODO: (API) 서버로 동의한 약관 전송
+        console.log("마이데이터 동의 약관 ID:", Array.from(checkedTerms));
         router.push('/mydata/loading');
     };
 
