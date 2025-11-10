@@ -24,7 +24,7 @@ export function usePensionOverview() {
 
   const [userName] = useState("사용자");
   const [totalPension, setTotalPension] = useState<number>(1000000000);
-  const [taxSavingAmount] = useState<number>(1008344234);
+  // overview 예상 절세 금액은 하단에서 계산 반영
   const [recommendations] = useState<RecommendationItem[]>([
     { id: "r1", category: "적금", name: "우리 정기적금", provider: "우리은행", highlight: "최대 3.5%", icon: "💰" },
     { id: "r2", category: "연금저축", name: "우리 연금저축펀드", provider: "우리은행", highlight: "세액공제 16.5%", icon: "📈" },
@@ -57,6 +57,18 @@ export function usePensionOverview() {
     dc: hasAccount(accounts.dc) ? { assetId: 102, ...accounts.dc } : null,
     irp: hasAccount(accounts.irp) ? { assetId: 103, ...accounts.irp } : null,
   };
+
+  // 예상 절세 금액: (올해 DC 개인 + IRP 개인) × 소득기준 세액 공제율
+  const currentYear = new Date().getFullYear();
+  const taxCreditRate = useMemo(() => {
+    if (!annualIncome || annualIncome <= 55_000_000) return 0.165;
+    return 0.132;
+  }, [annualIncome]);
+  const dcThisYear = accounts.dc?.contribYear === currentYear ? accounts.dc?.personalContrib ?? 0 : 0;
+  const irpThisYear = accounts.irp?.contribYear === currentYear ? accounts.irp?.personalContrib ?? 0 : 0;
+  const taxSavingAmount = useMemo(() => {
+    return Math.max(0, Math.floor((dcThisYear + irpThisYear) * taxCreditRate));
+  }, [dcThisYear, irpThisYear, taxCreditRate]);
 
   // 상세 영역 on/off
   const [showDetail, setShowDetail] = useState(false);
