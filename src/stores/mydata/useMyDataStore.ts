@@ -16,6 +16,8 @@ interface MyDataStateProperties {
         realEstate: string;
         car: string;
     };
+    workingMonths: number | null;
+    annualIncome: number | null;
 }
 
 // 스토어의 액션 타입 정의
@@ -24,6 +26,8 @@ interface MyDataActions {
     toggleAgreement: (id: string, isChecked: boolean) => void;
     setAllAgreements: (isChecked: boolean) => void;
     setAssets: (assetType: 'realEstate' | 'car', value: string) => void;
+    setWorkingMonths: (months: number) => void;
+    setAnnualIncome: (amount: number) => void;
     reset: () => void;
 }
 
@@ -41,6 +45,8 @@ const initialState: MyDataStateProperties = {
         realEstate: '',
         car: '',
     },
+    workingMonths: null,
+    annualIncome: null,
 };
 
 /**
@@ -66,6 +72,10 @@ export const useMyDataStore = create<MyDataState>()(
             setAssets: (assetType, value) => set(state => ({
                 assets: { ...state.assets, [assetType]: value },
             })),
+
+            setWorkingMonths: (months) => set({ workingMonths: months }),
+
+            setAnnualIncome: (amount) => set({ annualIncome: amount }),
 
             reset: () => set(initialState),
         }),
