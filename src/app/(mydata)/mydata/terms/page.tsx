@@ -22,15 +22,6 @@ export default function TermsPage() {
     }
   } = useMyDataTermsForm();
 
-  // 폼 제출 로직 (DB 저장/라우팅 책임)
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    // 💡 여기에 실제 DB 저장 로직 (API 호출 등)이 들어갈 예정입니다.
-    // 현재는 훅이 가진 로직(유효성 검사, 라우팅)을 실행합니다.
-    hookHandleSubmit(e);
-
-  };
 
   // 제목 JSX 정의 (디자인 사양에 맞춘 폰트 크기 및 마진)
   const title = (
@@ -43,7 +34,7 @@ export default function TermsPage() {
   return (
     <form
       className="flex flex-col flex-grow h-full"
-      onSubmit={handleSubmit} // 폼 제출 이벤트와 연결
+      onSubmit={hookHandleSubmit} // 폼 제출 이벤트와 연결
     >
 
       {/* 1. 콘텐츠 영역 (TermsAgreementForm) */}

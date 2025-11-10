@@ -7,14 +7,12 @@ import TermsAgreementForm from '@/components/common/TermsAgreementForm';
 
 
 export default function TermsPage() {
-  const { terms, checkedTerms, isNextDisabled, isAllChecked, handlers } =
+  const { terms, checkedTerms, isNextDisabled, isAllChecked, handlers: {
+    handleCheckAll,
+    handleCheckTerm,
+    handleSubmit // ✅ 훅에서 바로 가져옵니다.
+  } } =
     useTermsForm();
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    // 훅이 가진 제출 로직 (DB 저장/라우팅) 실행
-    handlers.handleSubmit(e);
-  };
 
   const title = (
     <h1 className="mt-19.5 text-[2rem] font-medium text-secondary whitespace-pre-line">
@@ -35,10 +33,7 @@ export default function TermsPage() {
           terms={terms}
           checkedTerms={checkedTerms}
           isAllChecked={isAllChecked}
-          handlers={{
-            handleCheckAll: handlers.handleCheckAll,
-            handleCheckTerm: handlers.handleCheckTerm
-          }}
+          handlers={{ handleCheckAll, handleCheckTerm }}
           titleComponent={title}
           baseLinkPath="/signup/terms"
         />

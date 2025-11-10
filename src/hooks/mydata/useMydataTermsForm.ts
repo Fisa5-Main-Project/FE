@@ -20,12 +20,6 @@ export const useMyDataTermsForm = () => {
     const agreementsState = useMyDataStore(state => state.agreements);
     const setAllAgreements = useMyDataStore(state => state.setAllAgreements);
     const toggleAgreement = useMyDataStore(state => state.toggleAgreement);
-    const reset = useMyDataStore(state => state.reset);
-
-    // 페이지 진입 시 스토어를 초기 상태로 리셋
-    React.useEffect(() => {
-        reset();
-    }, [reset]);
 
     // 2. 정적 정의와 동적 상태를 조합하여 최종 terms 배열 생성
     const terms = React.useMemo(() =>
