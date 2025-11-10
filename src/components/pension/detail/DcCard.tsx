@@ -1,6 +1,6 @@
 import React from "react";
 import { DcAccount } from "@/types/pension";
-import { formatCurrencyKRW } from "@/utils/pension";
+import { formatCurrencyKRW } from "@/utils/formatting";
 
 /**
  * DC형 계좌 카드
