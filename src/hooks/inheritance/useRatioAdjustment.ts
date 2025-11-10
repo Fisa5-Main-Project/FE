@@ -2,7 +2,6 @@
 
 import { useState, useMemo, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useInheritanceAmountForm } from "./useInheritanceAmountForm";
 import { useInheritanceStore } from "@/stores/inheritance/inheritanceStore";
 
 // (임시) 총 자산 1억원
