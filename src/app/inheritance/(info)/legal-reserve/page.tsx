@@ -4,18 +4,18 @@ import React from "react";
 import Button from "@/components/common/Button";
 import { useInfoPage } from "@/hooks/inheritance/useInfoPage";
 
-export default function StatutoryPage() {
-  const { handleNext } = useInfoPage("/inheritance/legal-reserve");
+export default function LegalReserve() {
+  const { handleNext } = useInfoPage("/inheritance/compare");
 
   return (
     <div className="flex flex-col flex-grow">
       <div className="flex-grow">
         <h1 className="text-[2rem] font-medium leading-normal">
-          <span className="font-bold text-[2.25rem]">법정상속분</span>은
+          <span className="font-bold text-[2.25rem]">유류분</span>은
           <br />
-          법에서 정한
+          최소한의 보장이 되는
           <br />
-          기본 상속 지분을 말해요
+          상속 몫이에요
         </h1>
 
         {/* TODO: 3D 이미지로 변경하기*/}
@@ -33,14 +33,13 @@ export default function StatutoryPage() {
                        flex items-center justify-center"
         >
           <div className="text-left">
-            만약 <span className="font-bold">유언</span>이나{" "}
-            <span className="font-bold">신탁</span>으로
+            유언이나 증여로 특정 상속인이
             <br />
-            따로 정하지 않았다면
+            몫을 못 받게 되더라도
             <br />
-            <span className="font-bold">법에 따라 가족들이</span>
+            <span className="font-bold">반드시 받을 수 있도록</span>
             <br />
-            <span className="font-bold">나눠 가지는 비율</span>이에요.
+            법이 보호해주는 권리에요.
           </div>
         </div>
       </div>
