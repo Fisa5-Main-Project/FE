@@ -5,7 +5,7 @@
  */
 
 import React from "react";
-import { useRouter } from "next/navigation";
+import { usePensionRouter } from "@/hooks/pension/usePensionRouter";
 import Input from "@/components/common/Input";
 import Button from "@/components/common/Button";
 import { usePensionIncome } from "@/hooks/pension/usePensionIncome";
@@ -17,9 +17,9 @@ interface PensionIncomeFormProps {
 
 /** 연 소득 입력 폼 컴포넌트 */
 export function PensionIncomeForm({ onSubmit }: PensionIncomeFormProps) {
-  const router = useRouter();
+  const { goToOverview } = usePensionRouter();
   const { value, isValid, handleChange } = usePensionIncome();
-  const setAnnualIncome = useMyDataStore(state => state.setAnnualIncome);
+  const setAnnualIncome = useMyDataStore((state) => state.setAnnualIncome);
 
   /** 다음 버튼 클릭 시 유효성 확인 후 라우팅/제출 */
   const handleClickNext = () => {
@@ -30,7 +30,7 @@ export function PensionIncomeForm({ onSubmit }: PensionIncomeFormProps) {
       onSubmit(n);
       return;
     }
-    router.push("/pension/overview");
+    goToOverview();
   };
 
   return (

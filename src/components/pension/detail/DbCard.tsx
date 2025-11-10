@@ -1,6 +1,6 @@
 import React from "react";
 import { DbAccount } from "@/types/pension";
-import { formatCurrencyKRW } from "@/utils/pension";
+import { formatCurrencyKRW } from "@/utils/formatting";
 
 /**
  * DB형 계좌 카드 (존재 시 표시)
