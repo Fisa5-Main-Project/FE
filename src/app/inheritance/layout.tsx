@@ -6,8 +6,6 @@ export default function InheritancePlanLayout({
   children: React.ReactNode;
 }) {
   return (
-    <main className="page-container flex flex-col min-h-screen">
-      {children}
-    </main>
+    <main className="page-container flex flex-col h-screen">{children}</main>
   );
 }
