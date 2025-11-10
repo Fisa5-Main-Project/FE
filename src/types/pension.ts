@@ -1,7 +1,9 @@
 /**
  * 연금 계좌 타입
- * - 빈 객체 {} 는 해당 계좌가 없음을 의미
+ * 계좌 없음은 null
  */
+
+export type Maybe<T> = T | null;
 
 // DB형: 존재 여부 + 계좌명
 export interface DbAccount {
@@ -33,11 +35,12 @@ export interface IrpAccount {
 }
 
 export interface PensionAccounts {
-  db?: Partial<DbAccount> | {};
-  dc?: Partial<DcAccount> | {};
-  irp?: Partial<IrpAccount> | {};
+  db: Maybe<Partial<DbAccount>>; // Partial을 통해 인터페이스의 일부 속성만 입력해도 가능
+  dc: Maybe<Partial<DcAccount>>;
+  irp: Maybe<Partial<IrpAccount>>;
 }
 
-export function hasAccount<T extends object>(obj: T | undefined | null): obj is T {
-  return !!obj && Object.keys(obj).length > 0;
+// 값 존재 여부 판별: null 체크 + 키 존재
+export function hasAccount<T extends object>(obj: Maybe<T>): obj is T {
+  return obj !== null && Object.keys(obj).length > 0;
 }
