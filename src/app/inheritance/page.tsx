@@ -10,7 +10,7 @@ export default function InheritanceMainPage() {
   const { handleNext } = useInheritanceMain();
 
   return (
-    <div className="page-container flex flex-col flex-grow">
+    <div className="flex flex-col flex-grow">
       {/* 상단 컨테이너 */}
       <div className="flex flex-col items-center">
         <h1 className="text-center">

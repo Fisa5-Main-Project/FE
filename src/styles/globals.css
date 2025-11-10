@@ -173,3 +173,14 @@ body {
   opacity: 1;
   transform: scale(1);
 }
+
+/* ✅ type="number" 인풋 스피너 제거 */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none; /* Chrome, Safari에서 숨김 */
+  margin: 0; /* Safari에서 마진 제거 */
+}
+
+input[type="number"] {
+  -moz-appearance: textfield; /* Firefox에서 숨김 */
+}

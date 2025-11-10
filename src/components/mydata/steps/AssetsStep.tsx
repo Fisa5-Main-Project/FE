@@ -1,80 +1,59 @@
 'use client';
 
-import Image from 'next/image';
-import Button from '@/components/common/Button';
-import Input from '@/components/common/Input';
-import { useMyDataContext } from '@/context/MyDataContext';
-
-interface AssetsStepProps {
-  onNext: () => void;
-}
+import AmountInput from '@/components/common/AmountInput';
+import { useMyDataStore } from '@/stores/mydata/useMyDataStore';
 
 /**
  * 부동산 및 자동차 자산 정보 입력 단계 컴포넌트입니다.
  * - 'use client': 사용자 입력을 위한 Context 훅을 사용하므로 클라이언트 컴포넌트입니다.
  * - 접근성(A11y): label과 input을 명확히 연결하고, 시각적 계층을 개선합니다.
  */
-const AssetsStep = ({ onNext }: AssetsStepProps) => {
-  const { state, dispatch } = useMyDataContext();
-  const { assets } = state;
-
-  const isNextButtonEnabled = !!assets.realEstate && !!assets.car;
+const AssetsStep = () => {
+  const assets = useMyDataStore(state => state.assets);
+  const setAssets = useMyDataStore(state => state.setAssets);
 
   const handleAssetChange = (assetType: 'realEstate' | 'car', value: string) => {
-    dispatch({ type: 'SET_ASSET', payload: { assetType, value } });
+    setAssets(assetType, value);
   };
 
   return (
     <div className="flex flex-col h-full">
-      <div>
-        <h1 className="text-2xl font-bold leading-relaxed md:text-3xl">
-          부동산 및 자동차
+      <div className='mt-[4.875rem]'>
+        <h1 className="text-[2rem] font-medium leading-relaxed text-secondary">
+          <strong className="font-bold">부동산 및 자동차</strong>
           <br />
           자산 정보를 입력해주세요.
         </h1>
-        <div className="my-8 flex justify-center">
-          {/* 이미지 실제 경로는 /public/images/mydata/assets.png 와 같아야 합니다. */}
-          <Image 
-            src="/mydata/assets.png" 
-            alt="부동산 및 자동차 자산" 
-            width={192} 
-            height={192} 
-          />
-        </div>
       </div>
-      <div className="mt-8 space-y-6 flex-grow">
+
+      <div className="mt-[1.375rem] space-y-4 flex-grow">
         <div>
-          <label htmlFor="real-estate" className="block text-lg font-medium text-gray-800 mb-2">
+          <label htmlFor="real-estate" className="block text-[1.25rem] font-semibold text-secondary mb-2">
             부동산
           </label>
-          <Input
+          <AmountInput
             id="real-estate"
-            type="number"
-            value={assets.realEstate}
+            value={assets.realEstate ? assets.realEstate.toString() : ''}
             onChange={(e) => handleAssetChange('realEstate', e.target.value)}
             placeholder="0원"
             aria-label="부동산 금액 입력"
           />
         </div>
+
         <div>
-          <label htmlFor="car" className="block text-lg font-medium text-gray-800 mb-2">
+          <label htmlFor="car" className="block text-[1.25rem] font-medium text-secondary mb-2">
             자동차
           </label>
-          <Input
+          <AmountInput
             id="car"
-            type="number"
-            value={assets.car}
+            value={assets.car ? assets.car.toString() : ''}
             onChange={(e) => handleAssetChange('car', e.target.value)}
             placeholder="0원"
             aria-label="자동차 금액 입력"
           />
         </div>
       </div>
-      <div className="mt-auto w-full">
-        <Button onClick={onNext} disabled={!isNextButtonEnabled}>
-          다음
-        </Button>
-      </div>
+
     </div>
   );
 };
