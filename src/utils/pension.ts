@@ -16,9 +16,19 @@ export function calcMonthlyPayout({
   monthlyIrp = 0,
 }: MonthlyPayoutParams): number {
   const months = Math.max(1, Math.round(years * 12));
-  const adjustedTotal = totalPension + monthlyIrp * months; // 1차: 단순 합산
-  const future = adjustedTotal * Math.pow(1 + annualRate, years);
-  const afterTax = future * (1 - taxRate);
+  const monthlyRate = Math.pow(1 + annualRate, 1 / 12) - 1;
+
+  // 1. 초기 퇴직연금의 미래 가치
+  const fvFromTotalPension = totalPension * Math.pow(1 + monthlyRate, months);
+
+  // 2. 월별 IRP 추가 납입액의 미래 가치 (연금의 미래 가치 공식)
+  const fvFromIrp =
+    monthlyIrp > 0 && monthlyRate > 0
+      ? monthlyIrp * ((Math.pow(1 + monthlyRate, months) - 1) / monthlyRate)
+      : monthlyIrp * months;
+
+  const futureValue = fvFromTotalPension + fvFromIrp;
+  const afterTax = futureValue * (1 - taxRate);
   return afterTax / months;
 }
 
