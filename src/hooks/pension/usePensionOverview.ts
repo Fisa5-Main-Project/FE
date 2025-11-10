@@ -33,7 +33,7 @@ export function usePensionOverview() {
 
   // mock 계좌 데이터
   const accounts: PensionAccounts = {
-    db: {accountName: "우리퇴직연금DB", pensionType: "DB"},
+    db: { accountName: "우리퇴직연금DB", pensionType: "DB" },
     dc: {
       accountName: "우리퇴직연금DC",
       pensionType: "DC",
@@ -53,9 +53,9 @@ export function usePensionOverview() {
   };
 
   const accountsWithIds: PensionAccounts = {
-    db: hasAccount(accounts.db) ? { assetId: 101, ...(accounts.db as any) } : {},
-    dc: hasAccount(accounts.dc) ? { assetId: 102, ...(accounts.dc as any) } : {},
-    irp: hasAccount(accounts.irp) ? { assetId: 103, ...(accounts.irp as any) } : {},
+    db: hasAccount(accounts.db) ? { assetId: 101, ...accounts.db } : null,
+    dc: hasAccount(accounts.dc) ? { assetId: 102, ...accounts.dc } : null,
+    irp: hasAccount(accounts.irp) ? { assetId: 103, ...accounts.irp } : null,
   };
 
   // 상세 영역 on/off
