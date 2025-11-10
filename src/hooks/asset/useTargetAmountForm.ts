@@ -1,29 +1,32 @@
-// src/hooks/asset/useTargetAmountForm.ts
-
 'use client';
 
-import { useState, ChangeEvent } from 'react';
+import { ChangeEvent } from 'react';
+import { useAssetStore } from '@/stores/asset/useAssetStore';
 
-// 숫자 이외의 문자 제거
 const formatNumericValue = (value: string) => {
     return value.replace(/[^0-9]/g, '');
 };
 
 /**
- * '목표 금액' 페이지의 폼 로직(금액, 버튼 활성화)을 관리합니다.
+ * '목표 금액' 페이지의 폼 로직(금액, 버튼 활성화)을 관리
  */
-export function useTargetAmountForm(initialValue: string = '') {
-    const [amount, setAmount] = useState(initialValue);
+export function useTargetAmountForm() {
+    const targetAmount = useAssetStore((state) => state.targetAmount);
+    const setTargetAmount = useAssetStore((state) => state.setTargetAmount);
 
     const handleAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setAmount(formatNumericValue(e.target.value));
+        const numericValue = formatNumericValue(e.target.value);
+        const amountAsNumber = numericValue ? parseInt(numericValue, 10) : null;
+        setTargetAmount(amountAsNumber);
     };
 
     // 금액이 비어있거나 0원이면 버튼 비활성화
-    const isNextDisabled = !amount || parseInt(amount, 10) <= 0;
+    const isNextDisabled = !targetAmount || targetAmount <= 0;
+
+    const amountAsString = targetAmount === null ? '' : String(targetAmount);
 
     return {
-        amount,
+        amount: amountAsString,
         handleAmountChange,
         isNextDisabled,
     };

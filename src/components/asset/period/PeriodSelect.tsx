@@ -1,5 +1,3 @@
-// src/components/common/PeriodSelect.tsx
-
 'use client';
 
 import React from 'react';
@@ -19,7 +17,6 @@ interface PeriodSelectProps {
 
 /**
  * 목표 기간 선택(1년~15년)을 위한 Toss 스타일 드롭다운 컴포넌트
- * (수정: 스크롤 기능 추가)
  */
 const PeriodSelect: React.FC<PeriodSelectProps> = ({
     value,
@@ -49,23 +46,19 @@ const PeriodSelect: React.FC<PeriodSelectProps> = ({
                 {...props}
             >
                 <Select.Value placeholder={placeholder} />
-                <Select.Icon className='text-neutral-600'>
-                    <ChevronDown className='h-5 w-5' />
+                <Select.Icon className="text-neutral-600">
+                    <ChevronDown className="h-5 w-5" />
                 </Select.Icon>
             </Select.Trigger>
 
             {/* 2. 드롭다운 목록 (포탈) */}
             <Select.Portal>
                 <Select.Content
-                    className='relative z-50 w-[var(--radix-select-trigger-width)] overflow-hidden rounded-md border bg-white shadow-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95'
-                    position='popper'
+                    className="relative z-50 w-[var(--radix-select-trigger-width)] overflow-hidden rounded-md border bg-white shadow-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95"
+                    position="popper"
                     sideOffset={5}
                 >
-                    {/* [수정]
-                      max-h-72 (18rem)를 설정해 최대 높이를 제한하고,
-                      overflow-y-auto를 추가해 내용이 넘칠 경우 스크롤을 활성화합니다.
-                    */}
-                    <Select.Viewport className='p-1 max-h-72 overflow-y-auto'>
+                    <Select.Viewport className="p-1 max-h-72 overflow-y-auto">
                         {years.map((year) => (
                             <SelectItem key={year} value={year}>
                                 {year}
@@ -78,7 +71,6 @@ const PeriodSelect: React.FC<PeriodSelectProps> = ({
     );
 };
 
-// Radix Select 아이템을 위한 서브 컴포넌트
 const SelectItem = React.forwardRef<
     React.ElementRef<typeof Select.Item>,
     React.ComponentPropsWithoutRef<typeof Select.Item>
@@ -94,9 +86,9 @@ const SelectItem = React.forwardRef<
         )}
         {...props}
     >
-        <span className='absolute left-3 flex h-5 w-5 items-center justify-center'>
+        <span className="absolute left-3 flex h-5 w-5 items-center justify-center">
             <Select.ItemIndicator>
-                <Check className='h-5 w-5 text-primary' />
+                <Check className="h-5 w-5 text-primary" />
             </Select.ItemIndicator>
         </span>
         <Select.ItemText>{children}</Select.ItemText>

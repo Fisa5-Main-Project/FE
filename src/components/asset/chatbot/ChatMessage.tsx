@@ -17,19 +17,12 @@ export default function ChatMessage({ message, onKeywordClick }: ChatMessageProp
     return (
         <div className={clsx('flex w-full items-start gap-3 py-2', !isBot && 'justify-end')}>
             {isBot && (
-                // [수정] 아이콘 래퍼 div를 추가하고 Image 크기를 조정합니다.
                 <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-neutral-100">
-                    <Image
-                        src="/asset-management/bot.png"
-                        alt="chatbot icon"
-                        width={28} // 40 -> 28
-                        height={28} // 40 -> 28
-                    />
+                    <Image src="/asset-management/bot.png" alt="chatbot icon" width={28} height={28} />
                 </div>
             )}
 
             <div className={clsx('flex flex-col', isBot ? 'items-start w-full' : 'items-end max-w-[90%]')}>
-                {/* 말풍선 */}
                 <div
                     className={clsx(
                         'rounded-2xl px-4 py-3 text-base',
@@ -95,13 +88,11 @@ function ChatProductCard({ product }: { product: ChatProduct }) {
                     </div>
                 </div>
 
-                {/* [수정] 스탯 (수익률)을 별도 라인으로 분리하여 오른쪽 정렬 */}
                 <div className="mt-2 text-right">
                     <span className="text-base font-bold text-sky-500">{product.stat}</span>
                 </div>
             </div>
 
-            {/* 하단: 상품 특징 */}
             <div className="border-t border-gray-100 bg-neutral-50 px-4 py-3">
                 <ul className="space-y-1">
                     {product.features.map((feature, i) => (

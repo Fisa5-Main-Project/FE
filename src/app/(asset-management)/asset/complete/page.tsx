@@ -6,7 +6,6 @@ import React from 'react';
 import Image from 'next/image';
 import { Page, PageContent, PageActions } from '@/components/common/Page';
 import Button from '@/components/common/Button';
-// clsx는 이제 이 컴포넌트에서 필요하지 않습니다.
 import { useAssetRouter } from '@/hooks/asset/useAssetRouter';
 
 /**

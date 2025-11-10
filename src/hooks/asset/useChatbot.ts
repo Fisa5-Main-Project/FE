@@ -142,7 +142,7 @@ export function useChatbot() {
             const text = userText.toLowerCase();
 
             // [수정 3] 피드백/초기화 시, START_MESSAGE_CONTENT에 새 ID를 부여하여 반환
-            if (text.includes('도움이 됐어요') || text.includes('마음에 안들어요') || text.includes('상품 보러가기')) {
+            if (text.includes('도움이 됐어요') || text.includes('마음에 안들어요')) {
                 setConversationState('START');
                 return {
                     id: crypto.randomUUID(), // <-- 키 중복 해결
@@ -173,7 +173,7 @@ export function useChatbot() {
                             sender: 'bot',
                             text: '연금저축 상품을 추천해드리겠습니다.',
                             products: getPensionProducts(),
-                            keywords: ['상품 보러가기', '도움이 됐어요', '마음에 안들어요'],
+                            keywords: ['도움이 됐어요', '마음에 안들어요'],
                         };
                         setConversationState('START');
                     } else if (text.includes('펀드')) {
@@ -218,7 +218,7 @@ export function useChatbot() {
                         sender: 'bot',
                         text: `${userText} 성향에 맞는 펀드 상품을 추천해드립니다.`,
                         products: getFundProducts(),
-                        keywords: ['상품 보러가기', '도움이 됐어요', '마음에 안들어요'],
+                        keywords: ['도움이 됐어요', '마음에 안들어요'],
                     };
                     setConversationState('START');
                     break;

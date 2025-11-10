@@ -1,5 +1,3 @@
-// src/app/(asset-management)/asset/info/page.tsx
-
 'use client';
 
 import React from 'react';

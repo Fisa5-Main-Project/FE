@@ -1,25 +1,20 @@
-// app/(asset-management)/asset/period/page.tsx
-
 'use client';
 
 import React from 'react';
-// import { useRouter } from 'next/navigation'; // 1. 제거
 import { Page, PageContent, PageActions, PageHeader } from '@/components/common/Page';
 import Button from '@/components/common/Button';
 import PeriodSelect from '@/components/asset/period/PeriodSelect';
 import { usePeriodForm } from '@/hooks/asset/usePeriodForm';
-import { useAssetRouter } from '@/hooks/asset/useAssetRouter'; // 2. useAssetRouter 임포트
+import { useAssetRouter } from '@/hooks/asset/useAssetRouter';
 
 export default function PeriodPage() {
-    const { goTo } = useAssetRouter(); // 3. useAssetRouter 사용
-    const { period, handlePeriodChange, isNextDisabled } = usePeriodForm('');
+    const { goTo } = useAssetRouter();
+    const { period, handlePeriodChange, isNextDisabled } = usePeriodForm();
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (isNextDisabled) return;
-
-        console.log('Target Period:', period);
-        goTo('target-amount'); // 4. router.push -> goTo로 변경
+        goTo('target-amount');
     };
 
     return (

@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useRef, useEffect } from 'react';
-// import Image from 'next/image';
 import { Page, PageContent, PageActions } from '@/components/common/Page';
 import { useAssetRouter } from '@/hooks/asset/useAssetRouter';
 import { useChatbot } from '@/hooks/asset/useChatbot';
@@ -31,7 +30,6 @@ export default function ChatbotPage() {
 
     return (
         <Page>
-            {/* 1. 헤더 (이전과 동일) */}
             <div className="relative flex items-center justify-center h-14 px-4 border-b border-gray-100 flex-shrink-0">
                 <button
                     onClick={() => goTo('portfolio')}
@@ -43,7 +41,6 @@ export default function ChatbotPage() {
                 <h1 className="relative text-center text-lg font-semibold text-secondary">AI 자산 관리 상담</h1>
             </div>
 
-            {/* 2. PageContent (채팅 내역) (이전과 동일) */}
             <PageContent ref={chatContainerRef} className="overflow-y-auto px-4 pt-4">
                 <div className="flex flex-col gap-2">
                     {messages.map((msg) => (
@@ -52,14 +49,8 @@ export default function ChatbotPage() {
                 </div>
             </PageContent>
 
-            {/* [수정] 3. PageActions (입력창) */}
             <PageActions>
-                {/* [수정]
-                  - p-2 -> p-4: 입력창 상/하/좌/우 여백을 늘려 하단에 공간을 줍니다.
-                  - border-t 제거: 디자인 시안과 일치시킵니다.
-                */}
                 <form onSubmit={handleSubmit} className="flex w-full items-center gap-2 p-4">
-                    {/* 입력창 'pill' 컨테이너 (이전과 동일) */}
                     <div className="flex-1 flex items-center bg-white border border-gray-200 rounded-full shadow-sm pr-1.5 h-[56px]">
                         <input
                             type="text"
@@ -70,7 +61,6 @@ export default function ChatbotPage() {
                             disabled={isListening}
                         />
 
-                        {/* 마이크 버튼 (이전과 동일) */}
                         <button
                             type="button"
                             onClick={handleMicClick}

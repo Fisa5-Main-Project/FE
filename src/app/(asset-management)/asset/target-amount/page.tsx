@@ -1,5 +1,3 @@
-// app/(asset-management)/asset/target-amount/page.tsx
-
 'use client';
 
 import React from 'react';
@@ -7,18 +5,16 @@ import { Page, PageContent, PageActions, PageHeader } from '@/components/common/
 import Button from '@/components/common/Button';
 import AmountInput from '@/components/common/AmountInput';
 import { useTargetAmountForm } from '@/hooks/asset/useTargetAmountForm';
-import { useAssetRouter } from '@/hooks/asset/useAssetRouter'; // 2. useAssetRouter 임포트
+import { useAssetRouter } from '@/hooks/asset/useAssetRouter';
 
 export default function TargetAmountPage() {
-    const { goTo } = useAssetRouter(); // 3. useAssetRouter 사용
+    const { goTo } = useAssetRouter();
     const { amount, handleAmountChange, isNextDisabled } = useTargetAmountForm();
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (isNextDisabled) return;
-
-        console.log('Target Amount:', amount);
-        goTo('building'); // 4. router.push -> goTo로 변경
+        goTo('building');
     };
 
     return (

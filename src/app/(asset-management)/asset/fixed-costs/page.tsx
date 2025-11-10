@@ -13,9 +13,7 @@ export default function FixedCostsPage() {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (isNextDisabled) return;
-        // TODO: Save the amount to a state management solution
-        console.log('Fixed Costs:', amount);
-        goTo('status'); // Navigate to the next step
+        goTo('status');
     };
 
     return (

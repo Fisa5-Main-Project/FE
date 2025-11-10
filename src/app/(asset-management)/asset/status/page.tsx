@@ -2,24 +2,25 @@
 
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Page, PageHeader, PageContent, PageActions } from '@/components/common/Page';
 import Button from '@/components/common/Button';
 import AssetStatusCards from '@/components/asset/status/AssetStatusCard';
-import { useAssetRouter } from '@/hooks/asset/useAssetRouter'; // 2. useAssetRouter 임포트
-
-export type AssetStatusType = 'retired' | 'working';
+import { useAssetRouter } from '@/hooks/asset/useAssetRouter';
+import { useAssetStore } from '@/stores/asset/useAssetStore';
 
 /**
  * 자산 관리 - 은퇴 여부 페이지
  */
 export default function AssetStatusPage() {
-    const { goTo } = useAssetRouter(); // 3. useAssetRouter 사용
-    const [selection, setSelection] = useState<AssetStatusType | null>(null);
+    const { goTo } = useAssetRouter();
+
+    const status = useAssetStore((state) => state.status);
+    const setStatus = useAssetStore((state) => state.setStatus);
 
     const handleNext = () => {
-        if (!selection) return;
-        goTo('income'); // 4. router.push -> goTo로 변경
+        if (!status) return;
+        goTo('income');
     };
 
     return (
@@ -31,11 +32,11 @@ export default function AssetStatusPage() {
                             <PageHeader>은퇴 여부</PageHeader>
                             <p className="text-neutral-500 text-xl font-medium">현재 재직 중인지 체크해주세요.</p>
                         </div>
-                        <AssetStatusCards selection={selection} onSelect={setSelection} />
+                        <AssetStatusCards selection={status} onSelect={setStatus} />
                     </div>
                 </PageContent>
                 <PageActions>
-                    <Button variant="primary" onClick={handleNext} disabled={!selection}>
+                    <Button variant="primary" onClick={handleNext} disabled={!status}>
                         다음
                     </Button>
                 </PageActions>
