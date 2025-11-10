@@ -4,9 +4,9 @@ import { useRouter } from 'next/navigation';
 
 // UI에만 필요한 정적 약관 정의 (MyDataStore에서 사용되는 것과 동일)
 const MYDATA_AGREEMENT_DEFINITIONS = [
-    { id: 'terms1', text: '개인정보 수집 및 이용 안내', required: true },
-    { id: 'terms2', text: '개인정보 수집 및 이용 안내', required: true },
-    { id: 'terms3', text: '개인정보 수집 및 이용 안내', required: false },
+    { id: 1, text: '개인정보 수집 및 이용 안내', required: true },
+    { id: 2, text: '개인정보 수집 및 이용 안내', required: true },
+    { id: 3, text: '개인정보 수집 및 이용 안내', required: false },
 ];
 
 /**
@@ -53,7 +53,7 @@ export const useMyDataTermsForm = () => {
         setAllAgreements(checked);
     };
 
-    const handleCheckTerm = (id: string, checked: boolean) => {
+    const handleCheckTerm = (id: number, checked: boolean) => {
         toggleAgreement(id, checked);
     };
 

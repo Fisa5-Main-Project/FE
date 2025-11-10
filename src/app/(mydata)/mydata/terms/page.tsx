@@ -1,7 +1,6 @@
 'use client';
 
 import * as React from "react";
-import { useRouter } from "next/navigation";
 import TermsAgreementForm from '@/components/common/TermsAgreementForm';
 import Button from "@/components/common/Button";
 import { useMyDataTermsForm } from "@/hooks/mydata/useMydataTermsForm";
@@ -10,8 +9,6 @@ import { useMyDataTermsForm } from "@/hooks/mydata/useMydataTermsForm";
  * 마이데이터 연동 - 약관 상세 페이지 (Hooks 로직 관리)
  */
 export default function TermsPage() {
-  const router = useRouter();
-
   // ✅ useMyDataTermsForm 훅을 호출하여 모든 데이터와 핸들러를 가져옵니다.
   const {
     terms,
@@ -33,8 +30,6 @@ export default function TermsPage() {
     // 현재는 훅이 가진 로직(유효성 검사, 라우팅)을 실행합니다.
     hookHandleSubmit(e);
 
-    // 라우팅은 훅 내부에서 처리하거나 여기서 직접 처리
-    // router.push('/mydata/loading'); 
   };
 
   // 제목 JSX 정의 (디자인 사양에 맞춘 폰트 크기 및 마진)

@@ -7,9 +7,8 @@ import Checkbox from "@/components/common/Checkbox";
 
 // --- Prop Types 정의 ---
 
-// useTermsForm에서 사용하는 훅의 데이터 구조를 따릅니다.
 interface TermItem {
-    id: string;
+    id: number;
     text: string;
     required: boolean;
     // linkPath는 terms 배열 내부에 없으므로, 필요하다면 외부에서 관리해야 합니다.
@@ -17,13 +16,13 @@ interface TermItem {
 
 interface TermsFormHandlers {
     handleCheckAll: (checked: boolean) => void;
-    handleCheckTerm: (id: string, checked: boolean) => void;
+    handleCheckTerm: (id: number, checked: boolean) => void;
 }
 
 interface TermsAgreementFormProps {
     // 외부에서 주입할 데이터
     terms: TermItem[];
-    checkedTerms: Set<string>;
+    checkedTerms: Set<number>;
     isAllChecked: boolean;
 
     // 외부에서 주입할 핸들러
