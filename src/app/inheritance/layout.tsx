@@ -1,11 +1,9 @@
 import React from "react";
 
-export default function InheritancePlanLayout({
+export default function InheritanceLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <main className="page-container flex flex-col h-screen">{children}</main>
-  );
+  return <main className="h-screen">{children}</main>;
 }
