@@ -24,7 +24,7 @@ export default function FamilyCustomPage() {
     <button
       type="button"
       onClick={onClick}
-      className="flex aspect-square h-full w-full items-center justify-center rounded-[0.75rem] bg-white shadow-lg"
+      className="flex aspect-square h-full w-full items-center justify-center rounded-[0.75rem] bg-white shadow-lg cursor-pointer"
     >
       {" "}
       <div className="flex h-10 w-10 items-center justify-center rounded-full  border-primary border-2 text-primary">
@@ -50,7 +50,7 @@ export default function FamilyCustomPage() {
               <button
                 type="button"
                 onClick={openModal}
-                className="mx-auto flex h-[18.75rem] w-[18.75rem] items-center justify-center rounded-[1rem] bg-white shadow-lg"
+                className="mx-auto flex h-[18.75rem] w-[18.75rem] items-center justify-center rounded-[1rem] bg-white shadow-lg cursor-pointer"
               >
                 <div className="flex h-16 w-16 items-center justify-center rounded-full border-2 border-primary text-primary">
                   <Plus className="h-10 w-10" />
@@ -62,7 +62,7 @@ export default function FamilyCustomPage() {
                 {selectedHeirs.map((heir, index) => (
                   <div
                     key={`${heir.id}-${index}`}
-                    className="flex aspect-square w-full flex-col items-center justify-center rounded-[0.75rem] bg-white text-secondary"
+                    className="flex aspect-square w-full flex-col items-center justify-center rounded-[0.75rem] bg-white text-secondary shadow-lg"
                   >
                     <Image
                       src={`/assets/inheritance/${heir.imgBase}.svg`}
@@ -109,7 +109,7 @@ export default function FamilyCustomPage() {
                 추가하실 상속인을 선택하세요
               </Dialog.Title>
               <Dialog.Close asChild>
-                <button className="text-neutral-500">
+                <button className="text-neutral-500 cursor-pointer">
                   <X className="h-6 w-6" />
                 </button>
               </Dialog.Close>
@@ -121,7 +121,7 @@ export default function FamilyCustomPage() {
                 <li key={heir.id}>
                   <button
                     onClick={() => addHeir(heir)}
-                    className="w-full py-4 px-9 text-left text-[1.125rem] text-neutral-800"
+                    className="w-full py-4 px-9 text-left text-[1.125rem] text-neutral-800 cursor-pointer"
                   >
                     {heir.label}
                   </button>
