@@ -32,12 +32,12 @@ export default function RatioPage() {
       <div className="flex-grow overflow-y-auto mt-6 min-h-0">
         <div className="flex flex-col gap-3">
           {heirs.map((heir) => {
-            const currentRatio = ratios[heir.id] || 0;
+            const currentRatio = ratios[heir.uniqueId] || 0;
             const currentAmount = calculateAmount(currentRatio);
 
             return (
               <div
-                key={heir.id}
+                key={heir.uniqueId}
                 className="flex items-center gap-4 rounded-lg bg-white p-4 shadow-md"
               >
                 <div className="flex w-16 flex-shrink-0 flex-col items-center gap-1">
@@ -59,7 +59,7 @@ export default function RatioPage() {
                     <Slider
                       value={[currentRatio]}
                       onValueChange={(value) =>
-                        handleRatioChange(heir.id, value[0])
+                        handleRatioChange(heir.uniqueId, value[0])
                       }
                       max={100}
                       step={1}

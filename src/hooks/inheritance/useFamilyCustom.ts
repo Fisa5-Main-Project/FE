@@ -2,6 +2,10 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import {
+  useInheritanceStore,
+  SelectedHeir,
+} from "@/stores/inheritance/inheritanceStore";
 
 // 상속인 옵션 데이터 타입
 export interface Heir {
@@ -27,19 +31,28 @@ const heirOptions: Heir[] = [
 export const useFamilyCustom = () => {
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedHeirs, setSelectedHeirs] = useState<Heir[]>([]);
+  const [selectedHeirs, setSelectedHeirs] = useState<SelectedHeir[]>([]);
+
+  const storeSetSelectedHeirs = useInheritanceStore(
+    (state) => state.setSelectedHeirs
+  );
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
   // 상속인 추가
   const addHeir = (heir: Heir) => {
-    setSelectedHeirs((prev) => [...prev, heir]);
+    const newHeirInstance: SelectedHeir = {
+      ...heir,
+      uniqueId: crypto.randomUUID(),
+    };
+    setSelectedHeirs((prev) => [...prev, newHeirInstance]);
     closeModal(); // 추가 후 모달 닫기
   };
 
   // <다음> 버튼 클릭
   const handleNext = () => {
+    storeSetSelectedHeirs(selectedHeirs);
     // TODO: (API) 선택된 상속인 정보 저장
     router.push("/inheritance/ratio");
   };

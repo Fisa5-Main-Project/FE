@@ -2,9 +2,12 @@
 
 import { useState, useMemo, ChangeEvent, useCallback } from "react";
 import { useRouter } from "next/navigation";
+import { useInheritanceStore } from "@/stores/inheritance/inheritanceStore";
 
 export const useInheritanceAmountForm = () => {
   const router = useRouter();
+
+  const setTotalAsset = useInheritanceStore((state) => state.setTotalAsset);
 
   const [amount, setAmount] = useState("");
 
@@ -27,9 +30,10 @@ export const useInheritanceAmountForm = () => {
   // <다음> 버튼 클릭 핸들러
   const handleSubmit = useCallback(() => {
     if (!isValid) return;
-    // TODO: (API) 입력된 amount 상태 보내기
+    const numericValue = parseInt(amount, 10);
+    setTotalAsset(numericValue);
     router.push("/inheritance/family");
-  }, [isValid, amount, router]);
+  }, [isValid, amount, router, setTotalAsset]);
 
   // <<포매팅>> 3자리 콤마가 적용된 표시용 값 (ex. 4,000,000원)
   const formattedAmount = useMemo(() => {

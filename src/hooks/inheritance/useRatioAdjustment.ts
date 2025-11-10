@@ -1,16 +1,9 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useRouter } from "next/navigation";
-
-// 이전 단계에서 받아올 상속인 데이터
-// TODO: 실제로는 props나 global state(Zustand 등)로 받아야 함
-const MOCK_HEIRS = [
-  { id: "spouse", label: "배우자", imgBase: "spouse" },
-  { id: "child1", label: "자녀", imgBase: "child" },
-  { id: "child2", label: "자녀", imgBase: "child" },
-  { id: "child3", label: "자녀", imgBase: "child" },
-];
+import { useInheritanceAmountForm } from "./useInheritanceAmountForm";
+import { useInheritanceStore } from "@/stores/inheritance/inheritanceStore";
 
 // (임시) 총 자산 1억원
 // TODO: (API) 자산 받아오기
@@ -19,15 +12,24 @@ const TOTAL_ASSET = 100_000_000;
 export const useRatioAdjustment = () => {
   const router = useRouter();
 
+  const heirs = useInheritanceStore((state) => state.selectedHeirs);
+  const totalAsset = useInheritanceStore((state) => state.totalAsset);
+
   const [ratios, setRatios] = useState<Record<string, number>>(() =>
-    MOCK_HEIRS.reduce((acc, heir) => ({ ...acc, [heir.id]: 0 }), {})
+    heirs.reduce((acc, heir) => ({ ...acc, [heir.id]: 0 }), {})
   );
 
+  useEffect(() => {
+    setRatios(
+      heirs.reduce((acc, heir) => ({ ...acc, [heir.uniqueId]: 0 }), {})
+    );
+  }, [heirs]);
+
   // 슬라이더 값 변경 핸들러
-  const handleRatioChange = (id: string, value: number) => {
+  const handleRatioChange = (uniqueId: string, value: number) => {
     setRatios((prev) => ({
       ...prev,
-      [id]: value,
+      [uniqueId]: value,
     }));
   };
 
@@ -38,7 +40,7 @@ export const useRatioAdjustment = () => {
 
   // 비율에 따른 금액 계산
   const calculateAmount = (ratio: number) => {
-    const amount = (TOTAL_ASSET * ratio) / 100;
+    const amount = (totalAsset * ratio) / 100;
     return new Intl.NumberFormat("ko-KR").format(amount) + "원";
   };
 
@@ -53,7 +55,7 @@ export const useRatioAdjustment = () => {
   };
 
   return {
-    heirs: MOCK_HEIRS,
+    heirs,
     ratios,
     totalRatio,
     handleRatioChange,
