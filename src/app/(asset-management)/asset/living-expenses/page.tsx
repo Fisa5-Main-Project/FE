@@ -13,9 +13,8 @@ export default function LivingExpensesPage() {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (isNextDisabled) return;
-        // TODO: Save the amount to a state management solution
         console.log('Estimated Living Expenses:', amount);
-        goTo('fixed-costs'); // Navigate to the next step
+        goTo('fixed-costs');
     };
 
     return (
