@@ -12,7 +12,7 @@ const MOCK_RECOMMENDED_PRODUCTS: Product[] = [
         name: '우리 정기예금',
         bank: '우리은행',
         stat: '연 3.5%',
-        icon: '/asset-management/deposit.png',
+        icon: '🏦',
     },
     {
         id: 'p2',
@@ -20,7 +20,7 @@ const MOCK_RECOMMENDED_PRODUCTS: Product[] = [
         name: '우리 연금저축',
         bank: '우리은행',
         stat: '세액공제 16.5%',
-        icon: '/asset-management/pension.png',
+        icon: '💰',
     },
     {
         id: 'p3',
@@ -28,7 +28,7 @@ const MOCK_RECOMMENDED_PRODUCTS: Product[] = [
         name: '우리 배당성장 펀드',
         bank: '우리은행',
         stat: '수익률 12.3%',
-        icon: '/asset-management/fund.png',
+        icon: '📈',
     },
 ];
 

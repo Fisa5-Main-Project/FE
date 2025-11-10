@@ -1,6 +1,6 @@
 'use client';
 
-import ProductCard from '@/components/common/ProductCard';
+import ProductCard from '@/components/asset/portfolio/ProductCard';
 import { usePortfolioData } from '@/hooks/asset/usePortfolioData';
 
 type Product = ReturnType<typeof usePortfolioData>['recommendedProducts'][0];

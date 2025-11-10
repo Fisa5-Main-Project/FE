@@ -1,6 +1,7 @@
 'use client';
 
-import Image from 'next/image';
+// [수정] 1. Image 임포트 제거
+// import Image from 'next/image';
 
 interface Product {
     id: string;
@@ -16,7 +17,10 @@ export default function ProductCard({ product }: { product: Product }) {
         <div className="w-full min-h-[5rem] px-4 py-4 bg-white rounded-xl shadow-[0px_2px_8px_0px_rgba(0,0,0,0.04)] flex items-center justify-between">
             <div className="flex items-center gap-3.5 min-w-0">
                 <div className="w-11 h-11 bg-gradient-to-b from-sky-100 to-blue-50 rounded-xl flex justify-center items-center flex-shrink-0">
-                    <Image src={product.icon} alt={product.type} width={28} height={28} />
+                    {/* [수정] 2. Image 태그를 span 태그로 변경하여 이모지를 렌더링합니다. */}
+                    <span className="text-2xl" role="img" aria-label={product.type}>
+                        {product.icon}
+                    </span>
                 </div>
                 <div className="flex flex-col gap-1 min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">

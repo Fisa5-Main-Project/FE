@@ -14,8 +14,7 @@ interface AssetStatusCardsProps {
  */
 export default function AssetStatusCards({ selection, onSelect }: AssetStatusCardsProps) {
     return (
-        // [수정] 부모 컴포넌트(AssetStatusPageClient)가 gap-7을 관리하므로
-        // 중복되는 mt-8을 제거합니다.
+        // [수정] mt-8을 gap-7과 맞추기 위해 제거 (부모가 gap-7을 가짐)
         <div className="flex justify-between gap-4">
             <StatusCard
                 label="은퇴"
