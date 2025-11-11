@@ -29,29 +29,28 @@ const heirOptions: Heir[] = [
 
 export const useFamilyCustom = () => {
   const router = useRouter();
-  const [isModalOpen, setIsModalOpen] = useState(false); // [!!!] 수정: 로컬 state 대신 Zustand store 상태를 직접 사용합니다.
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const selectedHeirs = useInheritanceStore((state) => state.selectedHeirs);
   const setStoreHeirs = useInheritanceStore((state) => state.setSelectedHeirs);
 
   const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false); // 상속인 추가 (store 직접 업데이트)
+  const closeModal = () => setIsModalOpen(false);
 
   const addHeir = useCallback(
     (heir: Heir) => {
       const newHeirInstance: SelectedHeir = {
         ...heir,
         uniqueId: crypto.randomUUID(),
-      }; // [!!!] 수정: store state를 기반으로 새 배열을 만들어 store에 저장
+      };
       setStoreHeirs([...selectedHeirs, newHeirInstance]);
       closeModal();
     },
-    [selectedHeirs, setStoreHeirs] // closeModal은 상태가 아니므로 의존성에서 제외 가능
-  ); // 상속인 제거 (store 직접 업데이트)
+    [selectedHeirs, setStoreHeirs]
+  );
 
   const removeHeir = useCallback(
     (uniqueId: string) => {
-      // [!!!] 수정: store state를 기반으로 필터링하여 store에 저장
       const updatedHeirs = selectedHeirs.filter((h) => h.uniqueId !== uniqueId);
       setStoreHeirs(updatedHeirs);
     },
@@ -69,8 +68,8 @@ export const useFamilyCustom = () => {
     setIsModalOpen,
     openModal,
     addHeir,
-    removeHeir, // UI에서 사용할 수 있도록 반환
-    selectedHeirs, // store에서 직접 가져온 최신 목록
+    removeHeir,
+    selectedHeirs,
     heirOptions,
     handleNext,
     isButtonDisabled,

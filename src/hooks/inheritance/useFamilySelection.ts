@@ -1,5 +1,3 @@
-// hooks/inheritance/useFamilySelection.ts
-
 "use client";
 
 import { useState } from "react";
@@ -31,7 +29,7 @@ export type FamilyType =
   | "BIG_FAM"
   | "FAM"
   | "TWO"
-  | "ONE" // "ALONE" 대신 "ONE"으로 수정 (아래 familyOptions와 맞춤)
+  | "ONE"
   | "SIBLINGS"
   | "CUSTOM";
 
@@ -46,7 +44,7 @@ const familyOptions: FamilyOption[] = [
   { id: "BIG_FAM", label: "다둥이 가족", imgBase: "bigFam", isCustom: false },
   { id: "FAM", label: "자녀 둘", imgBase: "fam", isCustom: false },
   { id: "TWO", label: "둘이서", imgBase: "two", isCustom: false },
-  { id: "ONE", label: "자녀 하나", imgBase: "alone", isCustom: false }, // ID가 "ONE"
+  { id: "ONE", label: "자녀 하나", imgBase: "alone", isCustom: false },
   { id: "SIBLINGS", label: "형제자매", imgBase: "siblings", isCustom: false },
   { id: "CUSTOM", label: "직접설정", imgBase: "", isCustom: true },
 ];
@@ -70,7 +68,7 @@ export const useFamilySelection = () => {
   const [selectedType, setSelectedType] = useState<FamilyType | null>(null);
   const setSelectedHeirs = useInheritanceStore(
     (state) => state.setSelectedHeirs
-  ); // resetInheritance는 여기서는 사용되지 않으므로 제거 가능 // const resetInheritance = useInheritanceStore( //   (state) => state.resetInheritance // );
+  );
   const handleSelect = (type: FamilyType) => {
     setSelectedType(type);
 
