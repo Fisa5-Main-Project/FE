@@ -1,11 +1,11 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
 import * as Dialog from "@radix-ui/react-dialog";
-import { Plus, X } from "lucide-react";
-import Button from "@/components/common/Button"; // (경로 확인)
+import { X } from "lucide-react";
+import Button from "@/components/common/Button";
 import { useFamilyCustom } from "@/hooks/inheritance/useFamilyCustom";
+import { FamilyCustomList } from "@/components/inheritance/FamilyCustomList";
 
 export default function FamilyCustomPage() {
   const {
@@ -13,72 +13,31 @@ export default function FamilyCustomPage() {
     setIsModalOpen,
     openModal,
     addHeir,
+    removeHeir,
     selectedHeirs,
     heirOptions,
     handleNext,
     isButtonDisabled,
   } = useFamilyCustom();
 
-  // <추가> 버튼 - 그리드 아이템용
-  const AddButton = ({ onClick }: { onClick: () => void }) => (
-    <button
-      type="button"
-      onClick={onClick}
-      className="flex aspect-square h-full w-full items-center justify-center rounded-[0.75rem] bg-white shadow-lg cursor-pointer"
-    >
-      {" "}
-      <div className="flex h-10 w-10 items-center justify-center rounded-full  border-primary border-2 text-primary">
-        <Plus className="h-6 w-6" />
-      </div>
-    </button>
-  );
-
   return (
     <>
       <form className="flex flex-col flex-grow h-full">
-        <div className="flex-grow">
+        <div className="flex-shrink-0">
           <h1 className="mt-[6.75rem] text-secondary text-[2rem] font-bold">
             가족 유형
           </h1>
           <p className="mt-2 text-subheading text-[1.375rem] font-medium">
             본인의 가족 유형을 선택해주세요.
           </p>
+        </div>
 
-          <div className="mt-6">
-            {selectedHeirs.length === 0 ? (
-              // 큰 <추가> 버튼
-              <button
-                type="button"
-                onClick={openModal}
-                className="mx-auto flex h-[18.75rem] w-[18.75rem] items-center justify-center rounded-[1rem] bg-white shadow-lg cursor-pointer"
-              >
-                <div className="flex h-16 w-16 items-center justify-center rounded-full border-2 border-primary text-primary">
-                  <Plus className="h-10 w-10" />
-                </div>
-              </button>
-            ) : (
-              // 상속인 추가된 경우
-              <div className="grid grid-cols-2 gap-[1.124rem]">
-                {selectedHeirs.map((heir, index) => (
-                  <div
-                    key={`${heir.id}-${index}`}
-                    className="flex aspect-square w-full flex-col items-center justify-center rounded-[0.75rem] bg-white text-secondary shadow-lg"
-                  >
-                    <Image
-                      src={`/assets/inheritance/${heir.imgBase}.svg`}
-                      alt={heir.label}
-                      width={64}
-                      height={64}
-                    />
-                    <span className="mt-2 text-[1rem] font-medium">
-                      {heir.label}
-                    </span>
-                  </div>
-                ))}
-                <AddButton onClick={openModal} />
-              </div>
-            )}
-          </div>
+        <div className="flex-grow min-h-0 overflow-y-auto mt-6">
+          <FamilyCustomList
+            selectedHeirs={selectedHeirs}
+            onAddClick={openModal}
+            onRemoveClick={removeHeir}
+          />
         </div>
 
         <div className="flex-shrink-0">
@@ -92,7 +51,6 @@ export default function FamilyCustomPage() {
         </div>
       </form>
 
-      {/* === 토스트 팝업 === */}
       <Dialog.Root open={isModalOpen} onOpenChange={setIsModalOpen}>
         <Dialog.Portal>
           <Dialog.Overlay className="fixed inset-0 z-40 bg-black/50" />
@@ -103,7 +61,6 @@ export default function FamilyCustomPage() {
                        data-[state=open]:animate-in data-[state=closed]:animate-out 
                        data-[state=closed]:slide-out-to-bottom-full data-[state=open]:slide-in-from-bottom-full"
           >
-            {/* 팝업 헤더 */}
             <div className="mb-4 flex items-center justify-between">
               <Dialog.Title className="text-[1.25rem] font-bold text-secondary">
                 추가하실 상속인을 선택하세요
@@ -115,7 +72,6 @@ export default function FamilyCustomPage() {
               </Dialog.Close>
             </div>
 
-            {/* 팝업 리스트 */}
             <ul>
               {heirOptions.map((heir) => (
                 <li key={heir.id}>

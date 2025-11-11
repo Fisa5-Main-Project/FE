@@ -184,3 +184,12 @@ input[type="number"]::-webkit-inner-spin-button {
 input[type="number"] {
   -moz-appearance: textfield; /* Firefox에서 숨김 */
 }
+
+/* 밑줄 하이라이트 효과 */
+.underline-highlight {
+  background: linear-gradient(180deg, transparent 70%, #4EB8FF 0); /* 밑줄 색상 */
+  background-repeat: no-repeat;
+  background-size: 100% 70%; /* 밑줄 두께 비율 */
+  background-position: 0 85%; /* 위치 조정 (글자 아래로) */
+  transition: background-size 0.3s ease;
+}

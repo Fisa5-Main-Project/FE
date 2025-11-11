@@ -3,7 +3,7 @@ import { persist, createJSONStorage } from 'zustand/middleware';
 
 // Agreement 타입 정의 (Context와 동일하게 유지)
 interface Agreement {
-    id: string;
+    id: number;
     isChecked: boolean;
     required: boolean; // required 속성 추가
 }
@@ -16,14 +16,18 @@ interface MyDataStateProperties {
         realEstate: string;
         car: string;
     };
+    workingMonths: number | null;
+    annualIncome: number | null;
 }
 
 // 스토어의 액션 타입 정의
 interface MyDataActions {
     setUserName: (name: string) => void;
-    toggleAgreement: (id: string, isChecked: boolean) => void;
+    toggleAgreement: (id: number, isChecked: boolean) => void;
     setAllAgreements: (isChecked: boolean) => void;
     setAssets: (assetType: 'realEstate' | 'car', value: string) => void;
+    setWorkingMonths: (months: number) => void;
+    setAnnualIncome: (amount: number) => void;
     reset: () => void;
 }
 
@@ -33,14 +37,16 @@ type MyDataState = MyDataStateProperties & MyDataActions;
 const initialState: MyDataStateProperties = {
     userName: null,
     agreements: [
-        { id: 'terms1', isChecked: false, required: true },
-        { id: 'terms2', isChecked: false, required: true },
-        { id: 'terms3', isChecked: false, required: false },
+        { id: 1, isChecked: false, required: true },
+        { id: 2, isChecked: false, required: true },
+        { id: 3, isChecked: false, required: false },
     ],
     assets: {
         realEstate: '',
         car: '',
     },
+    workingMonths: null,
+    annualIncome: null,
 };
 
 /**
@@ -55,17 +61,24 @@ export const useMyDataStore = create<MyDataState>()(
             // 2. Actions 정의 (전체 상태를 완성함)
             setUserName: (name) => set({ userName: name }),
 
-            toggleAgreement: (id, isChecked) => set(state => ({
-                agreements: state.agreements.map(a => a.id === id ? { ...a, isChecked } : a),
-            })),
+            toggleAgreement: (id, isChecked) =>
+                set((state) => ({
+                    agreements: state.agreements.map((a) => (a.id === id ? { ...a, isChecked } : a)),
+                })),
 
-            setAllAgreements: (isChecked) => set(state => ({
-                agreements: state.agreements.map(a => ({ ...a, isChecked })),
-            })),
+            setAllAgreements: (isChecked) =>
+                set((state) => ({
+                    agreements: state.agreements.map((a) => ({ ...a, isChecked })),
+                })),
 
-            setAssets: (assetType, value) => set(state => ({
-                assets: { ...state.assets, [assetType]: value },
-            })),
+            setAssets: (assetType, value) =>
+                set((state) => ({
+                    assets: { ...state.assets, [assetType]: value },
+                })),
+
+            setWorkingMonths: (months) => set({ workingMonths: months }),
+
+            setAnnualIncome: (amount) => set({ annualIncome: amount }),
 
             reset: () => set(initialState),
         }),

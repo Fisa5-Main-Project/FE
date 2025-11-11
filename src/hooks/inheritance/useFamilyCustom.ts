@@ -1,3 +1,5 @@
+// hooks/inheritance/useFamilyCustom.ts
+
 "use client";
 
 import { useState, useCallback } from "react";
@@ -7,15 +9,12 @@ import {
   SelectedHeir,
 } from "@/stores/inheritance/inheritanceStore";
 
-// 상속인 옵션 데이터 타입
 export interface Heir {
   id: string;
   label: string;
   imgBase: string;
 }
 
-// 상속인 선택 목록
-// TODO: 이미지 채우기
 const heirOptions: Heir[] = [
   { id: "spouse", label: "배우자", imgBase: "spouse" },
   { id: "child", label: "자녀", imgBase: "child" },
@@ -30,50 +29,39 @@ const heirOptions: Heir[] = [
 
 export const useFamilyCustom = () => {
   const router = useRouter();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false); // [!!!] 수정: 로컬 state 대신 Zustand store 상태를 직접 사용합니다.
 
-  // Zustand store와 연동
-  const storeHeirs = useInheritanceStore((state) => state.selectedHeirs);
+  const selectedHeirs = useInheritanceStore((state) => state.selectedHeirs);
   const setStoreHeirs = useInheritanceStore((state) => state.setSelectedHeirs);
 
-  // store의 값으로 로컬 상태 초기화
-  const [selectedHeirs, setSelectedHeirs] = useState<SelectedHeir[]>(storeHeirs);
-
   const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+  const closeModal = () => setIsModalOpen(false); // 상속인 추가 (store 직접 업데이트)
 
-  // 상속인 추가 (store와 동기화)
   const addHeir = useCallback(
     (heir: Heir) => {
       const newHeirInstance: SelectedHeir = {
         ...heir,
         uniqueId: crypto.randomUUID(),
-      };
-      const updatedHeirs = [...selectedHeirs, newHeirInstance];
-      setSelectedHeirs(updatedHeirs); // 로컬 상태 업데이트
-      setStoreHeirs(updatedHeirs); // store 업데이트
+      }; // [!!!] 수정: store state를 기반으로 새 배열을 만들어 store에 저장
+      setStoreHeirs([...selectedHeirs, newHeirInstance]);
       closeModal();
     },
-    [selectedHeirs, setStoreHeirs],
-  );
+    [selectedHeirs, setStoreHeirs] // closeModal은 상태가 아니므로 의존성에서 제외 가능
+  ); // 상속인 제거 (store 직접 업데이트)
 
-  // 상속인 제거 (store와 동기화)
   const removeHeir = useCallback(
     (uniqueId: string) => {
+      // [!!!] 수정: store state를 기반으로 필터링하여 store에 저장
       const updatedHeirs = selectedHeirs.filter((h) => h.uniqueId !== uniqueId);
-      setSelectedHeirs(updatedHeirs); // 로컬 상태 업데이트
-      setStoreHeirs(updatedHeirs); // store 업데이트
+      setStoreHeirs(updatedHeirs);
     },
-    [selectedHeirs, setStoreHeirs],
+    [selectedHeirs, setStoreHeirs]
   );
 
-  // <다음> 버튼 클릭
   const handleNext = () => {
-    // store는 이미 최신 상태이므로 페이지 이동만 처리
     router.push("/inheritance/ratio");
   };
 
-  // 한 명이라도 추가해야 <다음> 버튼 활성화
   const isButtonDisabled = selectedHeirs.length === 0;
 
   return {
@@ -82,7 +70,7 @@ export const useFamilyCustom = () => {
     openModal,
     addHeir,
     removeHeir, // UI에서 사용할 수 있도록 반환
-    selectedHeirs,
+    selectedHeirs, // store에서 직접 가져온 최신 목록
     heirOptions,
     handleNext,
     isButtonDisabled,

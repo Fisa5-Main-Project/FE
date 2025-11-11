@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useInheritanceStore } from "@/stores/inheritance/inheritanceStore";
 
@@ -13,22 +13,25 @@ export const useRatioAdjustment = () => {
   const storeRatios = useInheritanceStore((state) => state.ratios);
   const setStoreRatios = useInheritanceStore((state) => state.setRatios);
 
-  // 로컬 ratios 상태를 초기화하는 로직
-  const [ratios, setRatios] = useState<Record<string, number>>(() => {
-    const heirIds = heirs.map((h) => h.uniqueId);
-    const storeRatioKeys = Object.keys(storeRatios);
+  // 로컬 ratios 상태를 초기화
+  const [ratios, setRatios] = useState<Record<string, number>>({});
 
-    // store에 저장된 비율의 키와 현재 상속인 목록이 일치하는지 확인
-    const isSynced =
-      heirIds.length === storeRatioKeys.length &&
-      heirIds.every((id) => storeRatioKeys.includes(id));
+  // `heirs`가 store에서 변경될 때마다 `ratios` 상태를 동기화
+  useEffect(() => {
+    setRatios((currentRatios) => {
+      const heirIds = heirs.map((h) => h.uniqueId);
+      const newRatios: Record<string, number> = {};
 
-    // 일치하면 store의 값을 사용하고, 아니면 0으로 새로 초기화
-    if (isSynced) {
-      return storeRatios;
-    }
-    return heirs.reduce((acc, heir) => ({ ...acc, [heir.uniqueId]: 0 }), {});
-  });
+      heirIds.forEach((id) => {
+        // 기존에 설정된 값이 있으면 유지, 없으면 0으로 초기화
+        newRatios[id] = currentRatios[id] || storeRatios[id] || 0;
+      });
+
+      // store의 비율과 동기화
+      setStoreRatios(newRatios);
+      return newRatios;
+    });
+  }, [heirs, setStoreRatios]); // `heirs`가 변경될 때 이 effect를 실행
 
   // 슬라이더 값 변경 핸들러 (store와 동기화)
   const handleRatioChange = (uniqueId: string, value: number) => {
