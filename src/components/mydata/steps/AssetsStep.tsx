@@ -17,7 +17,7 @@ const AssetsStep = () => {
   };
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="w-full">
       <div className='mt-[4.875rem]'>
         <h1 className="text-[2rem] font-medium leading-relaxed text-secondary">
           <strong className="font-bold">부동산 및 자동차</strong>
@@ -26,7 +26,7 @@ const AssetsStep = () => {
         </h1>
       </div>
 
-      <div className="mt-[1.375rem] space-y-4 flex-grow">
+      <div className="mt-[1.375rem] space-y-4">
         <div>
           <label htmlFor="real-estate" className="block text-[1.25rem] font-semibold text-secondary mb-2">
             부동산
