@@ -85,7 +85,7 @@ export const CompareInfoBox: React.FC<CompareInfoBoxProps> = ({
   }
 
   return (
-    <div className={clsx("mt-4 rounded-lg p-4", style)}>
+    <div className={clsx("my-4 rounded-lg p-4", style)}>
       <div className="flex items-center gap-2">
         <Icon className={clsx("h-5 w-5", iconColor)} />
         <h3 className="text-lg font-bold">{title}</h3>

@@ -16,7 +16,7 @@ export default function ComparePage() {
   return (
     <div className="flex flex-col flex-grow h-full">
       <div className="flex-grow overflow-y-auto min-h-0">
-        <h1 className="mt-[6.75rem] text-secondary text-[2rem] font-bold">
+        <h1 className="text-secondary text-[2rem] font-bold">
           법정상속분 VS 유류분
         </h1>
         <p className="mt-2 text-subheading text-[1.375rem] font-medium">

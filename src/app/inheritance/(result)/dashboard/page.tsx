@@ -12,7 +12,7 @@ export default function DashboardPage() {
   return (
     <div className="flex flex-col h-full">
       <div className="flex-grow min-h-0 overflow-y-auto">
-        <h1 className="mt-[6.75rem] text-secondary text-[2rem] font-bold">
+        <h1 className="text-secondary text-[2rem] font-bold">
           {userName}님의
           <br />
           상속 설계 결과입니다

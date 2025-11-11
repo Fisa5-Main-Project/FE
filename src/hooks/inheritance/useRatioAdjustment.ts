@@ -30,7 +30,7 @@ export const useRatioAdjustment = () => {
 
   const handleNext = () => {
     if (isButtonDisabled) return;
-    router.push("/inheritance/complete");
+    router.push("/inheritance/overview");
   };
 
   return {
