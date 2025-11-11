@@ -17,7 +17,6 @@ export default function AmountPage() {
         handleSubmit();
       }}
     >
-      {/* 컨텐츠 영역 */}
       <div className="flex-grow">
         <div className="mt-[6.75rem]">
           <h1 className="text-secondary text-[2rem] font-bold">
@@ -45,7 +44,6 @@ export default function AmountPage() {
         </div>
       </div>
 
-      {/* 하단 버튼 영역 */}
       <div className="flex-shrink-0 pb-4">
         <Button type="submit" variant="primary" disabled={!isValid}>
           다음

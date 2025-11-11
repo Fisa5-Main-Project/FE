@@ -1,39 +1,34 @@
-// hooks/inheritance/useFamilyCustom.ts
-
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import {
-  useInheritanceStore,
-  SelectedHeir,
-} from "@/stores/inheritance/inheritanceStore";
+import { useInheritanceStore } from "@/stores/inheritance/inheritanceStore";
+import { SelectedHeir, Heir, heirOptions } from "@/types/inheritance";
 
-export interface Heir {
-  id: string;
-  label: string;
-  imgBase: string;
-}
-
-const heirOptions: Heir[] = [
-  { id: "spouse", label: "배우자", imgBase: "spouse" },
-  { id: "child", label: "자녀", imgBase: "child" },
-  { id: "grandchild", label: "손자녀", imgBase: "grandchild" },
-  { id: "father", label: "아버지", imgBase: "father" },
-  { id: "mother", label: "어머니", imgBase: "mother" },
-  { id: "grandfather", label: "할아버지", imgBase: "grandfather" },
-  { id: "grandmother", label: "할머니", imgBase: "grandmother" },
-  { id: "sibling", label: "형제 자매", imgBase: "sibling" },
-  { id: "relative", label: "4촌 이내 혈족", imgBase: "relative" },
-];
-
+/**
+ * 직접 설정(CUSTOM) 가족 유형을 처리하는 훅
+ * - 상속인 추가/삭제
+ * - 토스트 팝업 열기/닫기
+ * - 다음 단계로 이동
+ */
 export const useFamilyCustom = () => {
   const router = useRouter();
+  // 토스트 팝업 열림 상태 관리
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const selectedHeirs = useInheritanceStore((state) => state.selectedHeirs);
-  const setStoreHeirs = useInheritanceStore((state) => state.setSelectedHeirs);
+  // Zustand store에서 상속인 리스트 가져오기
+  const storeHeirs = useInheritanceStore((s) => s.selectedHeirs);
+  const addHeirToStore = useInheritanceStore((s) => s.addHeir);
+  const removeHeirFromStore = useInheritanceStore((s) => s.removeHeir);
 
+  // 클라이언트에서만 store 데이터를 사용하기 위한 플래그
+  const [isClient, setIsClient] = useState(false);
+  useEffect(() => setIsClient(true), []);
+
+  // SSR 시에는 빈 배열, 클라이언트에서만 store 값 사용
+  const selectedHeirs = isClient ? storeHeirs : [];
+
+  // 토스트 팝업 열기/닫기
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
@@ -43,18 +38,17 @@ export const useFamilyCustom = () => {
         ...heir,
         uniqueId: crypto.randomUUID(),
       };
-      setStoreHeirs([...selectedHeirs, newHeirInstance]);
+      addHeirToStore(newHeirInstance);
       closeModal();
     },
-    [selectedHeirs, setStoreHeirs]
+    [addHeirToStore]
   );
 
   const removeHeir = useCallback(
     (uniqueId: string) => {
-      const updatedHeirs = selectedHeirs.filter((h) => h.uniqueId !== uniqueId);
-      setStoreHeirs(updatedHeirs);
+      removeHeirFromStore(uniqueId);
     },
-    [selectedHeirs, setStoreHeirs]
+    [removeHeirFromStore]
   );
 
   const handleNext = () => {

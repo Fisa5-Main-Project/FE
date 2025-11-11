@@ -22,7 +22,7 @@ export default function FamilyCustomPage() {
 
   return (
     <>
-      <form className="flex flex-col flex-grow h-full">
+      <div className="flex flex-col flex-grow h-full">
         <div className="flex-shrink-0">
           <h1 className="mt-[6.75rem] text-secondary text-[2rem] font-bold">
             가족 유형
@@ -49,7 +49,7 @@ export default function FamilyCustomPage() {
             다음
           </Button>
         </div>
-      </form>
+      </div>
 
       <Dialog.Root open={isModalOpen} onOpenChange={setIsModalOpen}>
         <Dialog.Portal>

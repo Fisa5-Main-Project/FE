@@ -16,7 +16,7 @@ export default function FamilyPage() {
   } = useFamilySelection();
 
   return (
-    <form className="flex flex-col flex-grow">
+    <div className="flex flex-col flex-grow">
       <div className="flex-grow">
         <h1 className="mt-[6.75rem] text-secondary text-[2rem] font-bold">
           가족 유형
@@ -25,7 +25,6 @@ export default function FamilyPage() {
           본인의 가족 유형을 선택해주세요.
         </p>
 
-        {/* === 가족 유형 2x3 그리드 === */}
         <div className="mt-6 grid grid-cols-3 gap-x-[0.8125rem] gap-y-[0.625rem]">
           {familyOptions.map((option) => {
             const isSelected = selectedType === option.id;
@@ -42,10 +41,8 @@ export default function FamilyPage() {
                     : "bg-white text-secondary"
                 )}
               >
-                {/* 직접설정이 아닌 경우에만 이미지 표시 */}
                 {!option.isCustom && (
                   <Image
-                    // 선택 상태에 따라 이미지 파일(D/W) 변경
                     src={`/assets/img/inheritance/${option.imgBase}${
                       isSelected ? "W" : "D"
                     }.png`}
@@ -57,7 +54,7 @@ export default function FamilyPage() {
                 <span
                   className={clsx(
                     "text-center text-[1rem] font-medium",
-                    !option.isCustom && "mt-[0.125rem]" // 직접설정이 아닐 때만 이미지와 간격 둠
+                    !option.isCustom && "mt-[0.125rem]"
                   )}
                 >
                   {option.label}
@@ -73,6 +70,6 @@ export default function FamilyPage() {
           다음
         </Button>
       </div>
-    </form>
+    </div>
   );
 }

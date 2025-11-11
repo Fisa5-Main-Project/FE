@@ -1,51 +1,57 @@
 "use client";
 
-import { useState, useMemo, ChangeEvent, useCallback } from "react";
+import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { useInheritanceStore } from "@/stores/inheritance/inheritanceStore";
 
+/**
+ * 상속 금액 입력 폼 훅
+ * - 입력값 관리
+ * - 유효성 관리
+ * - 3자리마다 쉼표 포맷팅
+ * - 다음 페이지 이동
+ */
 export const useInheritanceAmountForm = () => {
   const router = useRouter();
+  const totalAsset = useInheritanceStore((s) => s.totalAsset);
+  const setTotalAsset = useInheritanceStore((s) => s.setTotalAsset);
 
-  const totalAsset = useInheritanceStore((state) => state.totalAsset);
-  const setTotalAsset = useInheritanceStore((state) => state.setTotalAsset);
-
-  const [amount, setAmount] = useState(
-    totalAsset > 0 ? String(totalAsset) : "",
+  // 사용자가 입력하는 중간 상태도 반영하기 위해 문자열로 유지
+  const [value, setValue] = useState<string>(() =>
+    totalAsset ? String(totalAsset) : ""
   );
 
-  // <다음> 버튼 활성화 여부: amount가 비어있지 않고, "0"이 아닌지 확인 (1원 이상)
-  const isValid = useMemo(() => {
-    const numericValue = parseInt(amount, 10);
-    return !isNaN(numericValue) && numericValue > 0;
-  }, [amount]);
-
-  // <Input 변경 이벤트 핸들러> 3자리 콤마 삽입 및 숫자만 입력받도록 처리
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    // 입력값에서 숫자 이외의 문자(콤마 포함)를 모두 제거
-    const numericValue = value.replace(/[^0-9]/g, "");
-
-    // 순수 숫자 문자열을 상태에 저장
-    setAmount(numericValue);
+  // 입력값 변경 핸들러
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // 숫자만 허용, 나머지 문자 제거
+    const raw = e.target.value.replace(/[^0-9]/g, "");
+    setValue(raw);
   };
 
-  // <다음> 버튼 클릭 핸들러
-  const handleSubmit = useCallback(() => {
-    if (!isValid) return;
-    const numericValue = parseInt(amount, 10);
-    setTotalAsset(numericValue);
-    router.push("/inheritance/family");
-  }, [isValid, amount, router, setTotalAsset]);
+  // 유효성 검사
+  const isValid = useMemo(() => {
+    // 값이 비어있으면 false
+    if (!value) return false;
+    // 숫자로 변환 가능하고 0 이상이면 true
+    const n = Number(value);
+    return !Number.isNaN(n) && n >= 0;
+  }, [value]);
 
-  // <<포매팅>> 3자리 콤마가 적용된 표시용 값 (ex. 4,000,000원)
+  // 제출 처리
+  const handleSubmit = () => {
+    if (!isValid) return;
+    setTotalAsset(Number(value)); // zustand에 총 상속금액 저장
+    router.push("/inheritance/family");
+  };
+
+  // 화면에 표시할 금액 문자열 (3자리마다 쉼표 추가)
   const formattedAmount = useMemo(() => {
-    if (amount === "") return "";
-    return parseInt(amount, 10).toLocaleString("ko-KR");
-  }, [amount]);
+    if (!value) return "";
+    return Number(value).toLocaleString("ko-KR");
+  }, [value]);
 
   return {
-    amount: formattedAmount, // Input에 표시될 콤마 적용된 값
+    amount: formattedAmount,
     isValid,
     handleChange,
     handleSubmit,

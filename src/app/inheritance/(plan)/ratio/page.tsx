@@ -18,7 +18,7 @@ export default function RatioPage() {
   } = useRatioAdjustment();
 
   return (
-    <form className="flex flex-col flex-grow h-full">
+    <div className="flex flex-col flex-grow h-full">
       <div className="flex-shrink-0">
         <h1 className="mt-[6.75rem] text-secondary text-[2rem] font-bold">
           상속 비율 정하기
@@ -28,7 +28,7 @@ export default function RatioPage() {
           <br /> 정해보세요
         </p>
       </div>
-      {/* 상속인 리스트 */}
+
       <div className="flex-grow overflow-y-auto mt-6 min-h-0">
         <div className="flex flex-col gap-3">
           {heirs.map((heir) => {
@@ -52,9 +52,7 @@ export default function RatioPage() {
                   </span>
                 </div>
 
-                {/* 슬라이더, 금액*/}
                 <div className="flex flex-1 flex-col gap-2">
-                  {/* 슬라이더 + % 표시 */}
                   <div className="flex items-center gap-3">
                     <Slider
                       value={[currentRatio]}
@@ -69,7 +67,6 @@ export default function RatioPage() {
                       {currentRatio}%
                     </span>
                   </div>
-                  {/* 계산된 금액 */}
                   <span className="text-right text-lg font-bold text-primary">
                     {currentAmount}
                   </span>
@@ -79,6 +76,7 @@ export default function RatioPage() {
           })}
         </div>
       </div>
+
       <div className="flex-shrink-0 pt-4">
         <div className="mb-2 flex justify-between text-lg font-bold">
           <span className="text-neutral-700">총 비율</span>
@@ -92,6 +90,6 @@ export default function RatioPage() {
           다 골랐어요
         </Button>
       </div>
-    </form>
+    </div>
   );
 }

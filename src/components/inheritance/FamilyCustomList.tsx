@@ -3,7 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import { Plus, X } from "lucide-react";
-import { SelectedHeir } from "@/stores/inheritance/inheritanceStore";
+import { SelectedHeir } from "@/types/inheritance";
 
 interface FamilyCustomListProps {
   selectedHeirs: SelectedHeir[];

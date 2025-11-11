@@ -3,7 +3,7 @@
 import { useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { useInheritanceStore } from "@/stores/inheritance/inheritanceStore";
-import { SelectedHeir } from "@/stores/inheritance/inheritanceStore";
+import { SelectedHeir } from "@/types/inheritance";
 
 // 통화 포맷터
 const formatKrw = (amount: number) => {

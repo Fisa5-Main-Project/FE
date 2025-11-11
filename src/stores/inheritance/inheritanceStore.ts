@@ -1,46 +1,103 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { Heir } from "@/hooks/inheritance/useFamilyCustom";
+import { SelectedHeir } from "@/types/inheritance";
 
-// 자녀 2번 고른 경우 동시에 비율 설정 움직이지 않게 하기 위해서
-export type SelectedHeir = Heir & { uniqueId: string };
-
-// state와 actions 정의
+// 스토어에서 관리할 상태와 액션 타입 정의
 interface InheritanceState {
-  totalAsset: number;
-  selectedHeirs: SelectedHeir[];
-  ratios: Record<string, number>;
+  totalAsset: number; // 상속할 총 금액(원 단위 정수)
+  familyType: string | null; // 선택한 가족 유형
+  selectedHeirs: SelectedHeir[]; // 선택된 상속인 리스트
+  ratios: Record<string, number>; // 각 상속인 (uniqueId) 별 상속 비율 (0~100)
+
+  // 상태 변경 함수들
   setTotalAsset: (amount: number) => void;
+  setFamilyType: (type: string | null) => void;
   setSelectedHeirs: (heirs: SelectedHeir[]) => void;
+  addHeir: (heir: SelectedHeir) => void;
+  removeHeir: (uniqueId: string) => void;
+  setRatioFor: (uniqueId: string, percent: number) => void;
   setRatios: (ratios: Record<string, number>) => void;
-  resetInheritance: () => void;
+  resetInheritance: () => void; // 전체 상태 초기화
 }
 
+// 초기 상태
 const initialState = {
-  // 총 자산을 0으로 초기화
   totalAsset: 0,
-  selectedHeirs: [],
-  ratios: {},
+  familyType: null,
+  selectedHeirs: [] as SelectedHeir[],
+  ratios: {} as Record<string, number>,
 };
 
-export const useInheritanceStore = create(
-  persist<InheritanceState>(
-    (set) => ({
+// zustand 스토어 생성
+export const useInheritanceStore = create<InheritanceState>()(
+  // persist 사용하여 로컬스트리지에 상태 저장
+  persist(
+    (set, get) => ({
       ...initialState,
 
-      // 자산 설정 (amount 페이지에서 호출)
+      // 상속 총 금액 설정
       setTotalAsset: (amount) => set({ totalAsset: amount }),
 
-      // 상속인 목록 설정 (family 또는 family-custom 페이지에서 호출)
-      setSelectedHeirs: (heirs) => set({ selectedHeirs: heirs }),
+      // 가족 유형 설정
+      setFamilyType: (type) => set({ familyType: type }),
 
-      setRatios: (ratios) => set({ ratios: ratios }),
+      // 선택된 상속인 전체 변경
+      setSelectedHeirs: (heirs) =>
+        set((state) => ({
+          selectedHeirs: heirs,
+          ratios: syncRatiosWithHeirs(heirs, state.ratios), // 상속인과 비율 동기화
+        })),
 
-      // 스토어 리셋
+      // 상속인 추가
+      addHeir: (heir) =>
+        set((state) => {
+          const heirs = [...state.selectedHeirs, heir];
+          return {
+            selectedHeirs: heirs,
+            ratios: syncRatiosWithHeirs(heirs, state.ratios),
+          };
+        }),
+
+      // 상속인 제거
+      removeHeir: (uniqueId) =>
+        set((state) => {
+          const heirs = state.selectedHeirs.filter(
+            (h) => h.uniqueId !== uniqueId
+          );
+          const ratios = { ...state.ratios };
+          delete ratios[uniqueId];
+          return { selectedHeirs: heirs, ratios };
+        }),
+
+      // 특정 상속인 비율 설정
+      setRatioFor: (uniqueId, percent) =>
+        set((state) => ({
+          ratios: {
+            ...state.ratios,
+            [uniqueId]: Math.max(0, Math.min(100, Math.round(percent))),
+          },
+        })),
+
+      // 전체 비율 설정
+      setRatios: (ratios) => set({ ratios }),
+
+      // 전체 상태 초기화
       resetInheritance: () => set(initialState),
     }),
-    {
-      name: "inheritance-storage", // localStorage에 저장될 때 사용될 키
-    },
-  ),
+    { name: "inheritance-storage" } //로컬스토리지 key
+  )
 );
+
+// 상속인 리스트와 기존 비율을 동기화
+// -> 상속인 리스트가 바뀔 경우 기존 비율 유지하고 새 상속인은 0으로 하기 위해
+// heirs 배열 기준으로 비율 객체를 만들어서 기존 값 유지
+function syncRatiosWithHeirs(
+  heirs: SelectedHeir[],
+  ratios: Record<string, number>
+) {
+  const next: Record<string, number> = {};
+  for (const h of heirs) {
+    next[h.uniqueId] = ratios[h.uniqueId] ?? 0; // 새 상속인은 0으로 초기화
+  }
+  return next;
+}
