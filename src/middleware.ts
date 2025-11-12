@@ -12,7 +12,6 @@ export function middleware(request: NextRequest) {
   // login, signup 페이지는 인증 필요 X
   const isAuthPage =
     pathname.startsWith("/login") || pathname.startsWith("/signup");
-
   // 4. 로직
   // CASE 1: 로그인이 필요한 페이지에 접근하려 하지만, 토큰이 없는 경우
   if (!isAuthPage && !accessToken) {
