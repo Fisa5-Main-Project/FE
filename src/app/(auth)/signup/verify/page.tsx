@@ -31,7 +31,8 @@ export default function VerifyPage() {
             onChange={(e) => setters.setName(e.target.value)}
             autoComplete="name"
           />
-          <div className="flex gap-x-[1.125rem]">
+          <div className="flex items-center gap-x-[1.125rem]">
+            {/* 주민번호 앞자리 */}
             <Input
               type="text"
               placeholder="주민번호 앞자리"
@@ -40,15 +41,23 @@ export default function VerifyPage() {
               maxLength={6}
               inputMode="numeric"
               autoComplete="off"
+              className="flex-1"
             />
-            <Input
-              type="password"
-              placeholder="주민번호 뒷 1자리"
-              value={formValues.rrnBack}
-              onChange={(e) => setters.setRrnBack(e.target.value)}
-              maxLength={1}
-              inputMode="numeric"
-            />
+
+            {/* 주민번호 뒷자리 영역  */}
+            <div className="flex flex-1 items-center gap-x-2">
+              <Input
+                type="password"
+                value={formValues.rrnBack}
+                onChange={(e) => setters.setRrnBack(e.target.value)}
+                maxLength={1}
+                inputMode="numeric"
+                className="w-16 text-center text-xl"
+              />
+              <span className="text-secondary text-2xl font-semibold tracking-widest pt-1">
+                ******
+              </span>
+            </div>
           </div>
 
           {/* PhoneAuth 컴포넌트에 훅의 값과 핸들러 전달 */}
