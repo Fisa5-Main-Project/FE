@@ -3,7 +3,7 @@
 import React from "react";
 import * as Accordion from "@radix-ui/react-accordion";
 import Button from "@/components/common/Button";
-import { useComparePage } from "@/hooks/inheritance/useComparePage"; // (경로 확인)
+import { useComparePage } from "@/hooks/inheritance/useComparePage";
 import { CompareTabButton } from "@/components/inheritance/CompareTabButton";
 import { CompareInfoBox } from "@/components/inheritance/CompareInfoBox";
 import { legalReserveContent, statutoryContent } from "./compare.content";

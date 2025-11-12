@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function InheritanceBlueLayout({
+export default function InfoPageLayout({
   children,
 }: {
   children: React.ReactNode;
