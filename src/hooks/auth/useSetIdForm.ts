@@ -76,7 +76,6 @@ export function useSetIdForm() {
 
     // 백엔드 API 중복 검사
     setIsLoading(true);
-    setIsIdCheckedAndAvailable(false);
     setMessage({ text: "중복 확인 중...", color: "text-gray-2" });
 
     try {
@@ -116,7 +115,8 @@ export function useSetIdForm() {
   // --- 버튼 활성화 로직 ---
 
   // <중복 확인> 버튼 비활성화 조건
-  const isDuplicateCheckDisabled = !id || isLoading || isIdCheckedAndAvailable;
+  const isDuplicateCheckDisabled =
+    !isFormatValid || isLoading || isIdCheckedAndAvailable;
 
   // <다음> 버튼 비활성화 조건
   const isNextDisabled = !isIdCheckedAndAvailable;

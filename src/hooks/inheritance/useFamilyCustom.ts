@@ -32,6 +32,11 @@ export const useFamilyCustom = () => {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
+  /**
+   * 상속인 추가
+   * - 선택한 Heir 객체에 uniqueId 부여
+   * - store에 추가 후 모달 닫기
+   */
   const addHeir = useCallback(
     (heir: Heir) => {
       const newHeirInstance: SelectedHeir = {
@@ -44,6 +49,10 @@ export const useFamilyCustom = () => {
     [addHeirToStore]
   );
 
+  /**
+   * 상속인 삭제
+   * - uniqueId 기반으로 store에서 제거
+   */
   const removeHeir = useCallback(
     (uniqueId: string) => {
       removeHeirFromStore(uniqueId);

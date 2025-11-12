@@ -20,3 +20,12 @@ export const heirOptions: Heir[] = [
   { id: "sibling", label: "형제 자매", imgBase: "siblings_girl" },
   { id: "relative", label: "4촌 이내 혈족", imgBase: "relative" },
 ];
+
+// 신탁 상품 데이터 타입 정의
+export interface TrustProduct {
+  id: string;
+  name: string;
+  description: string;
+  tags: string[];
+  url: string; // 상품 상세페이지로 이동할 외부 URL
+}
