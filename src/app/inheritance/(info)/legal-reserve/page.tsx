@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import Button from "@/components/common/Button";
 import { useInfoPage } from "@/hooks/inheritance/useInfoPage";
 
@@ -18,12 +19,13 @@ export default function LegalReserve() {
           상속 몫이에요
         </h1>
 
-        {/* TODO: 3D 이미지로 변경하기*/}
+        {/* TODO: 어울리는 이미지로 바꾸기*/}
         <div className="mt-5 flex justify-center">
-          <img
-            src="https://placehold.co/178x178/FFFFFF/3DAFFD?text=3D+Image"
-            alt="3D 이미지"
-            className="h-[11.125rem] w-[11.125rem]"
+          <Image
+            src="/assets/img/inheritance/legal_reserve.png"
+            alt="유류분 아이콘"
+            width={178}
+            height={178}
           />
         </div>
 

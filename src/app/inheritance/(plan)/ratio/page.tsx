@@ -42,7 +42,7 @@ export default function RatioPage() {
               >
                 <div className="flex w-16 flex-shrink-0 flex-col items-center gap-1">
                   <Image
-                    src={`/assets/inheritance/${heir.imgBase}.svg`}
+                    src={`/assets/img/inheritance/${heir.imgBase}.png`}
                     alt={heir.label}
                     width={48}
                     height={48}

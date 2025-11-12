@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import Button from "@/components/common/Button";
 import { useInfoPage } from "@/hooks/inheritance/useInfoPage";
 
@@ -18,12 +19,13 @@ export default function StatutoryPage() {
           기본 상속 지분을 말해요
         </h1>
 
-        {/* TODO: 3D 이미지로 변경하기*/}
+        {/* TODO: 어울리는 이미지로 변경하기*/}
         <div className="mt-5 flex justify-center">
-          <img
-            src="https://placehold.co/178x178/FFFFFF/3DAFFD?text=3D+Image"
-            alt="3D 이미지"
-            className="h-[11.125rem] w-[11.125rem]"
+          <Image
+            src="/assets/img/inheritance/statutory.png"
+            alt="법정상속분 아이콘"
+            width={178}
+            height={178}
           />
         </div>
 
