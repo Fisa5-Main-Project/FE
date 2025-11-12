@@ -61,7 +61,7 @@ export const FamilyCustomList: React.FC<FamilyCustomListProps> = ({
           </button>
 
           <Image
-            src={`/assets/inheritance/${heir.imgBase}.png`}
+            src={`/assets/img/inheritance/${heir.imgBase}.png`}
             alt={heir.label}
             width={64}
             height={64}
