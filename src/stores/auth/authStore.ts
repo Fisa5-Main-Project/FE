@@ -15,8 +15,10 @@ interface AuthState {
 interface AuthActions {
   login: (loginData: LoginRequest) => Promise<void>;
   logout: () => void;
-  // TODO: 추후 토큰 갱신 액션 구현
-  // refreshAccessToken: () => Promise<void>;
+  /**
+   * Access Token만 업데이트하는 액션
+   */
+  setAccessToken: (newAccessToken: string) => void;
 }
 
 // 초기 상태
@@ -76,6 +78,23 @@ export const useAuthStore = create<AuthState & AuthActions>()(
         set(initialState);
 
         // 3. persist 미들웨어가 localStorage의 'auth-storage'도 정리
+
+        // 4. 로그아웃 시 로그인 페이지로 강제 이동
+        // 토큰 갱신 실패 등 어느 상황에서든 로그아웃되면 로그인 페이지로 redirect
+        if (typeof window !== "undefined") {
+          window.location.href = "/login";
+        }
+      },
+      /**
+       * AccessToken 갱신
+       * @param newAccessToken
+       */
+      setAccessToken: (newAccessToken: string) => {
+        // store의 accessToken 업데이트
+        set({ accessToken: newAccessToken });
+
+        // 쿠키의 accessToken 갱신(미들웨어용)
+        Cookies.set("accessToken", newAccessToken, { expires: 1 });
       },
     }),
     {
