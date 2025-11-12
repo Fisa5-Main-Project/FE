@@ -3,7 +3,6 @@
 import React from "react";
 import Button from "@/components/common/Button";
 import { Info } from "lucide-react";
-import { TrustProduct } from "@/types/inheritance";
 import { TrustProductCard } from "@/components/inheritance/TrustProductCard";
 
 import { useTrustRecommendationPage } from "@/hooks/inheritance/useTrustRecommendationPage";

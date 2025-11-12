@@ -36,10 +36,8 @@ export default function ComparePage() {
             onClick={() => handleTabChange("legalReserve")}
           />
         </div>
-
         {/* 탭 콘텐츠 (소개) */}
-        <CompareInfoBox type="info" activeTab={activeTab} />
-
+        <CompareInfoBox type={activeTab} />
         {/* 아코디언 콘텐츠 (순위) */}
         <Accordion.Root type="multiple" className="mt-4 flex flex-col gap-3">
           {isStatutory ? statutoryContent : legalReserveContent}
@@ -47,7 +45,6 @@ export default function ComparePage() {
 
         {/* 핵심 차이점 */}
         <CompareInfoBox type="lightbulb" />
-
         <CompareInfoBox type="alert" />
       </div>
 

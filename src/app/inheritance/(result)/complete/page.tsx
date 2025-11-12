@@ -3,7 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import Button from "@/components/common/Button";
-import { useCompletePage } from "@/hooks/inheritance/useCompletePage"; // (경로 확인)
+import { useCompletePage } from "@/hooks/inheritance/useCompletePage";
 
 export default function CompletePage() {
   const { handleNext } = useCompletePage();

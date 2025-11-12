@@ -3,24 +3,18 @@
 import React from "react";
 import clsx from "clsx";
 import { Info, Lightbulb, AlertTriangle } from "lucide-react";
-import { TabState } from "@/hooks/inheritance/useComparePage";
 
-type InfoBoxType = "info" | "lightbulb" | "alert";
-
-interface CompareInfoBoxProps {
-  type: InfoBoxType;
-  activeTab?: TabState;
-}
 const boxData = {
-  info: {
-    statutory: {
-      title: "법정상속분이란?",
-      text: "고인이 유언을 남기지 않았을 때, 민법에서 정한 기준에 따라 상속 재산을 나누는 기본 비율입니다.",
-    },
-    legalReserve: {
-      title: "유류분이란?",
-      text: "고인이 유언이나 증여로 재산을 처분했더라도, 법이 가족의 생계 보장을 위해 최소한 보장해주는 지분입니다.",
-    },
+  statutory: {
+    title: "법정상속분이란?",
+    text: "고인이 유언을 남기지 않았을 때, 민법에서 정한 기준에 따라 상속 재산을 나누는 기본 비율입니다.",
+    icon: Info,
+    style: "bg-neutral-50 text-secondary",
+    iconColor: "text-primary",
+  },
+  legalReserve: {
+    title: "유류분이란?",
+    text: "고인이 유언이나 증여로 재산을 처분했더라도, 법이 가족의 생계 보장을 위해 최소한 보장해주는 지분입니다.",
     icon: Info,
     style: "bg-neutral-50 text-secondary",
     iconColor: "text-primary",
@@ -55,34 +49,16 @@ const boxData = {
   },
 };
 
-export const CompareInfoBox: React.FC<CompareInfoBoxProps> = ({
-  type,
-  activeTab = "statutory",
-}) => {
-  let title: string | React.ReactNode;
-  let text: string | React.ReactNode;
-  let style: string;
-  let iconColor: string;
-  let Icon: React.ElementType;
+type InfoBoxType = "statutory" | "legalReserve" | "lightbulb" | "alert";
 
-  if (type === "info") {
-    const data = boxData.info;
-    const infoData = data[activeTab];
+interface CompareInfoBoxProps {
+  type: InfoBoxType;
+}
 
-    title = infoData.title;
-    text = infoData.text;
-    style = data.style;
-    iconColor = data.iconColor;
-    Icon = data.icon;
-  } else {
-    const data = boxData[type];
+export const CompareInfoBox: React.FC<CompareInfoBoxProps> = ({ type }) => {
+  const data = boxData[type];
 
-    title = data.title;
-    text = data.text;
-    style = data.style;
-    iconColor = data.iconColor;
-    Icon = data.icon;
-  }
+  const { title, text, style, iconColor, icon: Icon } = data;
 
   return (
     <div className={clsx("my-4 rounded-lg p-4", style)}>
