@@ -43,10 +43,10 @@ export default function VerifyPage() {
             />
             <Input
               type="password"
-              placeholder="주민번호 뒷자리"
+              placeholder="주민번호 뒷 1자리"
               value={formValues.rrnBack}
               onChange={(e) => setters.setRrnBack(e.target.value)}
-              maxLength={7}
+              maxLength={1}
               inputMode="numeric"
             />
           </div>
