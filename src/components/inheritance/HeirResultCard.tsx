@@ -51,30 +51,32 @@ export const HeirResultCard: React.FC<HeirResultCardProps> = ({ heir }) => {
 
       {/* 나의 설정  */}
       <div className="flex items-center justify-between bg-white rounded-lg p-3 shadow-sm">
-        <p className="text-s font-medium text-secondary">나의 설정</p>
+        <p className="text-base font-medium text-secondary">나의 설정</p>
         <div className="text-right">
           <p className="text-lg font-bold text-primary">{heir.myAmount}</p>
-          <p className="text-s font-semibold text-primary">({heir.myRatio}%)</p>
+          <p className="text-base font-semibold text-primary">
+            ({heir.myRatio}%)
+          </p>
         </div>
       </div>
 
       {/* 법정상속분 & 유류분 */}
       <div className="flex gap-2">
         <div className="flex-1 bg-white rounded-lg p-2 text-center shadow-inner">
-          <p className="text-s font-medium text-gray-2">법정상속분</p>
-          <p className="mt-1 text-s font-bold text-neutral-700">
+          <p className="text-base font-medium text-gray-2">법정상속분</p>
+          <p className="mt-1 text-base font-bold text-neutral-700">
             {heir.statutoryAmount}
           </p>
-          <p className="text-s font-semibold text-neutral-700">
+          <p className="text-base font-semibold text-neutral-700">
             ({heir.statutoryRatio}%)
           </p>
         </div>
         <div className="flex-1 bg-white rounded-lg p-2 text-center shadow-inner">
-          <p className="text-s font-medium text-gray-2">유류분</p>
-          <p className="mt-1 text-s font-bold text-neutral-700">
+          <p className="text-base font-medium text-gray-2">유류분</p>
+          <p className="mt-1 text-base font-bold text-neutral-700">
             {heir.legalReserveAmount}
           </p>
-          <p className="text-s font-semibold text-neutral-700">
+          <p className="text-base font-semibold text-neutral-700">
             ({heir.legalReserveRatio}%)
           </p>
         </div>
