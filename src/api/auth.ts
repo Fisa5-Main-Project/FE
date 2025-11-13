@@ -9,10 +9,10 @@ import type {
   VerifyCodeResponse,
 } from "@/types/signup";
 
+// ---------- 로그인/로그아웃  API -----------
 /**
- * 로그인 API
- * @param data 로그인 ID, 비밀번호
- * @returns ApiResponse<LoginResponse>
+ * [1-3] 로그인
+ * POST /auth/login
  */
 export const loginApi = async (
   data: LoginRequest
@@ -43,85 +43,89 @@ export const loginApi = async (
   }
 };
 
-// /**
-//  * [1-1] (개발용) SMS 인증번호 발송
-//  * POST /api/v1/auth/signup/test-sms
-//  */
-// export const sendTestSms = async (
-//   data: SendSmsRequest
-// ): Promise<ApiResponse<TestSendSmsResponse>> => {
-//   try {
-//     const response = await apiClient.post<ApiResponse<TestSendSmsResponse>>(
-//       "/auth/signup/test-sms",
-//       data
-//     );
-//     return response.data;
-//   } catch (error) {
-//     if (axios.isAxiosError(error) && error.response) {
-//       return error.response.data as ApiResponse<TestSendSmsResponse>;
-//     }
-//     return {
-//         isSuccess: false,
-//         data: null,
-//         error: {
-//           code: "CLIENT_UNKNOWN_ERROR",
-//           message: "알 수 없는 오류가 발생했습니다.",
-//         },
-//   }
-// };
+// ---------- 회원가입 API -----------
+/**
+ * [1-1] (개발용) SMS 인증번호 발송
+ * POST /auth/signup/test-sms
+ */
+export const sendTestSms = async (
+  data: SendSmsRequest
+): Promise<ApiResponse<TestSendSmsResponse>> => {
+  try {
+    const response = await apiClient.post<ApiResponse<TestSendSmsResponse>>(
+      "/auth/signup/test-sms",
+      data
+    );
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      return error.response.data as ApiResponse<TestSendSmsResponse>;
+    }
+    return {
+      isSuccess: false,
+      data: null,
+      error: {
+        code: "CLIENT_UNKNOWN_ERROR",
+        message: "SMS 발송 중 알 수 없는 오류가 발생했습니다.",
+      },
+    };
+  }
+};
 
-// /**
-//  * [1-2] SMS 인증번호 확인
-//  * POST /api/v1/auth/signup/check-code
-//  */
-// export const checkVerificationCode = async (
-//   data: VerifyCodeRequest
-// ): Promise<ApiResponse<VerifyCodeResponse>> => {
-//   try {
-//     const response = await apiClient.post<ApiResponse<VerifyCodeResponse>>(
-//       "/auth/signup/check-code",
-//       data
-//     );
-//     return response.data;
-//   } catch (error) {
-//     if (axios.isAxiosError(error) && error.response) {
-//       return error.response.data as ApiResponse<VerifyCodeResponse>;
-//     }
-//     return {
-//         isSuccess: false,
-//         data: null,
-//         error: {
-//           code: "CLIENT_UNKNOWN_ERROR",
-//           message: "알 수 없는 오류가 발생했습니다.",
-//         },
-//   }
-// };
+/**
+ * [1-2] SMS 인증번호 확인
+ * POST /auth/signup/check-code
+ */
+export const checkVerificationCode = async (
+  data: VerifyCodeRequest
+): Promise<ApiResponse<VerifyCodeResponse>> => {
+  try {
+    const response = await apiClient.post<ApiResponse<VerifyCodeResponse>>(
+      "/auth/signup/check-code",
+      data
+    );
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      return error.response.data as ApiResponse<VerifyCodeResponse>;
+    }
+    return {
+      isSuccess: false,
+      data: null,
+      error: {
+        code: "CLIENT_UNKNOWN_ERROR",
+        message: "인증번호 확인 중 알 수 없는 오류가 발생했습니다.",
+      },
+    };
+  }
+};
 
-// /**
-//  * [1-3] 전화번호 중복 확인
-//  * GET /api/v1/auth/signup/check-phone-num
-//  */
-// export const checkPhoneDuplicate = async (
-//   phoneNum: string
-// ): Promise<ApiResponse<string>> => {
-//   try {
-//     const response = await apiClient.get<ApiResponse<string>>(
-//       "/auth/signup/check-phone-num",
-//       {
-//         params: { phoneNum },
-//       }
-//     );
-//     return response.data;
-//   } catch (error) {
-//     if (axios.isAxiosError(error) && error.response) {
-//       return error.response.data as ApiResponse<string>;
-//     }
-//     return {
-//         isSuccess: false,
-//         data: null,
-//         error: {
-//           code: "CLIENT_UNKNOWN_ERROR",
-//           message: "알 수 없는 오류가 발생했습니다.",
-//         },
-//   }
-// };
+/**
+ * [1-4] 전화번호 중복 확인
+ * GET /auth/signup/check-phone-num
+ */
+export const checkPhoneDuplicate = async (
+  phoneNum: string
+): Promise<ApiResponse<string>> => {
+  try {
+    const response = await apiClient.get<ApiResponse<string>>(
+      "/auth/signup/check-phone-num",
+      {
+        params: { phoneNum }, // 쿼리 파라미터로 phoneNum 전송
+      }
+    );
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      return error.response.data as ApiResponse<string>;
+    }
+    return {
+      isSuccess: false,
+      data: null,
+      error: {
+        code: "CLIENT_UNKNOWN_ERROR",
+        message: "전화번호 중복 확인 중 알 수 없는 오류가 발생했습니다.",
+      },
+    };
+  }
+};
