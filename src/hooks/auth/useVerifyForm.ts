@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
+import { useSignupStore } from "@/stores/auth/signupStore";
 
 /**
  * 본인 확인 페이지의 비즈니스 로직을 관리하는 훅
@@ -20,6 +21,10 @@ export function useVerifyForm() {
   // UI 상태
   const [isCodeSent, setIsCodeSent] = useState(false); // 인증번호 발송 여부
 
+  // API 연동을 위한 상태
+  const [isLoading, setIsLoading] = useState(false);
+  const [apiError, setApiError] = useState<string | null>(null);
+
   // --- 파생 상태 (성별, 생년월일 가공) ---
   const { gender, birth } = useMemo(() => {
     if (rrnFront.length !== 6 || rrnBackFirst.length !== 1) {
@@ -31,9 +36,9 @@ export function useVerifyForm() {
     // 1, 3 = MALE, 2, 4 = FEMALE
     const derivedGender =
       rrnBack === "1" || rrnBack === "3"
-        ? "MALE"
+        ? "M"
         : rrnBack === "2" || rrnBack === "4"
-        ? "FEMALE"
+        ? "F"
         : null;
 
     // 1, 2 = 1900년대, 3, 4 = 2000년대
@@ -68,7 +73,12 @@ export function useVerifyForm() {
 
   // <다음> 버튼 활성화 조건
   const isNextDisabled =
-    !name || !isRrnFilled || !telecom || !isPhoneFilled || !isCodeFilled;
+    !name ||
+    !isRrnFilled ||
+    !telecom ||
+    !isPhoneFilled ||
+    !isCodeFilled ||
+    isLoading;
 
   // ----- 이벤트 핸들러 (API 호출) -----
 
@@ -125,6 +135,8 @@ export function useVerifyForm() {
       isPhoneFilled,
       isCodeSent,
       isNextDisabled,
+      isLoading,
+      apiError,
     },
     // 폼 제출/API 핸들러
     handlers: {

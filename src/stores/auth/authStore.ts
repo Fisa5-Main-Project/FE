@@ -42,7 +42,7 @@ export const useAuthStore = create<AuthState & AuthActions>()(
         const response = await loginApi(loginData);
 
         if (response.isSuccess) {
-          const { accessToken, refreshToken } = response.result;
+          const { accessToken, refreshToken } = response.data;
 
           // 1. Zustand 스토어 상태 업데이트
           set({
@@ -62,7 +62,7 @@ export const useAuthStore = create<AuthState & AuthActions>()(
           });
         } else {
           // 로그인 실패 시
-          throw new Error(response.result || response.message);
+          throw new Error(response.error.message || "로그인에 실패했습니다.");
         }
       },
 

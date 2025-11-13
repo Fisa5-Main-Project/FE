@@ -74,6 +74,9 @@ export default function VerifyPage() {
               onRequestCode={handlers.handleRequestCode}
             />
           )}
+          {uiState.apiError && (
+            <p className="mt-2 text-sm text-red-600">{uiState.apiError}</p>
+          )}
         </div>
       </div>
 

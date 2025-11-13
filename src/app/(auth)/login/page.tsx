@@ -4,6 +4,8 @@ import { useState } from "react";
 import Link from "next/link";
 import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
+import { useRouter } from "next/navigation";
+import { useAuthStore } from "@/stores/auth/authStore";
 
 const KakaoIcon = () => (
   <svg
@@ -19,9 +21,13 @@ const KakaoIcon = () => (
 );
 
 export default function LoginPage() {
+  const router = useRouter();
+  const { login } = useAuthStore();
+
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   // 아이디와 비밀번호가 모두 입력되었는지 확인
   const isLoginDisabled = !id || !password || isLoading;
@@ -31,13 +37,22 @@ export default function LoginPage() {
     if (isLoginDisabled) return;
 
     setIsLoading(true);
+    setError(null);
     console.log("로그인 시도:", { id, password });
 
-    // TODO: 로그인 API 호출 로직 구현
-    // 임시 로딩 시뮬레이션
-    setTimeout(() => {
+    try {
+      await login({
+        loginId: id,
+        password: password,
+      });
+      router.push("/");
+    } catch (err: any) {
+      console.error("로그인 실패: ", err);
+      setError(err.message || "아이디, 또는 비밀번호를 확인해주세요.");
+    } finally {
+      // 로딩 상태 해제
       setIsLoading(false);
-    }, 1000);
+    }
   };
 
   const handleKakaoLogin = () => {
