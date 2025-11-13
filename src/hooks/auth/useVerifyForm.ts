@@ -145,9 +145,14 @@ export function useVerifyForm() {
         // SMS 발송 API가 실패한 경우
         throw new Error(smsResponse.error.message);
       }
-    } catch (err: any) {
-      console.error("인증번호 요청 실패:", err);
-      setApiError(err.message || "알 수 없는 오류가 발생했습니다.");
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        console.error("인증번호 요청 실패:", err.message);
+        setApiError(err.message);
+      } else {
+        console.error("인증번호 요청 실패 (알 수 없는 타입):", err);
+        setApiError("알 수 없는 오류가 발생했습니다.");
+      }
     } finally {
       setIsLoading(false);
     }
@@ -183,9 +188,14 @@ export function useVerifyForm() {
         // 3-2. 인증 실패 (번호 틀림, 시간 초과 등)
         throw new Error(verifyResponse.error.message);
       }
-    } catch (err: any) {
-      console.error("인증번호 확인 실패:", err);
-      setApiError(err.message || "인증 확인 중 오류가 발생했습니다.");
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        console.error("인증번호 확인 실패:", err.message);
+        setApiError(err.message);
+      } else {
+        console.error("인증번호 확인 실패 (알 수 없는 타입):", err);
+        setApiError("인증 확인 중 오류가 발생했습니다.");
+      }
     } finally {
       setIsLoading(false);
     }

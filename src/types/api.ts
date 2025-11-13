@@ -14,7 +14,7 @@ interface ApiSuccessResponse<T> {
 }
 
 // 실패 시 응답
-interface ApiErrorResponse {
+export interface ApiErrorResponse {
   isSuccess: false;
   data: null;
   error: ApiError;

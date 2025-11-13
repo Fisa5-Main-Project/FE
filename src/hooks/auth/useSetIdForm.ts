@@ -84,11 +84,19 @@ export function useSetIdForm() {
         });
         setIsIdCheckedAndAvailable(false);
       }
-    } catch (error: any) {
-      setMessage({
-        text: error.message || "확인 중 오류가 발생했습니다.",
-        color: "text-red-500",
-      });
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setMessage({
+          text: error.message,
+          color: "text-red-500",
+        });
+      } else {
+        setMessage({
+          text: "확인 중 알 수 없는 오류가 발생했습니다.",
+          color: "text-red-500",
+        });
+      }
+
       setIsIdCheckedAndAvailable(false);
     } finally {
       setIsLoading(false);

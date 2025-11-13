@@ -99,10 +99,16 @@ export function useRetirementForm() {
         // 5. 회원가입 실패 (API가 보낸 에러)
         throw new Error(response.error.message);
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       // 6. 네트워크 오류 또는 throw된 에러
-      console.error("회원가입 제출 실패:", err);
-      setApiError(err.message || "알 수 없는 오류가 발생했습니다.");
+      if (err instanceof Error) {
+        // 👈 Error 타입인지 확인
+        console.error("회원가입 제출 실패:", err.message);
+        setApiError(err.message);
+      } else {
+        console.error("회원가입 제출 실패 (알 수 없는 타입):", err);
+        setApiError("알 수 없는 오류가 발생했습니다.");
+      }
     } finally {
       setIsLoading(false);
     }

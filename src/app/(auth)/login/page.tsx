@@ -46,9 +46,14 @@ export default function LoginPage() {
         password: password,
       });
       router.push("/");
-    } catch (err: any) {
-      console.error("로그인 실패: ", err);
-      setError(err.message || "아이디, 또는 비밀번호를 확인해주세요.");
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        console.error("로그인 실패: ", err.message);
+        setError(err.message || "아이디, 또는 비밀번호를 확인해주세요.");
+      } else {
+        console.error("로그인 실패(알 수 없는 타입): ", err);
+        setError("아이디, 또는 비밀번호를 확인해주세요.");
+      }
     } finally {
       // 로딩 상태 해제
       setIsLoading(false);
