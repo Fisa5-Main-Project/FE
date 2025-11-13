@@ -58,15 +58,15 @@ export default function PensionOverview() {
           >
             세부내역 보기
           </button>
-
-          {showDetail && (
-            <PensionDetailCard
-              accounts={accounts}
-              workingMonths={workingMonths}
-              estimatedAmount={estimatedAmount}
-            />
-          )}
         </div>
+
+        {showDetail && (
+          <PensionDetailCard
+            accounts={accounts}
+            workingMonths={workingMonths}
+            estimatedAmount={estimatedAmount}
+          />
+        )}
       </section>
 
       {/* 연금수령 계산기 */}
