@@ -7,6 +7,8 @@ import type {
   TestSendSmsResponse,
   VerifyCodeRequest,
   VerifyCodeResponse,
+  SignupCompleteRequest,
+  SignupCompleteResponse,
 } from "@/types/signup";
 
 // ---------- 로그인/로그아웃 API -----------
@@ -156,6 +158,36 @@ export const checkLoginIdDuplicate = async (
       error: {
         code: "CLIENT_UNKNOWN_ERROR",
         message: "아이디 중복 확인 중 알 수 없는 오류가 발생했습니다.",
+      },
+    };
+  }
+};
+
+/**
+ * [최종] 회원가입 제출
+ * POST /auth/signup/submit
+ */
+export const signupSubmitApi = async (
+  data: SignupCompleteRequest
+): Promise<ApiResponse<SignupCompleteResponse>> => {
+  try {
+    const response = await apiClient.post<ApiResponse<SignupCompleteResponse>>(
+      "/auth/signup/submit",
+      data
+    );
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      // 400, 409 등 서버가 보낸 에러
+      return error.response.data as ApiResponse<SignupCompleteResponse>;
+    }
+    // 네트워크 오류 등
+    return {
+      isSuccess: false,
+      data: null,
+      error: {
+        code: "CLIENT_UNKNOWN_ERROR",
+        message: "회원가입 중 알 수 없는 오류가 발생했습니다.",
       },
     };
   }

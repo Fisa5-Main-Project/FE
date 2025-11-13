@@ -40,9 +40,7 @@ export interface SignupCompleteRequest {
   password: string;
   financialPropensity: string;
   keywordIds: number[];
+  signupToken?: string;
 }
 
-// export interface SignupCompleteResponse {
-//   loginId: string;
-//   name: string;
-// }
+export type SignupCompleteResponse = string; // ex. "회원가입이 완료되었습니다."
