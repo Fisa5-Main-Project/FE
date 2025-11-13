@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { useSignupStore } from "@/stores/auth/signupStore";
 import { ALL_TERMS } from "@/constants/signupTerms";
 import type { TermAgreement } from "@/types/signup";
-import { ALL } from "dns";
 
 export function useTermsForm() {
   const router = useRouter();
