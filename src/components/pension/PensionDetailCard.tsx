@@ -64,5 +64,5 @@ export default function PensionDetailCard({ accounts, workingMonths, estimatedAm
     }
   }
 
-  return <div className="flex flex-col gap-5 w-full">{nodes}</div>;
+  return <div className="w-full inline-flex flex-col justify-start items-start gap-3">{nodes}</div>;
 }
