@@ -110,6 +110,9 @@ export default function LoginPage() {
             {isLoading ? "로그인 중..." : "로그인"}
           </Button>
         </div>
+        {error && (
+          <p className="mt-4 text-sm text-red-500 text-start">{error}</p>
+        )}
         {/*  소셜 로그인 (구분선 + 카카오) */}
         <div className="my-8 flex items-center">
           <div className="flex-grow border-t border-gray-200"></div>
