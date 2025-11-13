@@ -6,6 +6,7 @@ import {
   TYPE_DESCRIPTIONS,
   FinancialType,
 } from "@/app/(auth)/signup/profile/financial/financial.constants";
+import { useSignupStore } from "@/stores/auth/signupStore";
 
 /**
  * 자금 운용 성향 페이지(/signup/profile/financial)의
@@ -13,6 +14,7 @@ import {
  */
 export const useFinancialForm = () => {
   const router = useRouter();
+  const { setFinancialPropensity } = useSignupStore();
 
   const [selectedType, setSelectedType] = useState<FinancialType | null>(null);
 
@@ -26,10 +28,11 @@ export const useFinancialForm = () => {
 
   // <다음> 버튼 핸들러
   const handleNext = React.useCallback(() => {
-    // TODO: (API) 선택된 성향 API로 보내기
-    console.log("선택된 성향:", selectedType);
-    router.push("/signup/profile/retirement");
-  }, [router, selectedType]);
+    if (selectedType) {
+      setFinancialPropensity(selectedType);
+      router.push("/signup/profile/retirement");
+    }
+  }, [router, selectedType, setFinancialPropensity]);
 
   // onSubmit 핸들러 -> 활성화되었을 때만 handleNext() 실행되도록
   const handleSubmit = React.useCallback(
