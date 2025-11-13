@@ -101,30 +101,18 @@ apiClient.interceptors.response.use(
       // 5. 첫 번째 토큰 갱신 요청인 경우
       isRefreshing = true;
 
-      // 쿠키에서 Refresh Token 가져오기
-      const refreshToken = Cookies.get("refreshToken");
-      if (!refreshToken) {
-        // 리프레시 토큰 없는 경우 로그아웃시킴.
-        console.error("리프레시 토큰 없음. 로그아웃");
-        useAuthStore.getState().logout(); // 로그아웃
-        isRefreshing = false;
-        return Promise.reject(error);
-      }
-
       try {
         // 갱신 요청은 apiClient를 쓰지 않음 (인터셉터 무한 루프 방지)
         const reissueResponse = await axios.post(
-          `${BASE_URL}/auth/signup/reissue`,
+          `${BASE_URL}/auth/reissue`,
           {}, // body는 비어있음
           {
-            headers: {
-              "X-Refresh-Token": refreshToken,
-            },
+            withCredentials: true,
           }
         );
 
         // 6. 토큰 갱신 성공
-        const { accessToken: newAccessToken } = reissueResponse.data.data;
+        const { accessToken: newAccessToken } = reissueResponse.data;
 
         // 6-1. 스토어와 쿠키에 새 Access Token 저장
         useAuthStore.getState().setAccessToken(newAccessToken);

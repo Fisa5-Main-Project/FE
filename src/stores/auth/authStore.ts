@@ -7,7 +7,6 @@ import type { LoginRequest } from "@/types/auth";
 // 스토어 상태(state) 타입
 interface AuthState {
   accessToken: string | null;
-  refreshToken: string | null;
   isLoggedIn: boolean;
 }
 
@@ -24,7 +23,6 @@ interface AuthActions {
 // 초기 상태
 const initialState: AuthState = {
   accessToken: null,
-  refreshToken: null,
   isLoggedIn: false,
 };
 
@@ -36,30 +34,21 @@ export const useAuthStore = create<AuthState & AuthActions>()(
 
       /**
        * 로그인 액션
-       * @param loginData
        */
       login: async (loginData: LoginRequest) => {
         const response = await loginApi(loginData);
 
         if (response.isSuccess) {
-          const { accessToken, refreshToken } = response.data;
+          const { accessToken } = response.data;
 
           // 1. Zustand 스토어 상태 업데이트
           set({
             accessToken,
-            refreshToken,
             isLoggedIn: true,
           });
 
           // 2. 미들웨어가 읽을 수 있도록 Access Token을 쿠키에 저장
-          Cookies.set("accessToken", accessToken, {
-            expires: 1, // 1일 유효
-          });
-
-          // 3. Refresh Token도 쿠키에 저장 (더 긴 만료 시간)
-          Cookies.set("refreshToken", refreshToken, {
-            expires: 7, // 7일 유효
-          });
+          Cookies.set("accessToken", accessToken);
         } else {
           // 로그인 실패 시
           throw new Error(response.error.message || "로그인에 실패했습니다.");
@@ -70,9 +59,8 @@ export const useAuthStore = create<AuthState & AuthActions>()(
        * 로그아웃 액션
        */
       logout: () => {
-        // 1. 쿠키에서 토큰 제거
+        // 1. 쿠키에서 accssToken 제거
         Cookies.remove("accessToken");
-        Cookies.remove("refreshToken");
 
         // 2. Zustand 스토어 상태 초기화
         set(initialState);
