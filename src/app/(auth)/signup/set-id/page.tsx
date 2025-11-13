@@ -29,7 +29,7 @@ export default function SetIdPage() {
         </h1>
         <div className="mt-9">
           <Input
-            placeholder="영어, 숫자를 조합하여 만들어주세요."
+            placeholder="영어, 숫자를 조합하여 4~20자 아이디를 만들어주세요."
             value={id}
             onChange={handlers.handleIdChange}
             autoComplete="username"

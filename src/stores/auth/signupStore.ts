@@ -5,18 +5,21 @@ import type { TermAgreement } from "@/types/signup";
 interface SignupData {
   verificationId?: string; // [1단계 본인확인] 정보
   termAgreements: TermAgreement[]; // [2단계 약관] 정보
+  loginId?: string; // [3단계 아이디 설정]
 }
 
 interface SignupStore {
   data: SignupData;
   setVerificationId: (id: string) => void;
   setTermAgreements: (agreements: TermAgreement[]) => void;
+  setLoginId: (id: string) => void;
   clearData: () => void;
 }
 
 const initialState: SignupData = {
   verificationId: undefined,
   termAgreements: [],
+  loginId: undefined,
 };
 
 export const useSignupStore = create<SignupStore>((set) => ({
@@ -28,6 +31,10 @@ export const useSignupStore = create<SignupStore>((set) => ({
   setTermAgreements: (agreements) =>
     set((state) => ({
       data: { ...state.data, termAgreements: agreements },
+    })),
+  setLoginId: (id) =>
+    set((state) => ({
+      data: { ...state.data, loginId: id },
     })),
   clearData: () => set({ data: initialState }),
 }));

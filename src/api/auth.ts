@@ -9,7 +9,7 @@ import type {
   VerifyCodeResponse,
 } from "@/types/signup";
 
-// ---------- 로그인/로그아웃  API -----------
+// ---------- 로그인/로그아웃 API -----------
 /**
  * [1-3] 로그인
  * POST /auth/login
@@ -125,6 +125,37 @@ export const checkPhoneDuplicate = async (
       error: {
         code: "CLIENT_UNKNOWN_ERROR",
         message: "전화번호 중복 확인 중 알 수 없는 오류가 발생했습니다.",
+      },
+    };
+  }
+};
+
+/**
+ * [3단계] 아이디 중복 확인
+ * GET /auth/signup/check-login-id
+ */
+export const checkLoginIdDuplicate = async (
+  loginId: string
+): Promise<ApiResponse<string>> => {
+  try {
+    const response = await apiClient.get<ApiResponse<string>>(
+      "/auth/signup/check-login-id",
+      {
+        params: { loginId },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      // 409 (중복) 또는 400 (형식 위반) 에러
+      return error.response.data as ApiResponse<string>;
+    }
+    return {
+      isSuccess: false,
+      data: null,
+      error: {
+        code: "CLIENT_UNKNOWN_ERROR",
+        message: "아이디 중복 확인 중 알 수 없는 오류가 발생했습니다.",
       },
     };
   }
