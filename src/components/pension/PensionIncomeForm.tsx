@@ -35,7 +35,7 @@ export function PensionIncomeForm({ onSubmit }: PensionIncomeFormProps) {
 
   return (
     <div className="flex flex-col flex-grow">
-      <section className="flex flex-col gap-20 flex-grow">
+      <section className="flex flex-col gap-20 flex-grow mt-[82px]">
         <div className="flex flex-col gap-7">
           <div className="flex flex-col gap-8">
             <h1 className="text-3xl md:text-4xl font-bold text-[var(--color-secondary)]">
