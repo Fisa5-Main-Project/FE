@@ -57,6 +57,7 @@ export function useRetirementForm() {
       loginId,
       password,
       financialPropensity,
+      signupToken,
     } = signupData;
 
     // 1. 스토어 데이터 유효성 검사
@@ -81,6 +82,7 @@ export function useRetirementForm() {
       password,
       financialPropensity,
       keywordIds: selectedKeywordIds,
+      signupToken: signupToken,
     };
 
     setIsLoading(true);
@@ -102,7 +104,6 @@ export function useRetirementForm() {
     } catch (err: unknown) {
       // 6. 네트워크 오류 또는 throw된 에러
       if (err instanceof Error) {
-        // 👈 Error 타입인지 확인
         console.error("회원가입 제출 실패:", err.message);
         setApiError(err.message);
       } else {

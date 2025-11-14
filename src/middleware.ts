@@ -11,7 +11,9 @@ export function middleware(request: NextRequest) {
   // 3. 인증(auth)이 필요 없는 페이지 경로 목록
   // login, signup 페이지는 인증 필요 X
   const isAuthPage =
-    pathname.startsWith("/login") || pathname.startsWith("/signup");
+    pathname.startsWith("/login") ||
+    pathname.startsWith("/signup") ||
+    pathname.startsWith("/oauth/callback");
   // 4. 로직
   // CASE 1: 로그인이 필요한 페이지에 접근하려 하지만, 토큰이 없는 경우
   if (!isAuthPage && !accessToken) {
@@ -21,7 +23,7 @@ export function middleware(request: NextRequest) {
 
   // CASE 2: 이미 로그인한 상태(토큰이 있음)인데, 로그인/회원가입 페이지에 접근하려는 경우
   if (isAuthPage && accessToken) {
-    // 메인 페이지로 리디렉션합니다.
+    // 메인 페이지로 리디렉션
     return NextResponse.redirect(new URL("/", request.url));
   }
 

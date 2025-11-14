@@ -66,12 +66,40 @@ export function useVerifyForm() {
       return { gender: derivedGender, birth: null };
     }
 
-    const year = yearPrefix + rrnFront.substring(0, 2);
-    const month = rrnFront.substring(2, 4);
-    const day = rrnFront.substring(4, 6);
+    const yearStr = yearPrefix + rrnFront.substring(0, 2);
+    const monthStr = rrnFront.substring(2, 4);
+    const dayStr = rrnFront.substring(4, 6);
 
-    // TODO: 2월 30일 같은 비정상 날짜 검증 로직 추가
-    const derivedBirth = `${year}-${month}-${day}`;
+    // --------생일 유효성 검증 로직-------------
+
+    // 월(Month) 숫자 변환 및 범위 검사 (0~12)
+    const monthNum = parseInt(monthStr, 10);
+    if (isNaN(monthNum) || monthNum < 1 || monthNum > 12) {
+      return { gender: derivedGender, birth: null }; // 유효하지 않은 월
+    }
+
+    // 일(Day) 숫자 변환 및 범위 검사 (01~31)
+    const dayNum = parseInt(dayStr, 10);
+    if (isNaN(dayNum) || dayNum < 1 || dayNum > 31) {
+      return { gender: derivedGender, birth: null };
+    }
+
+    const yearNum = parseInt(yearStr, 10);
+
+    // 실제 날짜 유효성 검증 (ex. 2월 30일 등)
+    // 월은 0-indexed이므로 monthNum-1
+    const date = new Date(yearNum, monthNum - 1, dayNum);
+
+    if (
+      date.getFullYear() !== yearNum ||
+      date.getMonth() !== monthNum - 1 ||
+      date.getDate() !== dayNum
+    ) {
+      return { gender: derivedGender, birth: null };
+    }
+    // -------- 생일 유효성 검증 완료 ---------
+
+    const derivedBirth = `${yearStr}-${monthStr}-${dayStr}`;
 
     return { gender: derivedGender, birth: derivedBirth };
   }, [rrnFront, rrnBackFirst]);

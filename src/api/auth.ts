@@ -9,7 +9,6 @@ import type {
   SignupCompleteRequest,
   SignupCompleteResponse,
 } from "@/types/signup";
-// 새로 만든 래퍼 함수를 임포트합니다.
 import { handleApiCall } from "./apiHandler";
 
 // ---------- 로그인/로그아웃 API -----------

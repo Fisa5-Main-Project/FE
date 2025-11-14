@@ -33,7 +33,7 @@ export const useAuthStore = create<AuthState & AuthActions>()(
       ...initialState,
 
       /**
-       * 로그인 액션
+       * 기본 로그인 액션
        */
       login: async (loginData: LoginRequest) => {
         const response = await loginApi(loginData);
