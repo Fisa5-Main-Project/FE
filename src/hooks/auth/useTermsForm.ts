@@ -2,17 +2,15 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-
-// 약관 Mock data
-// TODO: API 받아오는 경우 바꾸기
-const ALL_TERMS = [
-  { id: 1, text: "개인정보 수집 및 이용 안내", required: true },
-  { id: 2, text: "서비스 이용 약관 안내", required: true },
-  { id: 3, text: "제 3자 개인정보 제공 동의", required: false },
-];
+import { useSignupStore } from "@/stores/auth/signupStore";
+import { ALL_TERMS } from "@/constants/signupTerms";
+import type { TermAgreement } from "@/types/signup";
 
 export function useTermsForm() {
   const router = useRouter();
+
+  const { setTermAgreements } = useSignupStore();
+
   const [checkedTerms, setCheckedTerms] = useState<Set<number>>(new Set());
 
   // (필수) 항목들만 필터링
@@ -53,8 +51,14 @@ export function useTermsForm() {
     e.preventDefault();
     if (isNextDisabled) return; // <다음> 버튼 비활성화 시 제출 방지
 
-    // TODO: (API) 서버로 동의한 약관 전송
-    console.log("동의한 약관 ID:", Array.from(checkedTerms));
+    // 모든 약관에 대해 동의 여부와 아이디를 전송
+    const termAgreementsPayload: TermAgreement[] = ALL_TERMS.map((term) => ({
+      termId: term.id,
+      isAgreed: checkedTerms.has(term.id), //Set에 ID가 있으면 true, 없으면 false
+    }));
+
+    // zustand에 보낼 약관 데이터 저장
+    setTermAgreements(termAgreementsPayload);
     router.push("/signup/set-id");
   };
 

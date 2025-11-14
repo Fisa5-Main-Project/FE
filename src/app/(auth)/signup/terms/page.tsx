@@ -3,16 +3,16 @@
 import * as React from "react";
 import Button from "@/components/common/Button";
 import { useTermsForm } from "@/hooks/auth/useTermsForm";
-import TermsAgreementForm from '@/components/common/TermsAgreementForm';
-
+import TermsAgreementForm from "@/components/common/TermsAgreementForm";
 
 export default function TermsPage() {
-  const { terms, checkedTerms, isNextDisabled, isAllChecked, handlers: {
-    handleCheckAll,
-    handleCheckTerm,
-    handleSubmit // ✅ 훅에서 바로 가져옵니다.
-  } } =
-    useTermsForm();
+  const {
+    terms,
+    checkedTerms,
+    isNextDisabled,
+    isAllChecked,
+    handlers: { handleCheckAll, handleCheckTerm, handleSubmit },
+  } = useTermsForm();
 
   const title = (
     <h1 className="mt-19.5 text-[2rem] font-medium text-secondary whitespace-pre-line">
@@ -23,11 +23,7 @@ export default function TermsPage() {
   );
 
   return (
-    <form
-      className="flex flex-col flex-grow h-full"
-      onSubmit={handleSubmit}
-    >
-
+    <form className="flex flex-col flex-grow h-full" onSubmit={handleSubmit}>
       <div className="flex-grow">
         <TermsAgreementForm
           terms={terms}

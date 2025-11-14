@@ -2,6 +2,7 @@
 
 import { useState, ChangeEvent } from "react";
 import { useRouter } from "next/navigation";
+import { useSignupStore } from "@/stores/auth/signupStore";
 
 // 메시지 색상을 위한 타입
 type MessageState = {
@@ -16,6 +17,7 @@ const PASSWORD_REGEX =
 
 export function useSetPasswordForm() {
   const router = useRouter();
+  const { setPassword: setStorePassword } = useSignupStore();
 
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
@@ -87,8 +89,8 @@ export function useSetPasswordForm() {
     e.preventDefault();
     if (isNextDisabled) return;
 
-    // TODO: 서버에 비밀번호 저장 API 호출
-    console.log("비밀번호 설정 완료.");
+    // 스토어에 비밀번호 저장
+    setStorePassword(password);
 
     router.push("/signup/profile");
   };

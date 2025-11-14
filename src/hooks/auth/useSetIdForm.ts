@@ -2,6 +2,8 @@
 
 import { useState, ChangeEvent } from "react";
 import { useRouter } from "next/navigation";
+import { checkLoginIdDuplicate } from "@/api/auth";
+import { useSignupStore } from "@/stores/auth/signupStore";
 
 // 메시지 색상을 위한 타입
 type MessageState = {
@@ -9,25 +11,13 @@ type MessageState = {
   color: "text-primary" | "text-red-500" | "text-gray-2";
 };
 
-// TODO: 실제 API 연결로 대체하기
-// 가짜 중복 확인 API (1초)
-const fakeCheckIdApi = (id: string): Promise<{ isAvailable: boolean }> => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      if (id === "admin" || id === "test") {
-        resolve({ isAvailable: false });
-      } else {
-        resolve({ isAvailable: true });
-      }
-    }, 1000);
-  });
-};
-
-// 아이디 형식을 검사할 정규식 (영어, 숫자만 허용)
-const ID_REGEX = /^[a-zA-Z0-9]+$/;
+// 아이디 형식을 검사할 정규식: 4~20자의 영문자 또는 숫자
+const ID_REGEX = /^[a-zA-Z0-9]{4,20}$/;
+const ID_FORMAT_MESSAGE = "4~20자의 영어 또는 숫자만 사용할 수 있습니다.";
 
 export function useSetIdForm() {
   const router = useRouter();
+  const { setLoginId } = useSignupStore();
 
   const [id, setId] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -38,14 +28,14 @@ export function useSetIdForm() {
   });
 
   // 아이디 형식이 유효한지 실시간으로 계산
-  const isFormatValid = id.length > 0 && ID_REGEX.test(id);
+  const isFormatValid = ID_REGEX.test(id);
 
   // ID 입력 핸들러
   const handleIdChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newId = e.target.value;
     setId(newId);
 
-    // 아이디를 수정하면 <<중복 확인 통과>> 상태가 무효화되고,
+    // 아이디를 수정하면 <<중복 확인 통과>> 상태가 무효화
     setIsIdCheckedAndAvailable(false);
     // --- 실시간 형식 검사 로직 ---
     if (newId.length === 0) {
@@ -60,7 +50,7 @@ export function useSetIdForm() {
     } else {
       // 3. 형식이 틀렸을 때
       setMessage({
-        text: "영어와 숫자만 조합할 수 있습니다.",
+        text: ID_FORMAT_MESSAGE,
         color: "text-red-500",
       });
     }
@@ -79,26 +69,34 @@ export function useSetIdForm() {
     setMessage({ text: "중복 확인 중...", color: "text-gray-2" });
 
     try {
-      const { isAvailable } = await fakeCheckIdApi(id);
+      const response = await checkLoginIdDuplicate(id);
 
-      if (isAvailable) {
+      if (response.isSuccess) {
         setMessage({
-          text: "사용 가능한 아이디입니다.",
+          text: response.data || "사용 가능한 아이디입니다.",
           color: "text-primary",
         });
         setIsIdCheckedAndAvailable(true);
       } else {
         setMessage({
-          text: "이미 존재하는 아이디입니다.",
+          text: response.error.message,
           color: "text-red-500",
         });
         setIsIdCheckedAndAvailable(false);
       }
-    } catch (error) {
-      setMessage({
-        text: "확인 중 오류가 발생했습니다.",
-        color: "text-red-500",
-      });
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setMessage({
+          text: error.message,
+          color: "text-red-500",
+        });
+      } else {
+        setMessage({
+          text: "확인 중 알 수 없는 오류가 발생했습니다.",
+          color: "text-red-500",
+        });
+      }
+
       setIsIdCheckedAndAvailable(false);
     } finally {
       setIsLoading(false);
@@ -109,6 +107,10 @@ export function useSetIdForm() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!isIdCheckedAndAvailable) return;
+
+    // 중복 확인 완료된 아이디를 스토어에 저장
+    setLoginId(id);
+
     router.push("/signup/set-password");
   };
 
@@ -119,7 +121,7 @@ export function useSetIdForm() {
     !isFormatValid || isLoading || isIdCheckedAndAvailable;
 
   // <다음> 버튼 비활성화 조건
-  const isNextDisabled = !isIdCheckedAndAvailable;
+  const isNextDisabled = !isIdCheckedAndAvailable || isLoading;
 
   return {
     id,
