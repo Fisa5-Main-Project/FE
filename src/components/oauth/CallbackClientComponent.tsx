@@ -18,7 +18,6 @@ export default function CallbackClientComponent() {
   useEffect(() => {
     // searchParams가 준비되었는지 확인
     if (!searchParams) {
-      console.log("searchParams가 아직 준비되지 않았습니다.");
       return;
     }
 
