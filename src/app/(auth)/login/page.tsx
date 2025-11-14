@@ -63,9 +63,22 @@ export default function LoginPage() {
   const handleKakaoLogin = () => {
     if (isLoading) return;
     setIsLoading(true);
-    console.log("카카오 로그인 시도");
-    // TODO: 카카오 로그인 SDK 연동 및 API 호출 로직 구현
-    setIsLoading(false);
+
+    const KAKAO_CLIENT_ID = process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID;
+    const KAKAO_REDIRECT_URI = process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI;
+
+    if (!KAKAO_CLIENT_ID || !KAKAO_REDIRECT_URI) {
+      console.error("카카오 로그인 설정 정보가 없습니다.");
+      setError(
+        "카카오 로그인 설정에 오류가 발생했습니다. 관리자에게 문의하세요."
+      );
+      setIsLoading(false);
+      return;
+    }
+
+    const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_CLIENT_ID}&redirect_uri=${KAKAO_REDIRECT_URI}&response_type=code&scope=profile_nickname,profile_image`;
+
+    window.location.href = KAKAO_AUTH_URL;
   };
 
   return (

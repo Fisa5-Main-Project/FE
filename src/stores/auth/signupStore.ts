@@ -9,6 +9,7 @@ interface SignupData {
   loginId?: string; // [3단계 아이디 설정]
   password?: string; // [4단계 비밀번호 설정]
   financialPropensity?: FinancialType; // [5단계 자금운용성향 추가]
+  signupToken?: string; // 소셜 로그인 시 발급 받는 토큰
 }
 
 interface SignupStore {
@@ -18,6 +19,7 @@ interface SignupStore {
   setLoginId: (id: string) => void;
   setPassword: (password: string) => void;
   setFinancialPropensity: (propensity: FinancialType) => void;
+  setSignupToken: (token: string) => void;
   clearData: () => void;
 }
 
@@ -27,6 +29,7 @@ const initialState: SignupData = {
   loginId: undefined,
   password: undefined,
   financialPropensity: undefined,
+  signupToken: undefined,
 };
 
 export const useSignupStore = create<SignupStore>((set) => ({
@@ -50,6 +53,10 @@ export const useSignupStore = create<SignupStore>((set) => ({
   setFinancialPropensity: (propensity) =>
     set((state) => ({
       data: { ...state.data, financialPropensity: propensity },
+    })),
+  setSignupToken: (token) =>
+    set((state) => ({
+      data: { ...state.data, signupToken: token },
     })),
   clearData: () => set({ data: initialState }),
 }));
