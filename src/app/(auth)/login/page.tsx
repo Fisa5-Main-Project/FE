@@ -32,6 +32,11 @@ export default function LoginPage() {
   // 아이디와 비밀번호가 모두 입력되었는지 확인
   const isLoginDisabled = !id || !password || isLoading;
 
+  // 카카오 로그인 변수들
+  const KAKAO_CLIENT_ID = process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID;
+  const KAKAO_REDIRECT_URI = process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI;
+  const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_CLIENT_ID}&redirect_uri=${KAKAO_REDIRECT_URI}&response_type=code&scope=profile_nickname,profile_image`;
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (isLoginDisabled) return;
@@ -64,9 +69,6 @@ export default function LoginPage() {
     if (isLoading) return;
     setIsLoading(true);
 
-    const KAKAO_CLIENT_ID = process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID;
-    const KAKAO_REDIRECT_URI = process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI;
-
     if (!KAKAO_CLIENT_ID || !KAKAO_REDIRECT_URI) {
       console.error("카카오 로그인 설정 정보가 없습니다.");
       setError(
@@ -75,8 +77,6 @@ export default function LoginPage() {
       setIsLoading(false);
       return;
     }
-
-    const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_CLIENT_ID}&redirect_uri=${KAKAO_REDIRECT_URI}&response_type=code&scope=profile_nickname,profile_image`;
 
     window.location.href = KAKAO_AUTH_URL;
   };
