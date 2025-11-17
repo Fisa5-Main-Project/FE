@@ -18,6 +18,8 @@ interface MyDataStateProperties {
     };
     workingMonths: number | null;
     annualIncome: number | null;
+    myDataConnected: boolean; // 1단계: API 연동 완료 (이전 페이지에서 true 설정)
+    assetsFlowCompleted: boolean; // 2단계: 추가 자산 입력 또는 건너뛰기 완료
 }
 
 // 스토어의 액션 타입 정의
@@ -29,6 +31,8 @@ interface MyDataActions {
     setWorkingMonths: (months: number) => void;
     setAnnualIncome: (amount: number) => void;
     reset: () => void;
+    setMyDataConnected: (isConnected: boolean) => void;
+    setAssetsFlowCompleted: (isCompleted: boolean) => void;
 }
 
 // 스토어의 전체 상태 (상태 + 액션)
@@ -47,6 +51,8 @@ const initialState: MyDataStateProperties = {
     },
     workingMonths: null,
     annualIncome: null,
+    myDataConnected: false,
+    assetsFlowCompleted: false,
 };
 
 /**
@@ -81,6 +87,9 @@ export const useMyDataStore = create<MyDataState>()(
             setAnnualIncome: (amount) => set({ annualIncome: amount }),
 
             reset: () => set(initialState),
+
+            setMyDataConnected: (isConnected) => set({ myDataConnected: isConnected }),
+            setAssetsFlowCompleted: (isCompleted) => set({ assetsFlowCompleted: isCompleted }),
         }),
         {
             name: 'mydata-storage',

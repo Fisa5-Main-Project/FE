@@ -24,7 +24,7 @@ export const useMyDataTermsForm = () => {
     // 2. 정적 정의와 동적 상태를 조합하여 최종 terms 배열 생성
     const terms = React.useMemo(() =>
         MYDATA_AGREEMENT_DEFINITIONS.map(def => {
-            const storeAgreement = agreementsState.find(s => s.id === def.id); // ✅ Corrected: number comparison
+            const storeAgreement = agreementsState.find(s => Number(s.id) === def.id); // ✅ Corrected: number comparison
             return {
                 ...def,
                 isChecked: storeAgreement?.isChecked || false,

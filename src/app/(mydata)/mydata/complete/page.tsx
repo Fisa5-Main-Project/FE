@@ -2,16 +2,17 @@
 
 import CompleteStep from '@/components/mydata/steps/CompleteStep';
 import Button from '@/components/common/Button';
-import { useRouter } from 'next/navigation';
+import { useMyDataConnectStatus } from '@/hooks/mydata/useMydataConnectStatus'
 
 /**
  * 마이데이터 연동 - 완료 페이지
  */
 export default function CompletePage() {
-  const router = useRouter();
+  const NEXT_PATH = '/mydata/additional'; 
+    const { completeConnectionFlow } = useMyDataConnectStatus(NEXT_PATH);
 
   const handleNext = () => {
-    router.push('/mydata/additional');
+    completeConnectionFlow();
   };
 
   return (
