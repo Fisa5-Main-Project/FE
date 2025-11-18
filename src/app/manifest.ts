@@ -16,7 +16,7 @@ export default function manifest(): MetadataRoute.Manifest {
                 type: 'image/png',
             },
             {
-                src: '/assets/logo/icon-512x512.png', // public 폴더 기준 경로
+                src: '/assets/logo/logo-512x512.png', // public 폴더 기준 경로
                 sizes: '512x512',
                 type: 'image/png',
             },

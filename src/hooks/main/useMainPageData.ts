@@ -46,7 +46,7 @@ export const useMainPageData = () => {
         const fetchData = async () => {
             setIsLoading(true);
             try {
-                /*
+                
                 const response = await fetchMainPageDataApi();
 
                 if (response.isSuccess && response.data) {
@@ -65,23 +65,23 @@ export const useMainPageData = () => {
                         investmentTendency: investment_tendency,
                     });
                 }
-            */
+            
 
                 // ✅ 1. 500ms 지연 시간 시뮬레이션 (로딩 효과를 위해)
-                await new Promise(resolve => setTimeout(resolve, 500));
+                // await new Promise(resolve => setTimeout(resolve, 500));
 
-                // ✅ 2. 연동 상태에 따른 Mock Data 선택 (테스트 편의를 위해 임의로 선택)
+                // // ✅ 2. 연동 상태에 따른 Mock Data 선택 (테스트 편의를 위해 임의로 선택)
+                // // const isConnected = true;
                 // const isConnected = true;
-                const isConnected = false;
-                const mockResponseData = isConnected ? MOCK_DATA_CONNECTED : MOCK_DATA_NOT_CONNECTED;
+                // const mockResponseData = isConnected ? MOCK_DATA_CONNECTED : MOCK_DATA_NOT_CONNECTED;
 
-                // 3. UI 렌더링을 위해 API 응답 데이터를 로컬 상태에 직접 저장
-                setData({
-                    name: mockResponseData.name,
-                    assetTotal: mockResponseData.asset_total,
-                    isMyDataRegistered: mockResponseData.user_mydata_registration,
-                    investmentTendency: mockResponseData.investment_tendency,
-                });
+                // // 3. UI 렌더링을 위해 API 응답 데이터를 로컬 상태에 직접 저장
+                // setData({
+                //     name: mockResponseData.name,
+                //     assetTotal: mockResponseData.asset_total,
+                //     isMyDataRegistered: mockResponseData.user_mydata_registration,
+                //     investmentTendency: mockResponseData.investment_tendency,
+                // });
 
 
             } catch (error) {

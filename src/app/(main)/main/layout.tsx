@@ -1,7 +1,13 @@
-export default function MainLayout({ children }: { children: React.ReactNode }) {
+import React from "react";
+
+export default function MainLayout({
+    children,
+}: {
+    children: React.ReactNode;
+}) {
     return (
-        <div className="w-full flex justify-center">
-            <div className="w-full max-w-sm">{children}</div>
-        </div>
+        <main className="w-[402px] flex flex-col h-full">
+            {children}
+        </main>
     );
 }

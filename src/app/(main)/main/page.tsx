@@ -5,11 +5,15 @@ import { useMainNavi, ASSET_SERVICE_PATH, PENSION_SERVICE_PATH } from "@/hooks/m
 import { useMainPageData } from "@/hooks/main/useMainPageData";
 import MainAssetUI from "@/components/main/MainAssetUI";
 import MainConnectUI from "@/components/main/MainConnectUI";
+import MainFeatureCards from "@/components/main/MainFeatureCards";
 
 export default function Page() {
     const { data, isLoading } = useMainPageData();
     const { handleServiceNavigation } = useMainNavi();
 
+    const bgGradientStyle = {
+        background: 'linear-gradient(180deg, #CCE1FF 16.5%, #E0EDFF 50.48%, #FFF 79.28%, #FFF 100%)',
+    };
 
     const navigationHandler = (path: string) => handleServiceNavigation(path);
 
@@ -23,10 +27,10 @@ export default function Page() {
     }
 
     return (
-        <div className="flex flex-col flex-grow h-full">
+        <div className="flex flex-col flex-grow h-full" style={bgGradientStyle}>
 
             {/* 1. 조건부 UI 렌더링 */}
-            <div className="flex-grow">
+            <div className="flex-grow px-8 pt-[113px]">
                 {data.isMyDataRegistered ? (
                     <MainAssetUI data={data} handleNavigation={navigationHandler} />
                 ) : (
@@ -35,30 +39,8 @@ export default function Page() {
             </div>
 
             {/* 2. 하단 공통 서비스 버튼 영역 (공통 디자인 유지) */}
-            <div className="w-full mt-8 space-y-3">
-
-                {/* 연금 관리 */}
-                <div className="p-4 bg-gray-100 rounded-xl flex justify-between items-center">
-                    {/* ... (UI 상세는 이전 코드 참고) ... */}
-                    <div>
-                        <h3 className="font-bold text-base">연금 관리</h3>
-                        <p className="text-sm text-gray-600">내 연금 금융을 확인하고 관리하기</p>
-                    </div>
-                    <Button onClick={() => navigationHandler(PENSION_SERVICE_PATH)} variant="secondary" className="w-auto px-4 py-2">
-                        시작
-                    </Button>
-                </div>
-
-                {/* 일자리 찾기 */}
-                <div className="p-4 bg-gray-100 rounded-xl flex justify-between items-center">
-                    <div>
-                        <h3 className="font-bold text-base">일자리 찾기</h3>
-                        <p className="text-sm text-gray-600">나와 어울리는 일자리를 찾아보세요!</p>
-                    </div>
-                    <Button onClick={() => navigationHandler('/jobs/search')} variant="secondary" className="w-auto px-4 py-2">
-                        시작
-                    </Button>
-                </div>
+            <div className="w-full mt-1">
+                <MainFeatureCards handleNavigation={navigationHandler} />
             </div>
         </div>
     );
