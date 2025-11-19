@@ -58,7 +58,7 @@ export const useLocationForm = () => {
           : `${selectedCity} ${selectedDistrict}`;
 
       setLocation(locationData);
-      router.push("/job/type");
+      router.push("/job/emptype");
     }
   };
 
