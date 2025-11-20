@@ -26,7 +26,7 @@ export const useAssetsForm = () => {
 
         // DB 저장 완료 후 이동할 최종 페이지 경로로 수정 예정입니다.
         router.push('/main');
-    }, [router]);
+    }, [router, assets, setAssetsFlowCompleted]);
 
     const handleSkip = () => {
         setAssetsFlowCompleted(true);
