@@ -1,8 +1,12 @@
+'use client';
+
 import { Page, PageContent } from '@/components/common/Page';
 import { AssetStartPageClient } from '@/components/asset/AssetStartPageClient';
+import { useUserStore } from '@/stores/user/useUserStore';
 
 export default function AssetManagementStartPage() {
-    const userName = '양유진';
+    const user = useUserStore((state) => state.user);
+    const userName = user?.name || '사용자';
 
     return (
         <Page>

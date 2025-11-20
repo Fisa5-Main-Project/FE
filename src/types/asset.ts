@@ -16,7 +16,21 @@ export interface Achievement {
     title: string;
     description: string;
 }
+export interface CashFlowDto {
+    diagnosticType: '월 저축형' | '목돈 예치형';
+    monthlyNetSavings: number | null;
+    idleCashAssets: number | null;
+    productName: string;
+    interestRate: number;
+}
 
+export interface PredictionDto {
+    predictionType: '적금 시뮬레이션' | '예금 시뮬레이션';
+    principal: number;
+    periodMonths: number;
+    expectedAmount: number;
+    interestAmount: number;
+}
 export interface AssetManagementState {
     status: AssetStatusType | null;
     income: number | null;
@@ -26,8 +40,9 @@ export interface AssetManagementState {
     livingExpenses: number | null;
     funnelSteps: string[];
     currentStepIndex: number;
+    cashFlowDiagnostic: CashFlowDto | null;
+    prediction: PredictionDto | null;
     // Portfolio data
-    userName: string | null;
     goalAmount: number | null;
     totalAssets: number | null;
     monthlyExpense: number | null;
@@ -35,7 +50,7 @@ export interface AssetManagementState {
     goalDate: string | null;
     percentage: number | null;
     achievement: Achievement | null;
-    recommendedProducts: Product[];
+    // recommendedProducts: Product[]; // Removed
 }
 
 export interface AssetManagementActions {
@@ -47,8 +62,9 @@ export interface AssetManagementActions {
     setLivingExpenses: (expenses: number | null) => void;
     setFunnelSteps: (steps: string[]) => void;
     setCurrentStepIndex: (index: number) => void;
+    setCashFlowDiagnostic: (data: CashFlowDto | null) => void;
+    setPrediction: (data: PredictionDto | null) => void;
     // Portfolio actions
-    setUserName: (name: string | null) => void;
     setGoalAmount: (amount: number | null) => void;
     setTotalAssets: (assets: number | null) => void;
     setMonthlyExpense: (expense: number | null) => void;
@@ -56,7 +72,7 @@ export interface AssetManagementActions {
     setGoalDate: (date: string | null) => void;
     setPercentage: (percentage: number | null) => void;
     setAchievement: (achievement: Achievement | null) => void;
-    setRecommendedProducts: (products: Product[]) => void;
+    // setRecommendedProducts: (products: Product[]) => void; // Removed
     reset: () => void;
 }
 

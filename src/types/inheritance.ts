@@ -1,8 +1,8 @@
 // 상속인 기본 타입
 export interface Heir {
-  id: string;
-  label: string;
-  imgBase: string;
+    id: string;
+    label: string;
+    imgBase: string;
 }
 
 // 사용자가 선택한 상속인 타입 (고유 ID 포함)
@@ -10,22 +10,22 @@ export type SelectedHeir = Heir & { uniqueId: string };
 
 // 상속인 옵션 데이터
 export const heirOptions: Heir[] = [
-  { id: "spouse", label: "배우자", imgBase: "husband" },
-  { id: "child", label: "자녀", imgBase: "child" },
-  { id: "grandchild", label: "손자녀", imgBase: "grandchild" },
-  { id: "father", label: "아버지", imgBase: "father" },
-  { id: "mother", label: "어머니", imgBase: "mother" },
-  { id: "grandfather", label: "할아버지", imgBase: "grandfather" },
-  { id: "grandmother", label: "할머니", imgBase: "grandmother" },
-  { id: "sibling", label: "형제 자매", imgBase: "siblings_girl" },
-  { id: "relative", label: "4촌 이내 혈족", imgBase: "relative" },
+    { id: 'spouse', label: '배우자', imgBase: 'husband' },
+    { id: 'child', label: '자녀', imgBase: 'child' },
+    { id: 'grandchild', label: '손자녀', imgBase: 'grandchild' },
+    { id: 'father', label: '아버지', imgBase: 'father' },
+    { id: 'mother', label: '어머니', imgBase: 'mother' },
+    { id: 'grandfather', label: '할아버지', imgBase: 'grandfather' },
+    { id: 'grandmother', label: '할머니', imgBase: 'grandmother' },
+    { id: 'sibling', label: '형제 자매', imgBase: 'siblings_girl' },
+    { id: 'relative', label: '4촌 이내 혈족', imgBase: 'relative' },
 ];
 
 // 신탁 상품 데이터 타입 정의
 export interface TrustProduct {
-  id: string;
-  name: string;
-  description: string;
-  tags: string[];
-  url: string; // 상품 상세페이지로 이동할 외부 URL
+    id: string;
+    name: string;
+    description: string;
+    tags: string[];
+    url: string; // 상품 상세페이지로 이동할 외부 URL
 }

@@ -24,44 +24,57 @@ interface PortfolioSummaryCardProps {
 
 export default function PortfolioSummaryCard({ data }: PortfolioSummaryCardProps) {
     return (
-        <div className="w-full bg-white rounded-xl shadow-sm p-6 flex flex-col items-center gap-10">
-            <div className="text-center">
-                <span className="text-accent text-xl font-medium">
-                    목표 기간
-                    <br />
-                </span>
-                <span className="text-accent text-2xl font-bold">{data.goalDate}</span>
-                <span className="text-accent text-xl font-medium">
-                    까지
-                    <br />
-                </span>
-                <span className="text-blue-500 text-2xl font-bold">{data.goalPeriodYears}년</span>
-                <span className="text-accent text-xl font-medium"> 남았어요!</span>
+        <div className="w-full bg-white rounded-[20px] shadow-[0_0_20px_0_rgba(0,0,0,0.05)] border border-gray-100 p-8 flex flex-col items-center gap-8">
+            {/* 1. 상단 타이틀 영역 */}
+            <div className="text-center flex flex-col gap-1">
+                <span className="text-slate-500 text-lg font-medium">목표 기간</span>
+                <div className="flex items-center justify-center gap-1.5 flex-wrap">
+                    <span className="text-slate-700 text-2xl font-bold tracking-tight">{data.goalDate}까지</span>
+                </div>
+                <div className="flex items-center justify-center gap-1">
+                    <span className="text-[#0085FF] text-[28px] font-extrabold">{data.goalPeriodYears}년</span>
+                    <span className="text-slate-700 text-2xl font-bold">남았어요!</span>
+                </div>
             </div>
 
-            <div className="relative flex flex-col items-center">
+            {/* 2. 게이지 차트 영역 */}
+            <div className="relative w-full flex justify-center py-4">
+                {/* GoalGauge 컴포넌트가 반원 형태라고 가정 */}
                 <GoalGauge percentage={data.percentage || 0} />
-                <div className="absolute bottom-2 flex flex-col items-center gap-1">
-                    <span className="text-accent text-lg font-extrabold">목표 금액</span>
-                    <span className="text-accent text-xl font-normal">{data.formatCurrency(data.goalAmount)}원</span>
+
+                {/* 게이지 중앙 텍스트 (absolute positioning) */}
+                <div className="absolute bottom-4 flex flex-col items-center gap-1">
+                    <span className="text-slate-500 text-base font-bold">목표 금액</span>
+                    <span className="text-slate-700 text-[22px] font-extrabold tracking-tight">
+                        {data.formatCurrency(data.goalAmount)}원
+                    </span>
                 </div>
             </div>
 
-            <div className="flex w-full justify-center items-center gap-3.5">
-                <div className="flex-1 flex flex-col">
-                    <span className="text-accent text-base font-bold">총 자산</span>
-                    <span className="text-accent text-lg">{data.formatCurrency(data.totalAssets)}원</span>
+            {/* 3. 하단 정보 영역 (총자산 | 월지출액) */}
+            <div className="flex items-center justify-center w-full px-4">
+                {/* 왼쪽: 총자산 */}
+                <div className="flex-1 flex flex-col items-start gap-1 pr-6 border-r border-gray-200">
+                    <span className="text-slate-500 text-sm font-bold">총자산</span>
+                    <span className="text-slate-700 text-lg font-medium tracking-tight whitespace-nowrap overflow-hidden text-ellipsis">
+                        {data.formatCurrency(data.totalAssets)}원
+                    </span>
                 </div>
-                <div className="w-9 h-0 border-t-2 border-neutral-200 rotate-90" />
-                <div className="flex-1 flex flex-col">
-                    <span className="text-accent text-base font-bold">월 지출액</span>
-                    <span className="text-accent text-lg">{data.formatCurrency(data.monthlyExpense)}원</span>
+
+                {/* 오른쪽: 월 지출액 */}
+                <div className="flex-1 flex flex-col items-start gap-1 pl-6">
+                    <span className="text-slate-500 text-sm font-bold">월 지출액</span>
+                    <span className="text-slate-700 text-lg font-medium tracking-tight whitespace-nowrap overflow-hidden text-ellipsis">
+                        {data.formatCurrency(data.monthlyExpense)}원
+                    </span>
                 </div>
             </div>
 
-            <div className="text-center text-accent text-xl font-medium">
-                현재 목표 금액의 <span className="text-blue-500 text-2xl font-bold">{data.percentage}%</span>를
-                모았어요!
+            {/* 4. 목표 달성 문구 */}
+            <div className="text-center pt-2">
+                <span className="text-slate-700 text-xl font-medium">현재 목표 금액의 </span>
+                <span className="text-[#0085FF] text-2xl font-extrabold">{data.percentage}%</span>
+                <span className="text-slate-700 text-xl font-medium">를 모았어요!</span>
             </div>
         </div>
     );

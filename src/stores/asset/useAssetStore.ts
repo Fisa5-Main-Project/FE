@@ -11,7 +11,6 @@ const initialState: AssetManagementState = {
     funnelSteps: [],
     currentStepIndex: -1,
     // Portfolio data
-    userName: null,
     goalAmount: null,
     totalAssets: null,
     monthlyExpense: null,
@@ -19,7 +18,9 @@ const initialState: AssetManagementState = {
     goalDate: null,
     percentage: null,
     achievement: null,
-    recommendedProducts: [],
+    // recommendedProducts: [], // Removed
+    cashFlowDiagnostic: null,
+    prediction: null,
 };
 
 export const useAssetStore = create<AssetManagementStore>((set) => ({
@@ -33,7 +34,6 @@ export const useAssetStore = create<AssetManagementStore>((set) => ({
     setFunnelSteps: (steps) => set({ funnelSteps: steps }),
     setCurrentStepIndex: (index) => set({ currentStepIndex: index }),
     // Portfolio actions
-    setUserName: (name) => set({ userName: name }),
     // [수정] 스토어에 goalAmount를 저장할 때, 폼에서 받은 targetAmount를 사용
     setGoalAmount: (amount) => set({ goalAmount: amount }),
     setTotalAssets: (assets) => set({ totalAssets: assets }),
@@ -42,6 +42,8 @@ export const useAssetStore = create<AssetManagementStore>((set) => ({
     setGoalDate: (date) => set({ goalDate: date }),
     setPercentage: (percentage) => set({ percentage: percentage }),
     setAchievement: (achievement) => set({ achievement: achievement }),
-    setRecommendedProducts: (products) => set({ recommendedProducts: products }),
+    // setRecommendedProducts: (products) => set({ recommendedProducts: products }), // Removed
+    setCashFlowDiagnostic: (data) => set({ cashFlowDiagnostic: data }),
+    setPrediction: (data) => set({ prediction: data }),
     reset: () => set(initialState),
 }));

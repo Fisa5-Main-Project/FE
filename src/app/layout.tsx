@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "@/styles/globals.css";
+import AppLifecycleManager from "@/components/common/AppLifecycleManager";
 
 export const metadata: Metadata = {
   title: "Woori",
@@ -17,7 +18,7 @@ export default function RootLayout({
       <body className="bg-white sm:bg-neutral-200">
         <div className="sm:flex sm:items-center sm:justify-center sm:min-h-screen">
           <main className="relative w-full bg-white sm:max-w-[402px] sm:h-screen h-screen sm:shadow-lg sm:rounded-2xl overflow-y-auto">
-            {children}
+            <AppLifecycleManager>{children}</AppLifecycleManager>
           </main>
         </div>
       </body>
