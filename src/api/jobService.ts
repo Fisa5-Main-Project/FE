@@ -1,18 +1,18 @@
-// src/api/jobService.ts
 import { apiClient } from "./index";
 import { handleApiCall } from "./apiHandler";
-import type { JobListResponse, JobDetailResponse } from "@/types/job"; // 경로 확인
+import type { JobListResponse, JobDetailResponse } from "@/types/jobs";
 
 // 리스트 조회 API
 export const fetchJobs = (
   search: string,
   employmentType: string,
-  page: number = 1
+  page: number = 1,
+  size: number = 10
 ) => {
   return handleApiCall<JobListResponse>(
     () =>
       apiClient.get("/jobs", {
-        params: { search, employmentType, page },
+        params: { search, employmentType, page, size },
       }),
     "채용 공고를 불러오는데 실패했습니다."
   );
