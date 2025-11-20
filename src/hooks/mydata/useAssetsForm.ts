@@ -8,7 +8,7 @@ import { useMyDataStore } from '@/stores/mydata/useMyDataStore';
  */
 export const useAssetsForm = () => {
     const router = useRouter();
-    const { assets } = useMyDataStore.getState();
+    const assets = useMyDataStore(state => state.assets);
     const setAssetsFlowCompleted = useMyDataStore(state => state.setAssetsFlowCompleted);
 
     const handleSubmit = React.useCallback((e: React.FormEvent<HTMLFormElement>) => {
