@@ -10,7 +10,7 @@ interface MainFeatureCardsProps {
 const MainFeatureCards: React.FC<MainFeatureCardsProps> = ({ handleNavigation }) => {
 
     const TRUST_SETUP_PATH = '/inheritance';
-    const JOBS_SEARCH_PATH = '/jobs';
+    const JOBS_SEARCH_PATH = '/job/location';
 
     return (
         <section className="bg-white rounded-[1rem] px-8 py-9 w-full"> {/* 16px, 1rem으로 변환 */}

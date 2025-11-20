@@ -9,7 +9,7 @@ export const PENSION_SERVICE_PATH = '/pension';
 
 const NON_MYDATA_PATHS = [
     '/inheritance',
-    '/jobs'
+    '/job/location'
 ];
 
 /**
