@@ -105,9 +105,9 @@ export const useMainPageData = () => {
 
 
             } catch (error) {
-                // console.error("메인 페이지 데이터 로드 실패:", error);
-                // setData(null); // API 실패 시 데이터 null 처리
-                console.error("Mock 데이터 로드 실패 (논리 오류):", error);
+                console.error("메인 페이지 데이터 로드 실패:", error);
+                setData(null); // API 실패 시 데이터 null 처리
+                // console.error("Mock 데이터 로드 실패 (논리 오류):", error);
             } finally {
                 setIsLoading(false);
             }
