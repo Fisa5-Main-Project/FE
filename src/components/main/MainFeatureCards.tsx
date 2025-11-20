@@ -78,7 +78,7 @@ const MainFeatureCards: React.FC<MainFeatureCardsProps> = ({ handleNavigation })
 
                     <img
                         src="/main/CoinMascot.png"
-                        className="w-[4.5rem] h-auto self-end" /* 72px -> 4.5rem */
+                        className="w-[4.5rem] h-auto self-end"
                         alt="일자리 찾기"
                     />
                 </div>
