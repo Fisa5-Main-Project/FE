@@ -30,7 +30,7 @@ const LoadingStep = ({ onComplete, isLoading }: LoadingStepProps) => {
             </div>
 
             <div className="mt-16">
-                <LoadingSpinner size="h-24 w-24" />
+                <LoadingSpinner size="h-32 w-32" />
             </div>
 
             <div className="w-full flex items-center p-4 rounded-2xl bg-info-bg mt-12">
