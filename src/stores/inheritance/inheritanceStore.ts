@@ -32,7 +32,7 @@ const initialState = {
 export const useInheritanceStore = create<InheritanceState>()(
     // persist 사용하여 로컬스트리지에 상태 저장
     persist(
-        (set, get) => ({
+        (set, _) => ({
             ...initialState,
 
             // 상속 총 금액 설정
