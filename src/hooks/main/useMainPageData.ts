@@ -80,7 +80,7 @@ export const useMainPageData = () => {
                         assetTotal: assetTotal,
                         isMyDataRegistered: userMydataRegistration,
                         investmentTendency: investmentTendency,
-                        assetDetails: [],
+                        assetDetails: [], // TODO: API 연동 후 실제 자산 데이터로 교체 예정
                     });
                 }
             
