@@ -9,6 +9,7 @@ export interface Product {
     bank: string;
     stat: string;
     icon: string;
+    link: string;
 }
 
 export interface Achievement {
@@ -76,4 +77,4 @@ export interface AssetManagementActions {
     reset: () => void;
 }
 
-export interface AssetManagementStore extends AssetManagementState, AssetManagementActions {}
+export interface AssetManagementStore extends AssetManagementState, AssetManagementActions { }

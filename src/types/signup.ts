@@ -1,4 +1,4 @@
-import type { ApiResponse } from './api';
+
 
 // [회원가입 1-1단계] 휴대폰 인증번호 발송 (POST /auth/signup/send-sms)
 export interface SendSmsRequest {
