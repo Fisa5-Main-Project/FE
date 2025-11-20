@@ -3,14 +3,7 @@
 // [수정] 1. Image 임포트 제거
 // import Image from 'next/image';
 
-interface Product {
-    id: string;
-    type: string;
-    name: string;
-    bank: string;
-    stat: string;
-    icon: string;
-}
+import { Product } from '@/types/asset';
 
 export default function ProductCard({ product }: { product: Product }) {
     return (

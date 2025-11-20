@@ -13,7 +13,7 @@ export function AssetStatusPageClient() {
 
     const status = useAssetStore((state) => state.status);
     // setStatus의 타입을 명시적으로 지정
-    const setStatus = useAssetStore((state) => state.setStatus as (status: AssetStatusType) => void);
+    const setStatus = useAssetStore((state) => state.setStatus);
 
     const handleNext = () => {
         if (!status) return;

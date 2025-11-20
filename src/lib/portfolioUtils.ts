@@ -86,6 +86,7 @@ export const MOCK_RECOMMENDED_PRODUCTS: Product[] = [
         bank: '우리은행',
         stat: '연 3.5%',
         icon: '🏦',
+        link: 'https://spot.wooribank.com/pot/Dream?withyou=PODEP0001&cc=c011240:c009166;c012263:c012399&PRD_CD=P010002491&PRD_YN=Y',
     },
     {
         id: 'p2',
@@ -94,6 +95,7 @@ export const MOCK_RECOMMENDED_PRODUCTS: Product[] = [
         bank: '우리은행',
         stat: '세액공제 16.5%',
         icon: '💰',
+        link: 'https://spot.wooribank.com/pot/Dream?withyou=PODEP0019&cc=c007095:c009166;c012263:c012399&PLM_PDCD=P010000109&PRD_CD=P010000109&ALL_GB=ALL&depKind=',
     },
     {
         id: 'p3',
@@ -102,6 +104,7 @@ export const MOCK_RECOMMENDED_PRODUCTS: Product[] = [
         bank: '우리은행',
         stat: '수익률 12.3%',
         icon: '📈',
+        link: '#',
     },
 ];
 

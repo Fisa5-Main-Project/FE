@@ -1,18 +1,22 @@
 'use client';
 
-import { ChangeEvent } from 'react';
+import { ChangeEvent, FormEvent } from 'react';
 import { useAssetStore } from '@/stores/asset/useAssetStore';
+import { postAssetManagementInfo } from '@/api/asset';
+import { AssetManagementInfoRequest } from '@/types/api';
+import { useAssetRouter } from './useAssetRouter';
 
 const formatNumericValue = (value: string) => {
     return value.replace(/[^0-9]/g, '');
 };
 
 /**
- * '목표 금액' 페이지의 폼 로직(금액, 버튼 활성화)을 관리
+ * '목표 금액' 페이지의 폼 로직(금액, 버튼 활성화, 제출)을 관리
  */
 export function useTargetAmountForm() {
-    const targetAmount = useAssetStore((state) => state.targetAmount);
-    const setTargetAmount = useAssetStore((state) => state.setTargetAmount);
+    const { goTo } = useAssetRouter();
+    const assetState = useAssetStore((state) => state);
+    const { setTargetAmount } = assetState;
 
     const handleAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
         const numericValue = formatNumericValue(e.target.value);
@@ -20,14 +24,53 @@ export function useTargetAmountForm() {
         setTargetAmount(amountAsNumber);
     };
 
-    // 금액이 비어있거나 0원이면 버튼 비활성화
-    const isNextDisabled = !targetAmount || targetAmount <= 0;
+    const handleSubmit = async (e: FormEvent) => {
+        e.preventDefault();
+        if (isNextDisabled) return;
 
-    const amountAsString = targetAmount === null ? '' : String(targetAmount);
+        const { status, income, period, targetAmount, fixedCosts, livingExpenses } = assetState;
+
+        if (!status || !income || !period || !targetAmount || !fixedCosts || !livingExpenses) {
+            // TODO: Handle missing data error
+            console.error('필수 정보가 누락되었습니다.');
+            return;
+        }
+
+        const goalTargetDate = new Date();
+        goalTargetDate.setFullYear(goalTargetDate.getFullYear() + period);
+
+        const requestData: AssetManagementInfoRequest = {
+            goalAmount: targetAmount,
+            goalTargetDate: goalTargetDate.toISOString().split('T')[0],
+            expectationMonthlyCost: livingExpenses,
+            fixedMonthlyCost: fixedCosts,
+            retirementStatus: status === 'retired',
+            annualIncome: income * 12,
+        };
+
+        try {
+            const response = await postAssetManagementInfo(requestData);
+
+            if (response.isSuccess) {
+                goTo('building');
+            } else {
+                // TODO: Handle API error
+                console.error('API 호출 실패:', response.error);
+            }
+        } catch (error) {
+            console.error('API 호출 중 예외 발생:', error);
+        }
+    };
+
+    // 금액이 비어있거나 0원이면 버튼 비활성화
+    const isNextDisabled = !assetState.targetAmount || assetState.targetAmount <= 0;
+
+    const amountAsString = assetState.targetAmount === null ? '' : String(assetState.targetAmount);
 
     return {
         amount: amountAsString,
         handleAmountChange,
+        handleSubmit,
         isNextDisabled,
     };
 }
