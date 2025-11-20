@@ -84,7 +84,7 @@ const AssetBubbleSection: React.FC<AssetBubbleSectionProps> = ({ assetDetails })
         [assetDetails]
     );
 
-    // ✅ 1. 최종 렌더링 목록 생성 (최대 4개 항목: 3개 개별 + 1개 기타)
+    // 1. 최종 렌더링 목록 생성 (최대 4개 항목: 3개 개별 + 1개 기타)
     const finalAssets = React.useMemo(() => {
         if (sortedDetails.length <= 4) {
             return sortedDetails; // 4개 이하는 그대로 표시
