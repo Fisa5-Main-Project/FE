@@ -2,80 +2,69 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import CircularProgressBar from '@/components/common/CircularProgressBar';
 
 interface LoadingStepProps {
     onComplete: () => void;
+    isLoading: boolean;
 }
 
-const LoadingStep = ({ onComplete }: LoadingStepProps) => {
+const LoadingStep = ({ onComplete, isLoading }: LoadingStepProps) => {
     const [progress, setProgress] = useState(0);
 
-    // ... useEffect 훅 (동일) ...
-    // Effect 1
     useEffect(() => {
-        const PROGRESS_INTERVAL = 50; // ms
-        const interval = setInterval(() => {
-            setProgress((prev) => (prev >= 100 ? 100 : prev + 1));
-        }, PROGRESS_INTERVAL);
+        let intervalId: NodeJS.Timeout;
 
-        return () => clearInterval(interval);
-    }, []);
-
-    // Effect 2
-    useEffect(() => {
-        if (progress >= 100) {
-            const timer = setTimeout(onComplete, 500);
-            return () => clearTimeout(timer);
+        if (isLoading) {
+            // 로딩 중일 때 0% -> 90%까지 천천히 증가
+            intervalId = setInterval(() => {
+                setProgress((prev) => {
+                    if (prev >= 90) {
+                        return prev; // 90%에서 대기
+                    }
+                    // 초반에는 빠르게, 후반에는 느리게 증가하는 효과
+                    const increment = prev < 50 ? 2 : 1;
+                    return Math.min(prev + increment, 90);
+                });
+            }, 50);
+        } else {
+            // 로딩 완료 시 현재 값에서 100%까지 부드럽게 증가
+            intervalId = setInterval(() => {
+                setProgress((prev) => {
+                    if (prev >= 100) {
+                        clearInterval(intervalId);
+                        setTimeout(onComplete, 500); // 100% 도달 후 잠시 대기
+                        return 100;
+                    }
+                    return Math.min(prev + 2, 100); // 2씩 증가하며 마무리
+                });
+            }, 10);
         }
-    }, [progress, onComplete]);
+
+        return () => {
+            if (intervalId) clearInterval(intervalId);
+        };
+    }, [isLoading, onComplete]);
 
     return (
-        // [수정]
-        // 1. 'h-full' 추가: PageContent의 전체 높이를 채웁니다.
-        // 2. 'justify-center' 추가: 자식 아이템들을 그룹으로 묶어 수직 중앙 정렬합니다.
-        // 3. 'items-center'로 변경: 텍스트를 제외한 스피너/상태 바의 수평 정렬을 일관되게 관리합니다.
-        <div className='w-full flex flex-col items-center h-full justify-center'>
-            {/* [수정] 'pt-[4.875rem]' 제거. 
-              'w-full'을 유지하여 텍스트는 왼쪽 정렬을 유지합니다. 
-              (items-center의 자식이므로 w-full이 없으면 텍스트도 중앙 정렬됨)
-            */}
-            <div className='w-full'>
-                <h1 className='text-[2rem] text-secondary font-bold'>
-                    정보를 불러오는 중이에요.
+        <div className="w-full flex flex-col items-center h-full justify-center">
+            <div className="w-full text-center mb-12">
+                <h1 className="text-[2rem] text-secondary font-bold mb-4">
+                    자산 포트폴리오를<br />구성하고 있어요
                 </h1>
-                <p className='text-gray-2 text-[1.25rem] mt-2'>
-                    최대 1분 정도 소요될 수 있어요.
+                <p className="text-gray-500 text-lg">
+                    잠시만 기다려주세요.
                 </p>
             </div>
 
-            {/* [수정] 'mt-20'을 'mt-16' (64px) 정도로 줄여 
-               헤더와의 간격을 조정합니다.
-            */}
-            <div className='mt-16'>
-                {' '}
-                {/* self-center는 부모가 items-center이므로 불필요 */}
+            <div className="relative flex items-center justify-center">
                 <CircularProgressBar progress={progress} />
             </div>
 
-            {/* [수정] 'mt-[3.125rem]'을 'mt-12' (48px) 정도로 조정합니다. */}
-            <div className='w-full flex items-center p-4 rounded-2xl bg-info-bg mt-12'>
-                <svg
-                    className='w-5 h-5 text-info-text mr-2'
-                    fill='none'
-                    viewBox='0 0 24 24'
-                    stroke='currentColor'
-                >
-                    <path
-                        strokeLinecap='round'
-                        strokeLinejoin='round'
-                        strokeWidth='2'
-                        d='M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z'
-                    />
-                </svg>
-                <p className='text-info-text text-[1.25rem] font-medium'>
-                    나의 정보 불러오는 중...
+            <div className="w-full flex items-center justify-center p-4 mt-12">
+                <p className="text-gray-400 text-lg animate-pulse">
+                    {progress < 100 ? 'AI가 맞춤형 상품을 분석 중입니다...' : '분석이 완료되었습니다!'}
                 </p>
             </div>
         </div>

@@ -3,24 +3,28 @@
 'use client';
 
 import { useAssetStore } from '@/stores/asset/useAssetStore';
+import { useUserStore } from '@/stores/user/useUserStore';
 import { Product, Achievement } from '@/types/asset';
+import { getAchievementText } from '@/lib/portfolioUtils';
 
 const MOCK_RECOMMENDED_PRODUCTS: Product[] = [
     {
         id: 'p1',
         type: '예적금',
-        name: '우리 정기예금',
+        name: 'WON플러스 예금',
         bank: '우리은행',
         stat: '연 3.5%',
         icon: '🏦',
+        link: 'https://spot.wooribank.com/pot/Dream?withyou=PODEP0001&cc=c011240:c009166;c012263:c012399&PRD_CD=P010002491&PRD_YN=Y',
     },
     {
         id: 'p2',
-        type: '연금저축',
-        name: '우리 연금저축',
+        type: '적금',
+        name: '우리 SUPER 주거래 적금',
         bank: '우리은행',
-        stat: '세액공제 16.5%',
+        stat: '최고 연 3.7%',
         icon: '💰',
+        link: 'https://spot.wooribank.com/pot/Dream?withyou=PODEP0019&cc=c007095:c009166;c012263:c012399&PLM_PDCD=P010000109&PRD_CD=P010000109&ALL_GB=ALL&depKind=',
     },
     {
         id: 'p3',
@@ -29,14 +33,9 @@ const MOCK_RECOMMENDED_PRODUCTS: Product[] = [
         bank: '우리은행',
         stat: '수익률 12.3%',
         icon: '📈',
+        link: '#', // Placeholder link
     },
 ];
-
-const MOCK_ACHIEVEMENT: Achievement = {
-    icon: '⛰️',
-    title: '목표의 3분의 1을 넘으셨네요!',
-    description: '지금까지 정말 잘해오셨어요. 가장 지루할 수 있는 구간이지만, 이 고비만 넘기면 절반입니다.',
-};
 
 /**
  * 포트폴리오 결과 페이지에 필요한 데이터를 제공하는 훅입니다.
@@ -51,34 +50,35 @@ export const usePortfolioData = () => {
         livingExpenses,
         period,
         targetAmount,
-        userName: storeUserName,
-    } = useAssetStore((state) => ({
-        income: state.income,
-        fixedCosts: state.fixedCosts,
-        livingExpenses: state.livingExpenses,
-        period: state.period,
-        targetAmount: state.targetAmount,
-        userName: state.userName,
-    }));
+        cashFlowDiagnostic,
+        prediction,
+        goalAmount: storedGoalAmount,
+        totalAssets: storedTotalAssets,
+        monthlyExpense: storedMonthlyExpense,
+        goalPeriodYears: storedGoalPeriodYears,
+        goalDate: storedGoalDate,
+        percentage: storedPercentage,
+        achievement: storedAchievement,
+    } = useAssetStore((state) => state);
+    const user = useUserStore((state) => state.user);
 
-    const userName = storeUserName || '사용자';
+    const userName = user?.name || '사용자';
 
-    const goalAmount = targetAmount || 1_000_000_000; // 스토어의 targetAmount 사용
-    const totalAssets = 320_000_000; // [TODO] 계산 로직 필요
-    const monthlyExpense = (fixedCosts || 0) + (livingExpenses || 0); // 스토어의 fixedCosts, livingExpenses 사용
-    const goalPeriodYears = period || 15; // 스토어의 period 사용
+    const goalAmount = targetAmount || storedGoalAmount || 1_000_000_000;
+    const totalAssets = storedTotalAssets || 320_000_000;
+    const monthlyExpense = storedMonthlyExpense || (fixedCosts || 0) + (livingExpenses || 0);
+    const goalPeriodYears = period || storedGoalPeriodYears || 15;
 
     const currentYear = new Date().getFullYear();
     const futureYear = currentYear + goalPeriodYears;
-    const goalDate = `${futureYear}년 10월 29일`; // [TODO] 실제 계산 로직 필요
+    const goalDate = storedGoalDate || `${futureYear}년 10월 29일`;
 
-    // 임시 percentage 계산
-    const percentage = totalAssets && goalAmount ? Math.min(Math.round((totalAssets / goalAmount) * 100), 100) : 0;
+    const percentage = storedPercentage ?? (totalAssets && goalAmount ? Math.min(Math.round((totalAssets / goalAmount) * 100), 100) : 0);
 
     const recommendedProducts = MOCK_RECOMMENDED_PRODUCTS;
-    const achievement = MOCK_ACHIEVEMENT;
+    const achievement = storedAchievement || getAchievementText(percentage, userName);
 
-    const formatCurrency = (value: number) => new Intl.NumberFormat('ko-KR').format(value);
+    const formatCurrency = (value: number | null) => new Intl.NumberFormat('ko-KR').format(value || 0);
 
     return {
         userName,
@@ -90,6 +90,8 @@ export const usePortfolioData = () => {
         percentage,
         achievement,
         recommendedProducts,
+        cashFlowDiagnostic,
+        prediction,
         formatCurrency,
     };
 };
