@@ -47,7 +47,7 @@ const getPositionStyles = (index: number, total: number) => {
     const positions = POSITION_MAPS[mapKey] ?? POSITION_MAPS[4];
 
     // 해당 인덱스의 위치를 찾습니다.
-    let [top, left] = positions[index] ?? POSITION_MAPS.fallback; 
+    const [top, left] = positions[index] ?? POSITION_MAPS.fallback; 
     
     return { top, left, transform: offset };
 };

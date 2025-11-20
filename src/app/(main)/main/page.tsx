@@ -1,7 +1,6 @@
 'use client'
 
-import Button from "@/components/common/Button";
-import { useMainNavi, ASSET_SERVICE_PATH, PENSION_SERVICE_PATH } from "@/hooks/main/useMainNavi";
+import { useMainNavi } from "@/hooks/main/useMainNavi";
 import { useMainPageData } from "@/hooks/main/useMainPageData";
 import MainAssetUI from "@/components/main/MainAssetUI";
 import MainConnectUI from "@/components/main/MainConnectUI";
