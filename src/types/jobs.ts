@@ -28,5 +28,5 @@ export interface JobDetailResponse {
   jobCategory: string;
   description: string;
   applyMethod: string;
-  hompageUrl: string;
+  homepageUrl: string;
 }
