@@ -5,17 +5,9 @@ import { Page, PageContent, PageActions, PageHeader } from '@/components/common/
 import Button from '@/components/common/Button';
 import AmountInput from '@/components/common/AmountInput';
 import { useTargetAmountForm } from '@/hooks/asset/useTargetAmountForm';
-import { useAssetRouter } from '@/hooks/asset/useAssetRouter';
 
 export default function TargetAmountPage() {
-    const { goTo } = useAssetRouter();
-    const { amount, handleAmountChange, isNextDisabled } = useTargetAmountForm();
-
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        if (isNextDisabled) return;
-        goTo('building');
-    };
+    const { amount, handleAmountChange, handleSubmit, isNextDisabled } = useTargetAmountForm();
 
     return (
         <Page>

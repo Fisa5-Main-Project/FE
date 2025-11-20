@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useAuthStore } from '@/stores/auth/authStore';
-import { fetchMainPageDataApi } from '@/api/user';
+import { getUserInfo } from '@/api/user';
 
 interface AssetDetail {
     type: 'REAL_ESTATE' | 'SAVING' | 'INVESTMENT' | 'LOAN'; // ERD의 type을 기반으로 단순화
@@ -64,22 +64,23 @@ export const useMainPageData = () => {
             setIsLoading(true);
             try {
                 
-                const response = await fetchMainPageDataApi();
+                const response = await getUserInfo();
 
                 if (response.isSuccess && response.data) {
                     const {
                         name,
-                        asset_total,
-                        user_mydata_registration,
-                        investment_tendency
+                        assetTotal,
+                        investmentTendency,
+                        userMydataRegistration,
                     } = response.data;
 
                     // 2. UI 렌더링을 위해 API 응답 데이터를 로컬 상태에 직접 저장
                     setData({
                         name,
-                        assetTotal: asset_total,
-                        isMyDataRegistered: user_mydata_registration,
-                        investmentTendency: investment_tendency,
+                        assetTotal: assetTotal,
+                        isMyDataRegistered: userMydataRegistration,
+                        investmentTendency: investmentTendency,
+                        assetDetails: [],
                     });
                 }
             
@@ -105,6 +106,7 @@ export const useMainPageData = () => {
 
             } catch (error) {
                 // console.error("메인 페이지 데이터 로드 실패:", error);
+                // setData(null); // API 실패 시 데이터 null 처리
                 console.error("Mock 데이터 로드 실패 (논리 오류):", error);
             } finally {
                 setIsLoading(false);
