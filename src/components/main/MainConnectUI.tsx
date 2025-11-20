@@ -26,7 +26,7 @@ const MainConnectUI: React.FC<MainConnectUIProps> = ({ data, handleNavigation })
         <div className="flex">
             <img
                 src="/main/ConnectMascot.png"
-                className="w-[226px] h-auto cursor-pointer"
+                className="w-auto h-[18.63rem] cursor-pointer"
                 onClick={() => handleNavigation(MYDATA_CONNECT_PATH)}
                 alt="내 자산 연결하기"
             />
