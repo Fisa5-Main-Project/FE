@@ -1,5 +1,3 @@
-// src/types/user.ts
-
 export interface UserInfo {
     userId: number;
     loginId: string;
@@ -7,7 +5,8 @@ export interface UserInfo {
     phoneNum: string;
     birth: string;
     gender: 'M' | 'F';
-    investmentTendancy: string;
+    investmentTendency: string;
     provider: string | null;
     userMydataRegistration: boolean;
+    assetTotal: number | null;
 }

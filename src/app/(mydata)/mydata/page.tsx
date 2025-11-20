@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { useRouter } from 'next/navigation';
-import { useInitialUserData } from '@/hooks/mydata/useInitialUserData';
 import AgreementStep from '@/components/mydata/steps/AgreementStep';
 import Button from '@/components/common/Button';
 
@@ -17,9 +16,6 @@ import Button from '@/components/common/Button';
 
 const MyDataFlowContent = () => {
   const router = useRouter();
-
-  // 💡 Hooks 호출: Context가 제공된 후 초기 데이터 로딩 시작
-  useInitialUserData();
 
   const handleNext = () => {
     router.push('/mydata/check');

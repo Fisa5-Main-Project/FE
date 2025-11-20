@@ -1,6 +1,7 @@
 'use client';
 
 import { useMyDataStore } from "@/stores/mydata/useMyDataStore";
+import { useMainPageData } from "@/hooks/main/useMainPageData";
 
 /**
  * 마이데이터 연동 동의 단계 컴포넌트 (수정됨)
@@ -9,7 +10,9 @@ import { useMyDataStore } from "@/stores/mydata/useMyDataStore";
  * - 라우팅: 버튼 클릭 시 useRouter를 통해 다음 페이지로 이동합니다.
  */
 const AgreementStep = () => {
-  const userName = useMyDataStore(state => state.userName);
+  const { data } = useMainPageData();
+
+  const userName = data?.name;
 
   return (
     <div className="w-full">
@@ -19,7 +22,7 @@ const AgreementStep = () => {
           <br />
           {/* 컨텍스트에서 가져온 userName을 사용, 로딩 중일 경우 대비 */}
           <strong className="font-bold text-4xl md:text-5xl">
-            {userName || '...'}
+            {userName}
           </strong>
           님의
           <br />

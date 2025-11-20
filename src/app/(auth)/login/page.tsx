@@ -50,7 +50,7 @@ export default function LoginPage() {
         loginId: id,
         password: password,
       });
-      router.push("/");
+      router.push("/main");
     } catch (err: unknown) {
       if (err instanceof Error) {
         console.error("로그인 실패: ", err.message);

@@ -8,11 +8,12 @@ import { useMyDataStore } from '@/stores/mydata/useMyDataStore';
  */
 export const useAssetsForm = () => {
     const router = useRouter();
+    const assets = useMyDataStore(state => state.assets);
+    const setAssetsFlowCompleted = useMyDataStore(state => state.setAssetsFlowCompleted);
 
     const handleSubmit = React.useCallback((e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        const { assets } = useMyDataStore.getState();
 
         // 제출 전 유효성 검사 (isNextButtonEnabled는 Page에서 처리)
         // if (!assets.realEstate || !assets.car) return; 
@@ -20,13 +21,17 @@ export const useAssetsForm = () => {
         // TODO: (API) 여기에 DB 저장 로직 (API 호출)이 들어갈 예정입니다.
         console.log('자산 정보 DB 저장 실행:', assets);
 
+        // DB 저장 완료 -> 2단계 완료
+        setAssetsFlowCompleted(true);
+
         // DB 저장 완료 후 이동할 최종 페이지 경로로 수정 예정입니다.
-        router.push('/mydata');
-    }, [router]);
+        router.push('/main');
+    }, [router, assets, setAssetsFlowCompleted]);
 
     const handleSkip = () => {
+        setAssetsFlowCompleted(true);
         // 건너뛰기 시 API 호출 없이 다음 페이지로 이동
-        router.push('/mydata');
+        router.push('/main');
     };
 
     return { handleSubmit, handleSkip };
