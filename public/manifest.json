@@ -1,24 +1,27 @@
 {
-    "name": "knowwhohow - Main Project Client",
-    "short_name": "knowwhohow",
-    "description": "Main Project Client with Next.js",
-    "theme_color": "#ffffff",
-    "background_color": "#ffffff",
-    "display": "standalone",
-    "scope": "/",
-    "start_url": "/",
+    "theme_color": "#c9ebf2",
+    "background_color": "#FFFFFF",
     "icons": [
         {
-            "src": "/icons/icon-192x192.png",
-            "sizes": "192x192",
-            "type": "image/png",
-            "purpose": "any maskable"
+            "purpose": "maskable",
+            "sizes": "512x512",
+            "src": "icons/icon512_maskable.png",
+            "type": "image/png"
         },
         {
-            "src": "/icons/icon-512x512.png",
+            "purpose": "any",
             "sizes": "512x512",
-            "type": "image/png",
-            "purpose": "any maskable"
+            "src": "icons/icon512_rounded.png",
+            "type": "image/png"
         }
-    ]
+    ],
+    "orientation": "any",
+    "display": "standalone",
+    "dir": "auto",
+    "lang": "ko-KR",
+    "name": "노후하우",
+    "short_name": "KnowWhoHow",
+    "start_url": "/",
+    "scope": "/",
+    "description": "Main Project Client"
 }

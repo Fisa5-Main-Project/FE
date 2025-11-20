@@ -186,26 +186,22 @@ input[type='number'] {
 
 /* 밑줄 하이라이트 효과 */
 .underline-highlight {
-  background: linear-gradient(
-    180deg,
-    transparent 70%,
-    #4eb8ff 0
-  ); /* 밑줄 색상 */
-  background-repeat: no-repeat;
-  background-size: 100% 70%; /* 밑줄 두께 비율 */
-  background-position: 0 85%; /* 위치 조정 (글자 아래로) */
-  transition: background-size 0.3s ease;
+    background: linear-gradient(180deg, transparent 70%, #4eb8ff 0); /* 밑줄 색상 */
+    background-repeat: no-repeat;
+    background-size: 100% 70%; /* 밑줄 두께 비율 */
+    background-position: 0 85%; /* 위치 조정 (글자 아래로) */
+    transition: background-size 0.3s ease;
 }
 
 /* 스크롤바 제거용 */
 @layer utilities {
-  /* 크롬, 사파리, 오페라, 엣지 */
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none;
-  }
-  /* 파이어폭스, IE, 엣지(구버전) */
-  .scrollbar-hide {
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
-  }
+    /* 크롬, 사파리, 오페라, 엣지 */
+    .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+    }
+    /* 파이어폭스, IE, 엣지(구버전) */
+    .scrollbar-hide {
+        -ms-overflow-style: none; /* IE and Edge */
+        scrollbar-width: none; /* Firefox */
+    }
 }
