@@ -4,10 +4,22 @@ import { useJobStore } from "@/stores/job/jobStore";
 
 export const useLocationForm = () => {
   const router = useRouter();
-  const { setLocation } = useJobStore();
+  const { setLocation, location: storedLocation } = useJobStore();
 
-  const [selectedCity, setSelectedCity] = useState<string>("");
-  const [selectedDistrict, setSelectedDistrict] = useState<string>("");
+  const [selectedCity, setSelectedCity] = useState<string>(() => {
+    if (storedLocation) {
+      const parts = storedLocation.split(" ");
+      return parts[0] || "";
+    }
+    return "";
+  });
+  const [selectedDistrict, setSelectedDistrict] = useState<string>(() => {
+    if (storedLocation) {
+      const parts = storedLocation.split(" ");
+      return parts.length > 1 ? parts[1] : "전체";
+    }
+    return "";
+  });
 
   // 유효성 검사 (시/도가 선택되고, 구/군/구도 선택되어야 함)
   const isValid = selectedCity !== "" && selectedDistrict !== "";

@@ -31,7 +31,7 @@ export default function EmpTypePage() {
               type="button"
               onClick={() => handleSelect(type.code)}
               className={clsx(
-                "h-[80px] rounded-[12px] font-semibold text-[1.25rem] transition-all",
+                "h-[80px] rounded-[12px] font-semibold text-[1.25rem] transition-all cursor-pointer",
                 selectedCode === type.code
                   ? "bg-primary text-white shadow-sm"
                   : "border-3 border-gray-1 bg-white text-gray-2 hover:bg-gray-50"

@@ -1,5 +1,6 @@
-import React from "react";
+"use client";
 
-export const ListPage = () => {
+import React from "react";
+export default function JobListPage() {
   return <div>ListPage</div>;
-};
+}
