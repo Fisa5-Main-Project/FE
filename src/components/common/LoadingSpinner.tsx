@@ -13,7 +13,7 @@ export default function LoadingSpinner({ size = "h-12 w-12" }: LoadingSpinnerPro
   const radius = 42.5;
   const circumference = 2 * Math.PI * radius;
   // 전체 원의 3/4만 채우도록 설정하여 스피너 모양을 만듭니다.
-  const offset = circumference * (1 - 0.75); 
+  const offset = circumference * (1 - 0.75);
 
   return (
     <div className={clsx("relative", size)} role="status">
@@ -34,14 +34,14 @@ export default function LoadingSpinner({ size = "h-12 w-12" }: LoadingSpinnerPro
           strokeWidth="15"
           strokeDasharray={circumference}
           // 3/4 지점에서 시작하도록 strokeDashoffset 설정
-          strokeDashoffset={offset} 
+          strokeDashoffset={offset}
           strokeLinecap="round"
           stroke="currentColor"
           fill="transparent"
           r={radius}
           cx="50"
           cy="50"
-          // SVG 자체에 animate-spin을 적용하므로 transform은 필요 없음
+        // SVG 자체에 animate-spin을 적용하므로 transform은 필요 없음
         />
       </svg>
       <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">

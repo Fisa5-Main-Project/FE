@@ -15,7 +15,6 @@ export function usePortfolioBuilding() {
     const {
         setGoalAmount,
         setTotalAssets,
-        setMonthlyExpense,
         setGoalPeriodYears,
         setGoalDate,
         setPercentage,

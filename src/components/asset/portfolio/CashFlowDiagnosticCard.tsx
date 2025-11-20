@@ -7,9 +7,11 @@ interface Props {
     data: CashFlowDto;
 }
 
+import { PRODUCTS } from '@/constants/products';
+
 const productLinks: { [key: string]: string } = {
-    'WON플러스 예금': 'https://spot.wooribank.com/pot/Dream?withyou=PODEP0001&cc=c011240:c009166;c012263:c012399&PRD_CD=P010002491&PRD_YN=Y',
-    '우리 SUPER주거래 적금': 'https://spot.wooribank.com/pot/Dream?withyou=PODEP0019&cc=c007095:c009166;c012263:c012399&PLM_PDCD=P010000109&PRD_CD=P010000109&ALL_GB=ALL&depKind=',
+    [PRODUCTS.DEPOSIT.NAME]: PRODUCTS.DEPOSIT.LINK,
+    [PRODUCTS.SAVINGS.NAME]: PRODUCTS.SAVINGS.LINK,
 };
 
 export default function CashFlowDiagnosticCard({ data }: Props) {

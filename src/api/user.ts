@@ -1,4 +1,4 @@
-// src/api/user.ts
+
 import { apiClient } from './index';
 import type { ApiResponse } from '@/types/api';
 import type { UserInfo } from '@/types/user';

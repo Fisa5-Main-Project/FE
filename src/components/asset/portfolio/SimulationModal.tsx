@@ -9,6 +9,7 @@ import {
     postAssetManagementSimulateSaving,
 } from '@/api/asset';
 import { ProductDetailResponse } from '@/types/api';
+import { PRODUCTS } from '@/constants/products';
 
 interface Props {
     isOpen: boolean;
@@ -46,17 +47,18 @@ export default function SimulationModal({
 
     // Initialize amount based on type and idleCashAssets
     useEffect(() => {
-        if (type === 'DEPOSIT' && idleCashAssets !== null && idleCashAssets < 10000) {
-            setAmount(idleCashAssets);
+        if (type === 'DEPOSIT' && idleCashAssets !== null) {
+            // idleCashAssets가 amountMin보다 작더라도 최소 금액은 amountMin으로 설정
+            setAmount(Math.max(amountMin, idleCashAssets));
         } else {
             setAmount(10000);
         }
-    }, [type, idleCashAssets]);
+    }, [type, idleCashAssets, amountMin]);
 
     // 상품 정보 로드
     useEffect(() => {
         const fetchProductInfo = async () => {
-            const productName = type === 'SAVINGS' ? '우리 SUPER주거래 적금' : 'WON플러스 예금';
+            const productName = type === 'SAVINGS' ? PRODUCTS.SAVINGS.NAME : PRODUCTS.DEPOSIT.NAME;
             const response = await getAssetManagementProduct(productName);
             if (response.isSuccess) {
                 setProductInfo(response.data);

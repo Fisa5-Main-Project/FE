@@ -34,7 +34,7 @@ export default function PortfolioPage() {
 
     return (
         <Page>
-            <PageContent className={clsx('overflow-y-auto ')}>
+            <PageContent className={clsx('overflow-y-auto')}>
                 <button
                     onClick={() => goTo('complete')}
                     className="absolute left-4 -mt-20 w-10 h-10 flex items-center justify-center z-10"

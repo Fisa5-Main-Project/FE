@@ -7,6 +7,7 @@ import SimulationModal from './SimulationModal';
 import { useAssetStore } from '@/stores/asset/useAssetStore';
 import { postAssetManagementSimulateDeposit, postAssetManagementSimulateSaving } from '@/api/asset';
 import logoUrl from '@public/asset-management/woori-logo.png';
+import { PRODUCTS } from '@/constants/products';
 
 interface Props {
     data: PredictionDto;
@@ -22,8 +23,8 @@ export default function PredictionCard({ data, idleCashAssets }: Props) {
     const formattedTotal = new Intl.NumberFormat('ko-KR').format(data.expectedAmount);
     const formattedInterest = new Intl.NumberFormat('ko-KR').format(data.interestAmount);
 
-    const productName = isSavings ? '우리 SUPER주거래 적금' : 'WON플러스 예금';
-    const maxRate = isSavings ? '3.55' : '2.85';
+    const productName = isSavings ? PRODUCTS.SAVINGS.NAME : PRODUCTS.DEPOSIT.NAME;
+    const maxRate = isSavings ? PRODUCTS.SAVINGS.MAX_RATE : PRODUCTS.DEPOSIT.MAX_RATE;
 
     const handleSimulate = async (amount: number, period: number) => {
         let response;
