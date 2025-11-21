@@ -1,13 +1,35 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useJobStore } from "@/stores/job/jobStore";
-import axios from "axios"; // ⚠️ 일반 axios 사용
+import axios from "axios";
 import { regions } from "@/constants/regions";
+import { getUserInfo } from "@/api/user";
 
 export const useLocationForm = () => {
+  const [userName, setUserName] = useState<string>("");
   const router = useRouter();
   const { setLocation, location: storedLocation } = useJobStore();
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      try {
+        const response = await getUserInfo();
+
+        if (response.isSuccess && response.data) {
+          setUserName(response.data.name);
+        } else {
+          console.error(
+            "유저 정보를 불러오지 못했습니다: ",
+            response.error?.message
+          );
+        }
+      } catch (error) {
+        console.error("API 호출 중 에러 발생:", error);
+      }
+    };
+    fetchUserInfo();
+  }, []);
 
   // 초기값 설정
   const [selectedCity, setSelectedCity] = useState<string>(() => {
@@ -112,6 +134,7 @@ export const useLocationForm = () => {
     selectedDistrict,
     isValid,
     isLoading,
+    userName,
     handleCityClick,
     handleDistrictClick,
     handleCurrentLocation,

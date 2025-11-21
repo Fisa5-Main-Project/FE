@@ -12,6 +12,7 @@ export default function LocationPage() {
     selectedCity,
     selectedDistrict,
     isValid,
+    userName,
     handleCityClick,
     handleDistrictClick,
     handleCurrentLocation,
@@ -29,7 +30,7 @@ export default function LocationPage() {
       {/* 2. 상단 고정 영역 (헤더 + 현재위치 버튼) */}
       <div className="shrink-0">
         <h1 className="text-secondary text-[2rem] font-bold leading-tight">
-          00님과 어울리는
+          {userName}님과 어울리는
           <br />
           일자리를 찾아드릴게요
         </h1>
