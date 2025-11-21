@@ -5,6 +5,7 @@ import clsx from "clsx";
 import Button from "@/components/common/Button";
 import { useEmpTypeSelection } from "@/hooks/job/useEmpTypeSelection";
 import { EMPLOYMENT_TYPES } from "@/constants/jobs";
+import Header from "@/components/common/Header";
 
 export default function EmpTypePage() {
   const { selectedCode, handleSelect, handleNext, handlePrev } =
@@ -12,6 +13,7 @@ export default function EmpTypePage() {
 
   return (
     <div className="flex flex-col h-full overflow-hidden">
+      <Header hasBackButton={false} />
       <div className="shrink-0">
         <h1 className="text-secondary text-[2rem] font-bold leading-tight">
           00님의

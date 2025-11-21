@@ -5,6 +5,7 @@ import { regions } from "@/constants/regions";
 import Button from "@/components/common/Button";
 import { useLocationForm } from "@/hooks/job/useLocationForm";
 import clsx from "clsx";
+import Header from "@/components/common/Header";
 
 export default function LocationPage() {
   const {
@@ -23,6 +24,8 @@ export default function LocationPage() {
 
   return (
     <div className="flex flex-col h-full overflow-hidden">
+      <Header hasBackButton={true} />
+
       {/* 2. 상단 고정 영역 (헤더 + 현재위치 버튼) */}
       <div className="my-4 shrink-0">
         <h1 className="text-secondary text-[2rem] font-bold leading-tight">

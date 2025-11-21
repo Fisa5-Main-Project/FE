@@ -2,25 +2,9 @@
 
 import React from "react";
 import Button from "@/components/common/Button";
+import Header from "@/components/common/Header";
 import { JobDetailInfo } from "@/components/job/JobDetailInfo";
 import { useJobDetail } from "@/hooks/job/useJobDetail";
-
-// TODO: 헤더로 바꾸기-뒤로가기 아이콘 (SVG)
-const BackIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M15 18l-6-6 6-6" />
-  </svg>
-);
 
 export default function JobDetailPage() {
   const { detail, loading, error, handlePrev, handleHomepage } = useJobDetail();
@@ -47,25 +31,15 @@ export default function JobDetailPage() {
     );
   }
 
-  // 홈페이지 URL 존재 여부 체크
   const hasHomepage = !!detail.homepageUrl;
-  // 상세 내용 존재 여부 체크
   const hasDescription =
     detail.description && detail.description.trim().length > 0;
 
   return (
     <div className="flex flex-col h-full overflow-hidden bg-white">
-      {/* 뒤로가기 아이콘 + 제목 */}
-      <div className="pt-4 pb-2 shrink-0">
-        {/* 뒤로가기 버튼 */}
-        <button
-          onClick={handlePrev}
-          className="w-10 h-10 flex items-center justify-center -ml-2 text-black hover:bg-gray-100 rounded-full transition-colors mb-2"
-          aria-label="뒤로가기"
-        >
-          <BackIcon />
-        </button>
-
+      {/* 공통 헤더 */}
+      <Header hasBackButton={true} />
+      <div className="pb-4 shrink-0">
         {/* 타이틀 영역 */}
         <div>
           <h1 className="text-[2rem] font-bold text-secondary leading-snug break-keep">
@@ -77,11 +51,11 @@ export default function JobDetailPage() {
         </div>
       </div>
 
-      {/* 스크롤 가능 영역*/}
-      <div className="flex-1 overflow-y-auto min-h-0 py-6">
+      {/* 스크롤 가능 영역 */}
+      <div className="flex-1 overflow-y-auto min-h-0 py-6 ">
+        {" "}
         {/* 요약 정보 컴포넌트 */}
         <JobDetailInfo detail={detail} />
-
         {/* 상세 내용 본문 */}
         <div className="mt-8 pb-4">
           <h2 className="text-[1.25rem] font-bold mb-3 text-black">
@@ -93,7 +67,6 @@ export default function JobDetailPage() {
               {detail.description}
             </p>
           ) : (
-            // 상세 내용이 없을 때 보여줄 UI
             <div className="w-full py-10 bg-gray-50 rounded-xl flex flex-col items-center justify-center text-gray-400">
               <span className="text-2xl mb-2">📝</span>
               <span className="text-[1rem]">제공된 상세 내용이 없습니다.</span>
@@ -102,10 +75,10 @@ export default function JobDetailPage() {
         </div>
       </div>
 
-      <div className="flex-shrink-0 mt-5 z-10">
+      <div className="flex-shrink-0 pt-6 z-10">
         <Button
           onClick={handleHomepage}
-          disabled={!hasHomepage} // URL 없으면 비활성화
+          disabled={!hasHomepage}
           className="w-full"
         >
           {hasHomepage ? "홈페이지 보러 가기" : "홈페이지 정보 없음"}

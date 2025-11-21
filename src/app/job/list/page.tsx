@@ -4,6 +4,7 @@ import React from "react";
 import Button from "@/components/common/Button";
 import { JobCard } from "@/components/job/JobCard";
 import { useJobList } from "@/hooks/job/useJobList";
+import Header from "@/components/common/Header";
 
 export default function JobListPage() {
   const {
@@ -20,6 +21,8 @@ export default function JobListPage() {
 
   return (
     <div className="flex flex-col h-full overflow-hidden">
+      <Header hasBackButton={true} />
+
       {/* 1. Header Area */}
       <div className="my-4 shrink-0 z-10 border-b border-gray-50">
         <h1 className="text-secondary text-[2rem] font-bold leading-tight">
