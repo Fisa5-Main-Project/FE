@@ -23,15 +23,7 @@ export const apiClient = axios.create({
  */
 apiClient.interceptors.request.use(
   (config) => {
-    config.headers = config.headers ?? {};
-
-    // skipAuth=true 이면 JWT 주입/전달을 완전히 차단
-    if (config.skipAuth) {
-      delete config.headers.Authorization;
-      delete (config.headers as any)["authorization"];
-      return config;
-    }
-
+    if (config.skipAuth) return config;
     const accessToken = useAuthStore.getState().accessToken;
 
     if (accessToken) {
