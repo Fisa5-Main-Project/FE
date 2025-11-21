@@ -2,14 +2,15 @@
 
 import { useEffect, useState } from 'react';
 import { useAuthStore } from '@/stores/auth/authStore';
-import { getUserInfo } from '@/api/user';
+import { getUserInfo, getUserAsset } from '@/api/user';
+import type { UserInfo, UserAsset, AssetType } from '@/types/user';
 
-interface AssetDetail {
-    type: 'REAL_ESTATE' | 'SAVING' | 'INVESTMENT' | 'LOAN'; // ERD의 type을 기반으로 단순화
-    balance: number; // 잔액
-    percentage: number; // 총 자산 대비 비율 (계산될 값)
-    icon: string; // UI 아이콘 경로 (예: /icons/real_estate.png)
-    name: string; // 표시될 자산명
+interface AggregatedAssetDetail {
+    type: AssetType;        // 자산 항목 구분
+    name: string;           // 사용자 표시 이름 (예: '예적금')
+    balance: number;        // 해당 항목의 합산 잔액
+    percentage: number;     // 총자산 대비 비율
+    icon: string;           // 버블 UI용 아이콘 경로
 }
 
 interface MainData {
@@ -17,9 +18,42 @@ interface MainData {
     assetTotal: number | null;
     isMyDataRegistered: boolean;
     investmentTendency: string | null;
-    assetDetails?: AssetDetail[];
+    assetDetails?: AggregatedAssetDetail[];
 }
 
+const ASSET_TYPE_MAP: Record<AssetType, { name: string; icon: string }> = {
+    CURRENT: { name: '입출금', icon: '/main/icons/current.png' },
+    SAVING: { name: '예적금', icon: '/main/icons/saving.png' },
+    INVEST: { name: '투자', icon: '/main/icons/invest.png' },
+    PENSION: { name: '연금', icon: '/main/icons/pension.png' },
+    AOTOMOBILE: { name: '자동차', icon: '/main/icons/automobile.png' },
+    REAL_ESTATE: { name: '부동산', icon: '/main/icons/estate.png' },
+    LOAN: { name: '대출', icon: '/main/icons/loan.png' },
+    ETC: { name: '기타', icon: '/main/icons/etc.png' },
+};
+
+/// 임시 Mock Data
+// const MOCK_DATA_CONNECTED = {
+//     name: "홍길동",
+//     asset_total: 42000000,
+//     user_mydata_registration: true, // 연동 완료 가정
+//     investment_tendency: "적극투자형",
+//     assetDetails: [
+//         { type: 'REAL_ESTATE', balance: 33600000, percentage: 60, icon: "/main/Estate.png", name: '부동산' },
+//         { type: 'SAVING', balance: 6720000, percentage: 30, icon: "/main/Saving.png", name: '적금' },
+//         { type: 'SAVING', balance: 6720000, percentage: 18, icon: "/main/Saving.png", name: '적금' },
+//         { type: 'INVESTMENT', balance: 1680000, percentage: 8, icon: "/main/Invest.png", name: '투자' },
+//         // ... 필요한 만큼 추가
+//     ]
+// };
+
+// const MOCK_DATA_NOT_CONNECTED = {
+//     name: "홍길동",
+//     asset_total: null, // 자산 없음 가정
+//     user_mydata_registration: false, // 연동 안 됨 가정
+//     investment_tendency: null,
+//     assetDetails: undefined,
+// };
 
 /**
  * 메인 페이지에 필요한 사용자 데이터 및 마이데이터 연동 상태를 불러오는 훅입니다.
@@ -42,25 +76,81 @@ export const useMainPageData = () => {
             setIsLoading(true);
             try {
                 
-                const response = await getUserInfo();
+                const [userResponse, assetResponse] = await Promise.all([
+                    getUserInfo(),      // 회원 기본 정보 (총자산 포함)
+                    getUserAsset(),     // 원본 자산 레코드 목록
+                ]);
 
-                if (response.isSuccess && response.data) {
-                    const {
-                        name,
-                        assetTotal,
-                        investmentTendency,
-                        userMydataRegistration,
-                    } = response.data;
+                if (userResponse.isSuccess && userResponse.data && assetResponse.isSuccess) {
+                    const userInfo = userResponse.data;
+                    const rawAssets = assetResponse.data || [];
+                    
+                    // 총자산이 null이거나 0일 경우를 대비하여 0으로 처리
+                    const totalAssetValue = userInfo.assetTotal || 0;
 
-                    // 2. UI 렌더링을 위해 API 응답 데이터를 로컬 상태에 직접 저장
-                    setData({
-                        name,
-                        assetTotal: assetTotal,
-                        isMyDataRegistered: userMydataRegistration,
-                        investmentTendency: investmentTendency,
-                        assetDetails: [], // TODO: API 연동 후 실제 자산 데이터로 교체 예정
+                    // ----------------------------------------------------
+                    // ✅ 3. 원본 자산 데이터 집계 및 변환 로직
+                    // ----------------------------------------------------
+                    const grouped: Record<AssetType, { type: AssetType; balance: number }> = rawAssets.reduce((acc, asset) => {
+                        // type이 null인 자산은 집계에서 제외 (DB 스키마상 nullable이므로 안전장치)
+                        if (!asset.type) return acc;
+                        
+                        const type = asset.type;
+                        
+                        if (!acc[type]) {
+                            acc[type] = { type, balance: 0 };
+                        }
+                        acc[type].balance += asset.balance;
+                        return acc;
+                    }, {} as Record<AssetType, { type: AssetType; balance: number }>);
+
+                    // 4. 최종 AggregatedAssetDetail 배열 생성 (비율 계산 및 매핑)
+                    const aggregatedAssets: AggregatedAssetDetail[] = Object.values(grouped).map(group => {
+                        // 총자산으로 각 항목의 비율 계산 (소수점 2자리 반올림)
+                        const percentage = totalAssetValue > 0 
+                            ? parseFloat(((group.balance / totalAssetValue) * 100).toFixed(2)) 
+                            : 0;
+
+                        const map = ASSET_TYPE_MAP[group.type];
+                        
+                        return {
+                            ...group,
+                            name: map.name,
+                            icon: map.icon,
+                            percentage,
+                        };
                     });
+                    // ----------------------------------------------------
+
+                    setData({
+                        name: userInfo.name,
+                        assetTotal: totalAssetValue,
+                        isMyDataRegistered: userInfo.userMydataRegistration,
+                        investmentTendency: userInfo.investmentTendency,
+                        assetDetails: aggregatedAssets, // ✅ 집계된 데이터 사용
+                    });
+                } else {
+                    setData(null);
                 }
+            
+
+                //1. 500ms 지연 시간 시뮬레이션 (로딩 효과를 위해)
+                // await new Promise(resolve => setTimeout(resolve, 500));
+
+                // // 2. 연동 상태에 따른 Mock Data 선택 (테스트 편의를 위해 임의로 선택)
+                // // const isConnected = false;
+                // const isConnected = true;
+                // // const mockResponseData = isConnected ? MOCK_DATA_CONNECTED : MOCK_DATA_NOT_CONNECTED;
+                // const mockResponseData = MOCK_DATA_CONNECTED;
+
+                // // 3. UI 렌더링을 위해 API 응답 데이터를 로컬 상태에 직접 저장
+                // setData({
+                //     name: mockResponseData.name,
+                //     assetTotal: mockResponseData.asset_total,
+                //     isMyDataRegistered: mockResponseData.user_mydata_registration,
+                //     investmentTendency: mockResponseData.investment_tendency,
+                //     assetDetails: mockResponseData.assetDetails as AssetDetail[],
+                // });
 
 
             } catch (error) {
