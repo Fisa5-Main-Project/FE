@@ -37,7 +37,7 @@ export default function LocationPage() {
         {/* 현재 위치 버튼*/}
         <button
           onClick={handleCurrentLocation}
-          className="mt-6 w-full py-3 border border-primary text-[1.25rem] text-primary bg-white rounded-[8px] font-semibold hover:bg-primary/5 transition-colors"
+          className="mt-6 w-full py-3 border border-primary text-[1.25rem] text-primary bg-white rounded-[8px] font-semibold hover:bg-primary/5 transition-colors cursor-pointer"
         >
           📍 현재 위치로 찾기
         </button>
