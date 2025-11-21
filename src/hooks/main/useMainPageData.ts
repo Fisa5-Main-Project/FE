@@ -5,7 +5,7 @@ import { useAuthStore } from '@/stores/auth/authStore';
 import { getUserInfo, getUserAsset } from '@/api/user';
 import type { UserInfo, UserAsset, AssetType } from '@/types/user';
 
-interface AggregatedAssetDetail {
+export interface AggregatedAssetDetail {
     type: AssetType;        // 자산 항목 구분
     name: string;           // 사용자 표시 이름 (예: '예적금')
     balance: number;        // 해당 항목의 합산 잔액
