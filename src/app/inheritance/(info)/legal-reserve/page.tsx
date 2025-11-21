@@ -5,18 +5,32 @@ import Image from "next/image";
 import Button from "@/components/common/Button";
 import { useInfoPage } from "@/hooks/inheritance/useInfoPage";
 import { motion } from "framer-motion";
+import ProgressBar from "@/components/common/ProgressBar";
 
 export default function LegalReserve() {
   const { handleNext } = useInfoPage("/inheritance/compare");
 
+  const prevProgress = 80;
+  const currentProgress = 90;
+
   return (
     <motion.div
-      className="flex flex-col flex-grow h-full" // h-full 추가 권장 (화면 꽉 차게)
-      initial={{ rotateY: 90, opacity: 0 }} // 시작: 90도 꺾여서 안 보임
-      animate={{ rotateY: 0, opacity: 1 }} // 끝: 0도로 펴지면서 보임
-      transition={{ duration: 0.5 }} // 0.5초 동안 실행
-      style={{ transformStyle: "preserve-3d" }} // 3D 효과 활성화
+      className="flex flex-col flex-grow h-full"
+      initial={{ rotateY: 90, opacity: 0 }}
+      animate={{ rotateY: 0, opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      style={{ transformStyle: "preserve-3d" }}
     >
+      <div className="h-[6.75rem] flex flex-col justify-center px-12">
+        {/* 흰색 진행 바와 반투명 배경 적용 */}
+        <ProgressBar
+          origin={prevProgress}
+          percent={currentProgress}
+          barColor="bg-white"
+          bgColor="bg-white/30"
+        />
+      </div>
+
       <div className="flex flex-col flex-grow">
         <div className="flex-grow">
           <h1 className="text-[2rem] font-medium leading-normal">
@@ -27,7 +41,6 @@ export default function LegalReserve() {
             상속 몫이에요
           </h1>
 
-          {/* TODO: 어울리는 이미지로 바꾸기*/}
           <div className="mt-5 flex justify-center">
             <Image
               src="/assets/img/inheritance/legal_reserve.png"
@@ -39,8 +52,8 @@ export default function LegalReserve() {
 
           <div
             className="mt-12 rounded-[12px] bg-white py-8 
-                       text-secondary text-[1.5rem] font-medium leading-normal
-                       flex items-center justify-center"
+                        text-secondary text-[1.5rem] font-medium leading-normal
+                        flex items-center justify-center"
           >
             <div className="text-left">
               유언이나 증여로 특정 상속인이

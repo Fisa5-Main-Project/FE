@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Slider } from "@/components/common/Slider";
 import Button from "@/components/common/Button";
 import { useRatioAdjustment } from "@/hooks/inheritance/useRatioAdjustment";
+import ProgressBar from "@/components/common/ProgressBar";
 
 export default function RatioPage() {
   const {
@@ -17,10 +18,19 @@ export default function RatioPage() {
     handleNext,
   } = useRatioAdjustment();
 
+  const prevProgress = 45;
+  const currentProgress = 60;
+
   return (
     <div className="flex flex-col flex-grow h-full">
       <div className="flex-shrink-0">
-        <h1 className="mt-[6.75rem] text-secondary text-[2rem] font-bold">
+        {/* ✅ 수정 포인트: 상단 여백 대체용 프로그레스바 (px-12 적용) */}
+        <div className="h-[6.75rem] flex flex-col justify-center px-12">
+          <ProgressBar origin={prevProgress} percent={currentProgress} />
+        </div>
+
+        {/* ✅ 수정 포인트: mt-[6.75rem] 제거 */}
+        <h1 className="text-secondary text-[2rem] font-bold">
           상속 비율 정하기
         </h1>
         <p className="mt-2 text-subheading text-[1.375rem] font-medium">
