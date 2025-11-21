@@ -37,7 +37,7 @@ export const useLocationForm = () => {
     setSelectedDistrict(district);
   };
 
-  // 📍 [핵심] 현재 위치 받아오기 로직
+  // 현재 위치 받아오기 로직
   const handleCurrentLocation = () => {
     if (!navigator.geolocation) {
       alert("브라우저가 위치 정보를 지원하지 않습니다.");
@@ -51,7 +51,6 @@ export const useLocationForm = () => {
         const { latitude, longitude } = position.coords;
 
         try {
-          // Next.js 내부 API 호출 (apiClient 아님)
           const { data } = await axios.get("/api/geocode", {
             params: { lat: latitude, lng: longitude },
           });
