@@ -5,10 +5,17 @@ import type { ApiErrorResponse } from "@/types/api";
 // .env.local 파일에서 BASE_URL 불러오기
 export const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
+declare module 'axios' {                                                                                                                                                          
+    export interface AxiosRequestConfig {                                                                                                                                           
+      skipAuth?: boolean;                                                                                                                                                           
+    }                                                                                                                                                                               
+  }
+
 // axios 공통 인스턴스 생성
 export const apiClient = axios.create({
   baseURL: BASE_URL,
   headers: { "Content-Type": "application/json" },
+   withCredentials: true,
 });
 
 /**
@@ -16,6 +23,15 @@ export const apiClient = axios.create({
  */
 apiClient.interceptors.request.use(
   (config) => {
+    config.headers = config.headers ?? {};
+
+    // skipAuth=true 이면 JWT 주입/전달을 완전히 차단
+    if (config.skipAuth) {
+      delete config.headers.Authorization;
+      delete (config.headers as any)["authorization"];
+      return config;
+    }
+
     const accessToken = useAuthStore.getState().accessToken;
 
     if (accessToken) {
