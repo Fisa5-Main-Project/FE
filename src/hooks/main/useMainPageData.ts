@@ -74,22 +74,27 @@ export const useMainPageData = () => {
         const fetchData = async () => {
             setIsLoading(true);
             try {
-                
+                // 2. 두 API를 Promise.all로 병렬 호출
                 const [userResponse, assetResponse] = await Promise.all([
-                    getUserInfo(),      // 회원 기본 정보 (총자산 포함)
-                    getUserAsset(),     // 원본 자산 레코드 목록
+                    getUserInfo(),      // 회원 기본 정보 (총자산, 연동여부)
+                    getUserAsset(),     // 원본 자산 레코드 목록 (UserAsset[])
                 ]);
 
-                if (userResponse.isSuccess && userResponse.data && assetResponse.isSuccess) {
-                    const userInfo = userResponse.data;
-                    const rawAssets = assetResponse.data || [];
+                // 3. 두 API 호출 중 UserInfo만 성공해도 사용자 이름은 가져올 수 있으므로, 응답 처리를 세분화
+                const userInfo = userResponse.isSuccess ? userResponse.data : null;
+                const rawAssets = (assetResponse.isSuccess && assetResponse.data) ? assetResponse.data : [];
+                
+                // 4. 데이터 집계 및 변환 로직
+                // 4-1. 총자산 기준 값 확정
+                const totalAssetValue = userInfo?.assetTotal || 0;
+                
+                let aggregatedAssets: AggregatedAssetDetail[] = [];
+                
+                // 4-2. 마이데이터 연동된 경우에만 자산 상세 정보를 처리
+                if (userInfo?.userMydataRegistration) {
                     
-                    // 총자산이 null이거나 0일 경우를 대비하여 0으로 처리
-                    const totalAssetValue = userInfo.assetTotal || 0;
-
-                    // 원본 자산 데이터 집계 및 변환 로직
+                    // a. 원본 자산 데이터를 Type별로 그룹화
                     const grouped: Record<AssetType, { type: AssetType; balance: number }> = rawAssets.reduce((acc, asset) => {
-                        // type이 null인 자산은 집계에서 제외 (DB 스키마상 nullable이므로 안전장치)
                         if (!asset.type) return acc;
                         
                         const type = asset.type;
@@ -100,15 +105,14 @@ export const useMainPageData = () => {
                         acc[type].balance += asset.balance;
                         return acc;
                     }, {} as Record<AssetType, { type: AssetType; balance: number }>);
-
-                    // 4. 최종 AggregatedAssetDetail 배열 생성 (비율 계산 및 매핑)
-                    const aggregatedAssets: AggregatedAssetDetail[] = Object.values(grouped).map(group => {
-                        // 총자산으로 각 항목의 비율 계산 (소수점 2자리 반올림)
+                    
+                    // b. AggregatedAssetDetail 배열 생성 (비율 계산 및 매핑)
+                    aggregatedAssets = Object.values(grouped).map(group => {
                         const percentage = totalAssetValue > 0 
                             ? parseFloat(((group.balance / totalAssetValue) * 100).toFixed(2)) 
                             : 0;
 
-                        const map = ASSET_TYPE_MAP[group.type];
+                        const map = ASSET_TYPE_MAP[group.type] || ASSET_TYPE_MAP.ETC; // 매핑 실패 시 ETC 사용
                         
                         return {
                             ...group,
@@ -117,14 +121,16 @@ export const useMainPageData = () => {
                             percentage,
                         };
                     });
-                    // ----------------------------------------------------
+                }
 
+                // 5. UI 상태 설정
+                if (userInfo) {
                     setData({
                         name: userInfo.name,
                         assetTotal: totalAssetValue,
                         isMyDataRegistered: userInfo.userMydataRegistration,
                         investmentTendency: userInfo.investmentTendency,
-                        assetDetails: aggregatedAssets, // 집계된 데이터 사용
+                        assetDetails: aggregatedAssets, // 집계된 데이터 사용 (비연동 시 빈 배열)
                     });
                 } else {
                     setData(null);
