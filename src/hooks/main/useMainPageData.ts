@@ -55,9 +55,8 @@ const ASSET_TYPE_MAP: Record<AssetType, { name: string; icon: string }> = {
 //     assetDetails: undefined,
 // };
 
-/**
- * 메인 페이지에 필요한 사용자 데이터 및 마이데이터 연동 상태를 불러오는 훅입니다.
- */
+
+// 메인 페이지에 필요한 사용자 데이터 및 마이데이터 연동 상태를 불러오는 훅
 export const useMainPageData = () => {
     // AuthStore에서 'isLoggedIn' 상태를 가져옴
     const isLoggedIn = useAuthStore(state => state.isLoggedIn);
@@ -88,9 +87,7 @@ export const useMainPageData = () => {
                     // 총자산이 null이거나 0일 경우를 대비하여 0으로 처리
                     const totalAssetValue = userInfo.assetTotal || 0;
 
-                    // ----------------------------------------------------
-                    // ✅ 3. 원본 자산 데이터 집계 및 변환 로직
-                    // ----------------------------------------------------
+                    // 원본 자산 데이터 집계 및 변환 로직
                     const grouped: Record<AssetType, { type: AssetType; balance: number }> = rawAssets.reduce((acc, asset) => {
                         // type이 null인 자산은 집계에서 제외 (DB 스키마상 nullable이므로 안전장치)
                         if (!asset.type) return acc;
@@ -127,7 +124,7 @@ export const useMainPageData = () => {
                         assetTotal: totalAssetValue,
                         isMyDataRegistered: userInfo.userMydataRegistration,
                         investmentTendency: userInfo.investmentTendency,
-                        assetDetails: aggregatedAssets, // ✅ 집계된 데이터 사용
+                        assetDetails: aggregatedAssets, // 집계된 데이터 사용
                     });
                 } else {
                     setData(null);
