@@ -24,12 +24,9 @@ export default function RatioPage() {
   return (
     <div className="flex flex-col flex-grow h-full">
       <div className="flex-shrink-0">
-        {/* ✅ 수정 포인트: 상단 여백 대체용 프로그레스바 (px-12 적용) */}
         <div className="h-[6.75rem] flex flex-col justify-center px-12">
           <ProgressBar origin={prevProgress} percent={currentProgress} />
         </div>
-
-        {/* ✅ 수정 포인트: mt-[6.75rem] 제거 */}
         <h1 className="text-secondary text-[2rem] font-bold">
           상속 비율 정하기
         </h1>
