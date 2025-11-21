@@ -83,7 +83,7 @@ export default function VerifyPage() {
       {/* 하단 버튼 영역 */}
       <div className="flex-shrink-0">
         <Button type="submit" disabled={uiState.isNextDisabled}>
-          다음
+          {uiState.isLoading ? "처리 중..." : "다음"}
         </Button>
       </div>
     </form>
