@@ -42,7 +42,7 @@ export default function Header({
   const router = useRouter();
 
   return (
-    <header className="sticky top-0 z-50 flex items-center justify-between h-[7.5rem] bg-white shrink-0  backdrop-blur-sm">
+    <header className="sticky top-0 z-50 flex items-center justify-between h-[3.75rem] bg-white shrink-0  backdrop-blur-sm">
       {/* 1. 왼쪽: 뒤로가기 버튼 */}
       {/* 내부 버튼이 없어도 w-10 공간을 유지해야 중앙 로고가 치우치지 않음 */}
       <div className="w-10 flex justify-start">

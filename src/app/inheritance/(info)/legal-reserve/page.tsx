@@ -22,7 +22,6 @@ export default function LegalReserve() {
       style={{ transformStyle: "preserve-3d" }}
     >
       <div className="h-[6.75rem] flex flex-col justify-center px-12">
-        {/* 흰색 진행 바와 반투명 배경 적용 */}
         <ProgressBar
           origin={prevProgress}
           percent={currentProgress}

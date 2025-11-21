@@ -41,8 +41,8 @@ export default function InheritanceMainPage() {
 
         {/* 하단 컨테이너 */}
         <div className="mt-8">
-          <h2 className="text-secondary text-[1.75rem] font-bold">상속 사례</h2>
-          <p className="text-gray-2 text-[1.125rem] font-medium mt-1">
+          <h2 className="text-secondary text-[2rem] font-bold">상속 사례</h2>
+          <p className="text-gray-2 text-[1.375rem] font-medium mt-1">
             노후하우를 통해 상속을 진행한 사례에요!
           </p>
 

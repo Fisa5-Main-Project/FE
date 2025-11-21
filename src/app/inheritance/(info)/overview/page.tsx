@@ -8,7 +8,6 @@ import ProgressBar from "@/components/common/ProgressBar";
 export default function OverviewPage() {
   const { handleNext } = useOverviewPage();
 
-  // 진행률 설정 (예시)
   const prevProgress = 60;
   const currentProgress = 70;
 
