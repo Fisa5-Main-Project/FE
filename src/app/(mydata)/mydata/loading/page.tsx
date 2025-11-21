@@ -2,6 +2,7 @@
 
 import LoadingStep from '@/components/mydata/steps/LoadingStep';
 import { useRouter } from 'next/navigation';
+import { apiClient } from '@/api';
 
 /**
  * 마이데이터 연동 - 로딩 페이지
@@ -9,14 +10,19 @@ import { useRouter } from 'next/navigation';
 export default function LoadingPage() {
   const router = useRouter();
 
-  // 로딩 완료 후 다음 페이지로 이동
-  const handleLoadingComplete = () => {
-    router.push('/mydata/complete');
+  const handleLoadingComplete = async () => {
+    try {
+      await apiClient.get('/my-data');     
+      router.push('/mydata/complete');
+    } catch (error) {
+      console.log(error);
+      router.push('/mydata/error');
+    }
   };
 
   return (
     <div className="h-full">
       <LoadingStep onComplete={handleLoadingComplete}/>
     </div>
-);
+  );
 }
