@@ -2,8 +2,10 @@
 
 import { useEffect, useState } from 'react';
 import { useAuthStore } from '@/stores/auth/authStore';
-import { getUserInfo, getUserAsset } from '@/api/user';
+import { getUserInfo } from '@/api/user';
+import { getUserAsset } from '@/api/mainPageAsset';
 import type { UserInfo, UserAsset, AssetType } from '@/types/user';
+import { ASSET_TYPE_MAP } from '@/constants/mainPageAsset';
 
 export interface AggregatedAssetDetail {
     type: AssetType;        // 자산 항목 구분
@@ -20,17 +22,6 @@ interface MainData {
     investmentTendency: string | null;
     assetDetails?: AggregatedAssetDetail[];
 }
-
-const ASSET_TYPE_MAP: Record<AssetType, { name: string; icon: string }> = {
-    CURRENT: { name: '입출금', icon: '/main/icons/current.png' },
-    SAVING: { name: '예적금', icon: '/main/icons/saving.png' },
-    INVEST: { name: '투자', icon: '/main/icons/invest.png' },
-    PENSION: { name: '연금', icon: '/main/icons/pension.png' },
-    AOTOMOBILE: { name: '자동차', icon: '/main/icons/automobile.png' },
-    REAL_ESTATE: { name: '부동산', icon: '/main/icons/estate.png' },
-    LOAN: { name: '대출', icon: '/main/icons/loan.png' },
-    ETC: { name: '기타', icon: '/main/icons/etc.png' },
-};
 
 /// 임시 Mock Data
 // const MOCK_DATA_CONNECTED = {
